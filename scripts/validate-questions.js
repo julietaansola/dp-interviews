@@ -7,6 +7,7 @@ const dataDir = join(__dirname, '..', 'public', 'data')
 
 const schema = JSON.parse(readFileSync(join(dataDir, 'schema.json'), 'utf-8'))
 const questionDef = schema.definitions.question
+const PROFILES = questionDef.properties.profile.enum
 
 const dataFiles = readdirSync(dataDir).filter(
   f => f.endsWith('.json') && f !== 'schema.json'
@@ -43,7 +44,7 @@ function validateQuestion(q, index, fileName) {
   if (!valid) return false
 
   // ID format
-  const idPattern = /^(dp|de)-[a-z0-9]+-(?:jr|ssr|sr)-\d{3}$/
+  const idPattern = /^(dp|de|ai|ml)-[a-z0-9]+-(?:jr|ssr|sr)-\d{3}$/
   if (!idPattern.test(q.id)) {
     console.error(`${prefix}: id "${q.id}" doesn't match pattern {profile}-{tech}-{level}-{nnn}`)
     valid = false
@@ -57,7 +58,7 @@ function validateQuestion(q, index, fileName) {
   allIds.add(q.id)
 
   // Enums
-  if (!validateEnum(q.profile, ['data-platform', 'data-engineer'], `${prefix} profile`)) valid = false
+  if (!validateEnum(q.profile, PROFILES, `${prefix} profile`)) valid = false
   if (!validateEnum(q.level, ['jr', 'ssr', 'sr'], `${prefix} level`)) valid = false
   if (!validateEnum(q.difficulty, ['easy', 'medium', 'hard'], `${prefix} difficulty`)) valid = false
 
@@ -119,7 +120,7 @@ for (const file of dataFiles) {
     continue
   }
 
-  if (data.profile && !validateEnum(data.profile, ['data-platform', 'data-engineer'], `  [${file}] profile`)) {
+  if (data.profile && !validateEnum(data.profile, PROFILES, `  [${file}] profile`)) {
     hasErrors = true
   }
 

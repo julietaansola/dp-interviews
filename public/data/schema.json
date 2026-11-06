@@ -7,7 +7,7 @@
   "properties": {
     "profile": {
       "type": "string",
-      "enum": ["data-platform", "data-engineer"]
+      "enum": ["data-platform", "data-engineer", "ai-engineer", "mlops-engineer"]
     },
     "description": { "type": "string" },
     "last_updated": {
@@ -30,11 +30,11 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^(dp|de)-[a-z0-9]+-(?:jr|ssr|sr)-\\d{3}$"
+          "pattern": "^(dp|de|ai|ml)-[a-z0-9]+-(?:jr|ssr|sr)-\\d{3}$"
         },
         "profile": {
           "type": "string",
-          "enum": ["data-platform", "data-engineer"]
+          "enum": ["data-platform", "data-engineer", "ai-engineer", "mlops-engineer"]
         },
         "level": {
           "type": "string",

@@ -8,7 +8,12 @@ const difficultyConfig = {
 }
 
 const levelLabels = { jr: 'Jr', ssr: 'Semi Sr', sr: 'Sr' }
-const profileLabels = { 'data-platform': 'Data Platform', 'data-engineer': 'Data Engineer' }
+const profileLabels = {
+  'data-platform': 'Data Platform',
+  'data-engineer': 'Data Engineer',
+  'ai-engineer': 'AI Engineer',
+  'mlops-engineer': 'MLOps Engineer',
+}
 
 export default function QuestionDetail({ question, isFavorite, usedDate, onToggleFavorite, onMarkUsed }) {
   const [showAnswer, setShowAnswer] = useState(false)

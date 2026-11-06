@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react'
-import { Database, Server, Star, ChevronRight, ChevronDown } from 'lucide-react'
+import { Brain, Database, Server, Star, Workflow, ChevronRight, ChevronDown } from 'lucide-react'
 
 const profileConfig = {
   'data-platform': { label: 'Data Platform', icon: Server, color: 'text-accent-blue' },
   'data-engineer': { label: 'Data Engineer', icon: Database, color: 'text-accent-purple' },
+  'ai-engineer': { label: 'AI Engineer', icon: Brain, color: 'text-accent-green' },
+  'mlops-engineer': { label: 'MLOps Engineer', icon: Workflow, color: 'text-accent-orange' },
 }
 
 export default function Sidebar({ allQuestions, filteredQuestions, filters, updateFilter, favoritesCount }) {

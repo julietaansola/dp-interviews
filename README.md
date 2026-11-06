@@ -1,6 +1,6 @@
 # DP Interviews
 
-Banco de preguntas de entrevistas tecnicas para equipos de datos (Data Platform y Data Engineering), con respuestas esperadas, puntos clave y notas para el entrevistador.
+Banco de preguntas de entrevistas tecnicas para equipos de datos e IA (Data Platform, Data Engineering, AI Engineering y MLOps), con respuestas esperadas, puntos clave y notas para el entrevistador.
 
 Web app estatica hosteada en GitHub Pages: https://julietaansola.github.io/dp-interviews/
 
@@ -8,6 +8,8 @@ Web app estatica hosteada en GitHub Pages: https://julietaansola.github.io/dp-in
 
 - **Data Platform / Infrastructure**: AWS, EKS, Terraform, Karpenter, Kubernetes, Networking, IaC, CI/CD
 - **Data Engineer / Software**: Spark, dbt, Python, Airflow, SQL, Data Modeling, Git
+- **AI Engineer**: LLMs, RAG, Prompt Engineering, Agentes, Evaluacion, Seguridad, LLM Serving
+- **MLOps Engineer**: Pipelines, CI/CD para ML, Model Serving, Monitoring, Feature Stores, GPUs, Gobernanza, LLMOps
 
 Cada perfil tiene preguntas para 3 niveles: **Jr**, **Semi Sr** y **Sr**.
 
@@ -26,6 +28,8 @@ Las preguntas estan en archivos JSON dentro de `public/data/`:
 
 - `data-platform.json` — preguntas de Data Platform / Infrastructure
 - `data-engineer.json` — preguntas de Data Engineer / Software
+- `ai-engineer.json` — preguntas de AI Engineer
+- `mlops-engineer.json` — preguntas de MLOps Engineer
 
 ### Paso a paso
 
@@ -64,7 +68,7 @@ Formato: `{perfil}-{tecnologia}-{nivel}-{numero}`
 
 | Campo | Valores |
 |-------|---------|
-| Perfil | `dp` (Data Platform), `de` (Data Engineer) |
+| Perfil | `dp` (Data Platform), `de` (Data Engineer), `ai` (AI Engineer), `ml` (MLOps Engineer) |
 | Tecnologia | `aws`, `eks`, `terraform`, `spark`, `dbt`, `python`, `sql`, `airflow`, etc. |
 | Nivel | `jr`, `ssr`, `sr` |
 | Numero | 3 digitos, secuencial (ej: `001`, `002`) |
@@ -84,7 +88,7 @@ Esto verifica que todos los JSONs cumplan el schema (IDs unicos, campos requerid
 | Campo | Tipo | Requerido | Descripcion |
 |-------|------|-----------|-------------|
 | `id` | string | si | ID unico con formato `{perfil}-{tech}-{nivel}-{nnn}` |
-| `profile` | string | si | `data-platform` o `data-engineer` |
+| `profile` | string | si | `data-platform`, `data-engineer`, `ai-engineer` o `mlops-engineer` |
 | `level` | string | si | `jr`, `ssr`, o `sr` |
 | `technology` | string[] | si | Tecnologias que cubre (min 1) |
 | `category` | string | si | Categoria tematica |

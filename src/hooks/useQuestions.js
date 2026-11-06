@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 
-const DATA_FILES = ['data-platform.json', 'data-engineer.json']
+const DATA_FILES = ['data-platform.json', 'data-engineer.json', 'ai-engineer.json', 'mlops-engineer.json']
 
 export function useQuestions() {
   const [allQuestions, setAllQuestions] = useState([])

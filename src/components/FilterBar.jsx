@@ -25,6 +25,8 @@ export default function FilterBar({ filters, updateFilter, clearFilters, activeF
           <option value="">Perfil</option>
           <option value="data-platform">Data Platform</option>
           <option value="data-engineer">Data Engineer</option>
+          <option value="ai-engineer">AI Engineer</option>
+          <option value="mlops-engineer">MLOps Engineer</option>
         </select>
 
         <select

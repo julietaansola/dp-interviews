@@ -1,0 +1,1520 @@
+{
+  "profile": "ai-engineer",
+  "description": "Preguntas de entrevista para AI Engineer",
+  "last_updated": "2026-11-06",
+  "questions": [
+    {
+      "id": "ai-llm-jr-001",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM"
+      ],
+      "category": "LLM Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es un token en un LLM y por que la cantidad de tokens afecta tanto el costo como los limites de contexto?",
+      "expected_answer": "Un token es la unidad de texto que procesa el modelo: un fragmento de palabra, una palabra corta o un signo. El tokenizer convierte texto en IDs numericos antes de la inferencia. Los proveedores cobran por tokens de entrada y salida, y la ventana de contexto se mide en tokens, por lo que un prompt largo cuesta mas y deja menos espacio para la respuesta.",
+      "key_points": [
+        "Token no equivale a palabra ni a caracter",
+        "El costo se calcula sobre entrada y salida",
+        "La ventana de contexto se mide en tokens",
+        "Cada modelo puede usar un tokenizer distinto"
+      ],
+      "interviewer_notes": "Follow-up: como estimarias el costo mensual de una feature con 10k requests por dia? Red flag si cree que un token es siempre una palabra.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "tokens",
+        "costo",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "ai-llm-jr-002",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM",
+        "Embeddings"
+      ],
+      "category": "LLM Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es un embedding y que significa similitud semantica en un sistema de retrieval?",
+      "expected_answer": "Un embedding es un vector numerico que representa el significado de un texto. Textos con significado parecido quedan cerca en ese espacio vectorial, aunque usen palabras distintas. En retrieval se embebe la consulta y se buscan los vectores mas cercanos, normalmente con similitud coseno o producto punto.",
+      "key_points": [
+        "Vector que representa significado",
+        "Cercania implica similitud semantica",
+        "Coseno o producto punto como metrica",
+        "Consulta y documentos deben usar el mismo modelo"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si indexas con un modelo y consultas con otro? Los vectores no son comparables.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "embeddings",
+        "retrieval",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "ai-llm-jr-003",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM"
+      ],
+      "category": "LLM Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es la ventana de contexto y que se rompe cuando se excede?",
+      "expected_answer": "Es la cantidad maxima de tokens que el modelo puede considerar en una llamada, incluyendo instrucciones, historial, documentos y normalmente la salida. Si se excede, la API puede rechazar el pedido o el sistema debe truncar contenido, lo que hace perder instrucciones o contexto. Se mitiga resumiendo historial, seleccionando documentos relevantes y dividiendo la tarea.",
+      "key_points": [
+        "Incluye entrada y, segun el proveedor, salida",
+        "Exceder puede dar error o truncar",
+        "Resumir historial y filtrar contexto",
+        "Reservar tokens para la respuesta"
+      ],
+      "interviewer_notes": "Red flag si propone mandar todo el documento siempre. Follow-up: que parte del prompt nunca truncarias?",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "context-window",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "ai-llm-jr-004",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM"
+      ],
+      "category": "LLM Fundamentals",
+      "difficulty": "easy",
+      "question": "Que controlan temperature y top-p, y cuando usarias temperature cerca de cero?",
+      "expected_answer": "Temperature escala las probabilidades de los siguientes tokens: valores bajos concentran la eleccion en los mas probables y valores altos dan mas variedad. Top-p limita el muestreo al conjunto minimo de tokens cuya probabilidad acumulada alcanza p. Se usa temperature baja en extraccion, clasificacion o tareas que requieren consistencia.",
+      "key_points": [
+        "Temperature ajusta la aleatoriedad",
+        "Top-p recorta por probabilidad acumulada",
+        "Baja para extraccion y clasificacion",
+        "Temperature 0 no garantiza salida identica"
+      ],
+      "interviewer_notes": "Follow-up: temperature 0 garantiza determinismo? No necesariamente, depende del proveedor y la infraestructura.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "temperature",
+        "sampling"
+      ]
+    },
+    {
+      "id": "ai-llm-jr-005",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM"
+      ],
+      "category": "LLM Fundamentals",
+      "difficulty": "medium",
+      "question": "Por que el primer token de una respuesta suele tardar mas que los siguientes?",
+      "expected_answer": "Antes del primer token, el sistema debe esperar en cola y procesar todo el prompt para calcular el estado de atencion. Los tokens siguientes reutilizan ese calculo mediante el KV cache y solo procesan el token nuevo. Por eso se miden por separado el time to first token y los tokens por segundo.",
+      "key_points": [
+        "Procesamiento completo del prompt",
+        "Cola de inferencia",
+        "KV cache acelera tokens siguientes",
+        "TTFT y throughput son metricas distintas"
+      ],
+      "interviewer_notes": "Bonus si conecta TTFT con la experiencia de usuario y el streaming.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "latency",
+        "ttft",
+        "kv-cache"
+      ]
+    },
+    {
+      "id": "ai-rag-jr-006",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "RAG"
+      ],
+      "category": "RAG",
+      "difficulty": "easy",
+      "question": "Explica como funciona RAG y por que se usa.",
+      "expected_answer": "RAG recupera informacion relevante de una fuente externa y la agrega al prompt para que el modelo responda basandose en ella. Tiene una fase de indexacion, donde se divide y embebe el contenido, y una de consulta, donde se buscan fragmentos y se genera la respuesta. Permite usar datos privados o actualizados sin reentrenar el modelo y facilita citar fuentes.",
+      "key_points": [
+        "Recuperar y luego generar",
+        "Indexacion y consulta",
+        "Datos actualizados sin reentrenar",
+        "Reduce alucinaciones, no las elimina"
+      ],
+      "interviewer_notes": "Pregunta de apertura frecuente. Red flag si cree que RAG entrena el modelo con los documentos.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "rag",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "ai-rag-jr-007",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "RAG"
+      ],
+      "category": "RAG",
+      "difficulty": "medium",
+      "question": "Por que hace falta hacer chunking? Compara chunking de tamano fijo, recursivo y semantico.",
+      "expected_answer": "Los documentos largos se dividen para recuperar solo lo relevante y entrar en el contexto. El tamano fijo es simple pero puede cortar ideas. El recursivo divide respetando separadores como parrafos y oraciones. El semantico agrupa por cambios de significado, con mayor costo. El mejor tamano se elige evaluando con consultas reales, y el solapamiento ayuda a no perder contexto en los bordes.",
+      "key_points": [
+        "Fijo: simple, puede cortar ideas",
+        "Recursivo: respeta estructura",
+        "Semantico: mas costoso",
+        "Solapamiento y evaluacion empirica"
+      ],
+      "interviewer_notes": "Follow-up: como dividirias una tabla o un bloque de codigo? Red flag si da un tamano magico sin evaluar.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "chunking",
+        "rag"
+      ]
+    },
+    {
+      "id": "ai-rag-jr-008",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "RAG",
+        "Vector Databases"
+      ],
+      "category": "RAG",
+      "difficulty": "medium",
+      "question": "Que aporta una base vectorial y por que se usa busqueda aproximada en lugar de comparar contra todos los vectores?",
+      "expected_answer": "Una base vectorial almacena embeddings y permite buscar vecinos cercanos con filtros de metadata. Comparar contra todos da resultados exactos, pero se vuelve lento con millones de vectores. Indices ANN como HNSW o IVF aceptan perder algo de recall para responder mucho mas rapido. Para volumenes chicos, la busqueda exacta o pgvector puede alcanzar.",
+      "key_points": [
+        "Busqueda exacta escala mal",
+        "ANN cambia recall por velocidad",
+        "HNSW e IVF como indices",
+        "No siempre hace falta una base dedicada"
+      ],
+      "interviewer_notes": "Bonus si cuestiona agregar infraestructura cuando Postgres con pgvector alcanza.",
+      "source": "Original",
+      "tags": [
+        "vector-db",
+        "ann",
+        "hnsw"
+      ]
+    },
+    {
+      "id": "ai-prompts-jr-009",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "Prompt Engineering"
+      ],
+      "category": "Prompt Engineering",
+      "difficulty": "easy",
+      "question": "Que es un system prompt y que deberia incluir uno de produccion?",
+      "expected_answer": "Es la instruccion que define rol, reglas y formato esperado del asistente durante la conversacion. En produccion suele incluir objetivo, limites, tono, como usar herramientas o contexto, formato de salida y que hacer si falta informacion. Debe versionarse y evaluarse como codigo, y no contener secretos.",
+      "key_points": [
+        "Rol y objetivo",
+        "Limites y formato",
+        "Comportamiento ante incertidumbre",
+        "Versionado y sin secretos"
+      ],
+      "interviewer_notes": "Red flag si guarda credenciales en el system prompt o lo trata como barrera de seguridad.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "system-prompt",
+        "prompting"
+      ]
+    },
+    {
+      "id": "ai-prompts-jr-010",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "Prompt Engineering"
+      ],
+      "category": "Prompt Engineering",
+      "difficulty": "easy",
+      "question": "Que son few-shot y chain-of-thought? Cuando usarias cada uno?",
+      "expected_answer": "Few-shot incluye ejemplos de entrada y salida para mostrar el comportamiento esperado; sirve para clasificacion o formatos especificos. Chain-of-thought pide razonar paso a paso antes de responder y ayuda en tareas de varios pasos, a cambio de mas tokens y latencia. Se pueden combinar y hay que evaluar si realmente mejoran el resultado.",
+      "key_points": [
+        "Few-shot: ejemplos",
+        "CoT: razonamiento paso a paso",
+        "CoT agrega costo y latencia",
+        "Validar con evaluaciones"
+      ],
+      "interviewer_notes": "Follow-up: que cuidado tendrias al elegir los ejemplos? Deben cubrir casos variados y no sesgar la salida.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "few-shot",
+        "chain-of-thought"
+      ]
+    },
+    {
+      "id": "ai-prompts-jr-011",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "Prompt Engineering",
+        "Python"
+      ],
+      "category": "Prompt Engineering",
+      "difficulty": "medium",
+      "question": "Como garantizarias que un LLM devuelva JSON valido para tu aplicacion?",
+      "expected_answer": "Usaria structured outputs o tool calling del proveedor con un JSON Schema, cuando esten disponibles. Del lado de la aplicacion validaria con Pydantic o similar, porque un JSON valido puede tener valores incorrectos. Si falla, reintentaria con el error y limite de intentos, y finalmente aplicaria un fallback.",
+      "key_points": [
+        "Structured outputs o tool calling",
+        "Validar en la aplicacion",
+        "Reintentos acotados",
+        "Sintaxis valida no implica contenido correcto"
+      ],
+      "interviewer_notes": "Red flag si solo pide por favor responde en JSON y usa json.loads sin manejo de errores.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "structured-output",
+        "json",
+        "validation"
+      ]
+    },
+    {
+      "id": "ai-security-jr-012",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM Security"
+      ],
+      "category": "AI Security",
+      "difficulty": "medium",
+      "question": "Que es prompt injection y como se diferencia la directa de la indirecta?",
+      "expected_answer": "Es un ataque donde texto no confiable hace que el modelo ignore sus instrucciones o actue a favor del atacante. La directa viene del usuario. La indirecta viene escondida en contenido que el sistema lee, como una pagina web, un email o un documento. Es grave porque el modelo no separa de forma confiable instrucciones y datos, asi que la defensa combina minimo privilegio, validacion y confirmaciones.",
+      "key_points": [
+        "Directa: desde el usuario",
+        "Indirecta: desde contenido externo",
+        "No hay solucion definitiva solo con prompts",
+        "Minimo privilegio y confirmacion humana"
+      ],
+      "interviewer_notes": "Red flag si cree que un filtro de palabras o una instruccion en el prompt lo resuelve.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "prompt-injection",
+        "security"
+      ]
+    },
+    {
+      "id": "ai-python-jr-013",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "Python",
+        "LLM APIs"
+      ],
+      "category": "AI Coding",
+      "difficulty": "medium",
+      "question": "Implementa un reintento async con backoff exponencial y timeout para llamar a una API de LLM. Que errores reintentarias?",
+      "expected_answer": "Envolveria cada intento en asyncio.wait_for, y ante error temporal esperaria base * 2^intento mas jitter, con un maximo de intentos. Reintentaria 429, 5xx y timeouts, respetando Retry-After. No reintentaria errores de cliente como 400 o 401. Conviene un plazo total para no acumular esperas y claves de idempotencia si la operacion tiene efectos.",
+      "key_points": [
+        "Backoff exponencial con jitter",
+        "Reintentar 429, 5xx y timeouts",
+        "No reintentar 400 ni 401",
+        "Timeout por intento y total"
+      ],
+      "interviewer_notes": "Se puede pedir codigo en vivo. Follow-up: por que jitter? Evita que muchos clientes reintenten al mismo tiempo.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "async",
+        "retry",
+        "resilience"
+      ]
+    },
+    {
+      "id": "ai-python-jr-014",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "Python",
+        "Streaming"
+      ],
+      "category": "AI Coding",
+      "difficulty": "easy",
+      "question": "Por que se hace streaming de las respuestas de un LLM y que complicaciones agrega?",
+      "expected_answer": "El streaming muestra tokens a medida que se generan, reduciendo la latencia percibida. Suele implementarse con Server-Sent Events o WebSockets. Complica validar la salida, porque el contenido final no existe al empezar, y requiere manejar cortes, cancelaciones del usuario y conteo de uso.",
+      "key_points": [
+        "Mejora la latencia percibida",
+        "SSE o WebSockets",
+        "Validacion mas dificil",
+        "Manejar cancelacion y cortes"
+      ],
+      "interviewer_notes": "Bonus si menciona cancelar la inferencia cuando el usuario se desconecta para no pagar tokens de mas.",
+      "source": "Original",
+      "tags": [
+        "streaming",
+        "sse"
+      ]
+    },
+    {
+      "id": "ai-llm-jr-015",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM"
+      ],
+      "category": "LLM Fundamentals",
+      "difficulty": "easy",
+      "question": "Que diferencias hay entre usar un modelo de pesos abiertos y uno cerrado por API? Cuando elegirias cada uno?",
+      "expected_answer": "Un modelo por API evita operar infraestructura y suele dar acceso rapido a modelos potentes, pero depende del proveedor. Uno de pesos abiertos se puede alojar para tener mas control sobre datos, ajustes y costos a gran volumen, a cambio de operar GPUs y serving. La eleccion depende de calidad, cumplimiento, volumen y capacidad del equipo.",
+      "key_points": [
+        "API: menos operacion",
+        "Pesos abiertos: mas control",
+        "Autoalojar requiere GPUs y expertise",
+        "Comparar costo total y cumplimiento"
+      ],
+      "interviewer_notes": "Red flag si afirma que autoalojar siempre es mas barato.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "open-weights",
+        "build-vs-buy"
+      ]
+    },
+    {
+      "id": "ai-llm-jr-016",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM"
+      ],
+      "category": "LLM Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es una alucinacion en un LLM y como la reducirias?",
+      "expected_answer": "Es una respuesta plausible pero falsa o sin respaldo. Ocurre porque el modelo genera texto probable y no verifica hechos. Se reduce dando contexto con RAG, pidiendo citas, permitiendo decir que no sabe, validando con reglas o herramientas y escalando a una persona en casos criticos.",
+      "key_points": [
+        "Plausible pero incorrecta",
+        "RAG y citas",
+        "Permitir no saber",
+        "Verificacion y escalamiento"
+      ],
+      "interviewer_notes": "Follow-up: como medirias la tasa de alucinaciones? Con evaluaciones de fidelidad contra el contexto.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "hallucination",
+        "reliability"
+      ]
+    },
+    {
+      "id": "ai-eval-jr-017",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM Evaluation"
+      ],
+      "category": "Evaluation",
+      "difficulty": "medium",
+      "question": "Como evaluarias una feature con LLM cuando no existe una unica respuesta correcta?",
+      "expected_answer": "Definiria que significa una buena respuesta con criterios como exactitud, utilidad y formato. Armaria un conjunto de ejemplos representativos y evaluaria con validaciones automaticas, rubricas con revision humana y jueces LLM calibrados. En produccion sumaria señales como feedback y tasa de resolucion.",
+      "key_points": [
+        "Definir criterios antes de medir",
+        "Dataset representativo",
+        "Automatico, humano y juez LLM",
+        "Señales de produccion"
+      ],
+      "interviewer_notes": "Red flag si la unica respuesta es probarlo a mano y ver si parece bien.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "evals",
+        "quality"
+      ]
+    },
+    {
+      "id": "ai-llm-jr-018",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "LLM",
+        "RAG"
+      ],
+      "category": "LLM Fundamentals",
+      "difficulty": "medium",
+      "question": "Prompting, RAG o fine-tuning: como elegis entre ellos?",
+      "expected_answer": "Empiezo por prompting porque es lo mas barato y rapido de iterar. Uso RAG cuando el problema es falta de conocimiento externo o cambiante. Considero fine-tuning cuando necesito un estilo o comportamiento consistente, o abaratar una tarea con un modelo mas chico. El fine-tuning no es buena forma de agregar datos que cambian.",
+      "key_points": [
+        "Empezar por prompting",
+        "RAG para conocimiento",
+        "Fine-tuning para comportamiento",
+        "Decidir con evaluaciones"
+      ],
+      "interviewer_notes": "Red flag si propone fine-tuning para mantener actualizada una base de conocimiento.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "fine-tuning",
+        "rag",
+        "decision"
+      ]
+    },
+    {
+      "id": "ai-agents-jr-019",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "Agents",
+        "LLM APIs"
+      ],
+      "category": "Agents",
+      "difficulty": "easy",
+      "question": "Que es tool calling y quien ejecuta realmente la herramienta?",
+      "expected_answer": "Tool calling permite que el modelo pida usar una funcion definida con nombre, descripcion y parametros. El modelo solo genera la solicitud estructurada. La aplicacion valida, ejecuta y devuelve el resultado al modelo, que continua. Por eso la autorizacion y la validacion deben estar en la aplicacion.",
+      "key_points": [
+        "El modelo solicita, no ejecuta",
+        "La aplicacion ejecuta",
+        "Validar argumentos",
+        "Descripciones claras mejoran la seleccion"
+      ],
+      "interviewer_notes": "Red flag si cree que el modelo ejecuta codigo por si mismo.",
+      "source": "Original",
+      "tags": [
+        "tool-calling",
+        "agents"
+      ]
+    },
+    {
+      "id": "ai-python-jr-020",
+      "profile": "ai-engineer",
+      "level": "jr",
+      "technology": [
+        "Python"
+      ],
+      "category": "AI Coding",
+      "difficulty": "medium",
+      "question": "Implementa encode y decode para una lista de strings, de forma que funcione con cualquier caracter.",
+      "expected_answer": "Un separador simple falla si aparece dentro de un string. Una solucion es prefijar cada string con su longitud y un delimitador, como 5#hello. Decode lee los digitos hasta #, toma esa cantidad de caracteres y avanza. Funciona con strings vacios y separadores dentro del contenido, en tiempo lineal.",
+      "key_points": [
+        "Prefijo de longitud",
+        "Separador simple no alcanza",
+        "Probar string vacio y lista vacia",
+        "Complejidad lineal"
+      ],
+      "interviewer_notes": "Ejercicio corto de coding. Follow-up: en bytes o caracteres contarias la longitud si cruza una red?",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "coding",
+        "strings"
+      ]
+    },
+    {
+      "id": "ai-rag-ssr-021",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "RAG"
+      ],
+      "category": "RAG",
+      "difficulty": "medium",
+      "question": "Una respuesta de RAG es incorrecta aunque el documento correcto existe. Como lo depurarias?",
+      "expected_answer": "Separaria la falla por etapas usando una traza. Primero verifico que el documento este bien parseado e indexado y siga vigente. Luego miro si se recupero con la consulta original, si el reranker lo descarto o si se perdio al armar el contexto. Si llego al modelo, reviso si lo ignoro o lo interpreto mal. Convierto el caso en ejemplo de evaluacion.",
+      "key_points": [
+        "Ingesta e indice",
+        "Retrieval y reranking",
+        "Armado del contexto",
+        "Generacion y regresion en evals"
+      ],
+      "interviewer_notes": "Clave: debe aislar etapas antes de cambiar prompt o modelo. Red flag si salta directo a cambiar el modelo.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "debugging",
+        "rag"
+      ]
+    },
+    {
+      "id": "ai-rag-ssr-022",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "RAG",
+        "Search"
+      ],
+      "category": "RAG",
+      "difficulty": "medium",
+      "question": "Que es hybrid search y como combinarias BM25 con busqueda vectorial?",
+      "expected_answer": "BM25 encuentra terminos exactos como codigos o nombres, y la busqueda vectorial encuentra significado. Hybrid ejecuta ambas y combina resultados. Reciprocal Rank Fusion usa la posicion y no necesita normalizar puntajes, por lo que es un buen punto de partida. Tambien se puede ponderar puntajes normalizados y luego rerankear.",
+      "key_points": [
+        "BM25 para terminos exactos",
+        "Vectorial para semantica",
+        "RRF combina por posicion",
+        "Evaluar la mejora"
+      ],
+      "interviewer_notes": "Follow-up: que consultas fallan con solo vectores? Codigos de error, SKUs y siglas.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "hybrid-search",
+        "bm25",
+        "rrf"
+      ]
+    },
+    {
+      "id": "ai-rag-ssr-023",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "RAG"
+      ],
+      "category": "RAG",
+      "difficulty": "medium",
+      "question": "Para que sirve un reranker y cual es su costo?",
+      "expected_answer": "Primero se recupera un conjunto amplio con un metodo rapido; luego un cross-encoder puntua cada par consulta-documento con mas precision y se quedan los mejores. Mejora la precision del contexto, pero agrega latencia y costo por cada candidato. Si el documento no entro en los candidatos, no puede recuperarlo.",
+      "key_points": [
+        "Retrieval amplio y luego preciso",
+        "Cross-encoder",
+        "Agrega latencia y costo",
+        "Depende del recall inicial"
+      ],
+      "interviewer_notes": "Follow-up: cuantos candidatos rerankearias? Debe justificar el valor midiendo recall y latencia.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "reranking",
+        "cross-encoder"
+      ]
+    },
+    {
+      "id": "ai-rag-ssr-024",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "RAG",
+        "Embeddings"
+      ],
+      "category": "RAG",
+      "difficulty": "medium",
+      "question": "Como elegis un modelo de embeddings y que implica cambiarlo en produccion?",
+      "expected_answer": "Lo evaluo con consultas reales midiendo retrieval, ademas de costo, latencia, dimensiones, idiomas y residencia de datos. Cambiarlo obliga a reindexar todo, porque vectores de modelos distintos no se comparan. Construiria un indice paralelo, compararia resultados, haria el cambio con un alias y mantendria rollback.",
+      "key_points": [
+        "Evaluar con datos propios",
+        "Costo, dimensiones e idioma",
+        "Cambiar exige reindexar",
+        "Indice paralelo y rollback"
+      ],
+      "interviewer_notes": "Red flag si elige solo por un ranking publico o mezcla vectores viejos y nuevos.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "embeddings",
+        "migration"
+      ]
+    },
+    {
+      "id": "ai-rag-ssr-025",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "RAG",
+        "LLM Evaluation"
+      ],
+      "category": "RAG",
+      "difficulty": "medium",
+      "question": "Que metricas usarias para evaluar retrieval? Explica recall@k, MRR y nDCG.",
+      "expected_answer": "Recall@k mide cuantos documentos relevantes aparecen en los primeros k. MRR promedia el inverso de la posicion del primer resultado relevante. nDCG premia colocar lo mas relevante arriba y admite relevancia graduada. Para RAG suele importar mucho recall@k, porque si el contexto no llega, el modelo no puede usarlo. Tambien se evalua la respuesta final.",
+      "key_points": [
+        "Recall@k: cobertura",
+        "MRR: primer relevante",
+        "nDCG: orden y relevancia graduada",
+        "Separar retrieval de generacion"
+      ],
+      "interviewer_notes": "Bonus si explica como etiquetar relevancia y que metricas de retrieval no reemplazan evaluar la respuesta.",
+      "source": "Original",
+      "tags": [
+        "recall",
+        "mrr",
+        "ndcg"
+      ]
+    },
+    {
+      "id": "ai-rag-ssr-026",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "RAG",
+        "Vector Databases"
+      ],
+      "category": "RAG",
+      "difficulty": "medium",
+      "question": "Como implementarias filtros de permisos en RAG para que un usuario no reciba documentos que no puede ver?",
+      "expected_answer": "Guardaria metadata de permisos o tenant en cada chunk y aplicaria el filtro durante la consulta, a partir de la identidad autenticada y nunca del modelo. Filtrar despues de recuperar puede reducir resultados, y confiar en el prompt no es control de acceso. Tambien hay que sincronizar cambios de permisos y borrados, incluidos caches.",
+      "key_points": [
+        "Filtrar en retrieval",
+        "Identidad del servidor, no del modelo",
+        "Sincronizar permisos y borrados",
+        "Cuidar los caches"
+      ],
+      "interviewer_notes": "Red flag si pide al LLM que no revele documentos restringidos.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "acl",
+        "multi-tenant",
+        "security"
+      ]
+    },
+    {
+      "id": "ai-eval-ssr-027",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "LLM Evaluation"
+      ],
+      "category": "Evaluation",
+      "difficulty": "medium",
+      "question": "Como construirias un conjunto de evaluacion y decidirias si un cambio se puede publicar?",
+      "expected_answer": "Partiria de casos reales, sumaria casos dificiles, adversariales e incidentes, y separaria segmentos relevantes. Definiria metricas y umbrales antes de probar, comparando contra el sistema actual. Un cambio pasa si mejora lo buscado sin romper limites de seguridad, costo o latencia. Mantendria el dataset vivo con fallas de produccion.",
+      "key_points": [
+        "Casos reales y adversariales",
+        "Umbrales previos",
+        "Comparar contra baseline",
+        "Actualizar con incidentes"
+      ],
+      "interviewer_notes": "Follow-up: que harias si mejora el promedio pero empeora un segmento critico? Debe poder bloquear el release.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "evals",
+        "release-gate"
+      ]
+    },
+    {
+      "id": "ai-eval-ssr-028",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "LLM Evaluation"
+      ],
+      "category": "Evaluation",
+      "difficulty": "medium",
+      "question": "Se puede confiar en un LLM como juez? Cuales son sus fallas y como lo calibrarias?",
+      "expected_answer": "Sirve para escalar evaluaciones, pero no es confiable por defecto. Puede ser inconsistente, sesgarse por el largo o estilo y compartir errores con el modelo evaluado. Lo calibraria contra etiquetas humanas, mediria acuerdo con una metrica como kappa de Cohen, usaria rubricas especificas y revisaria muestras periodicamente.",
+      "key_points": [
+        "Inconsistencia y sesgos",
+        "Calibrar con etiquetas humanas",
+        "Medir acuerdo",
+        "Rubricas especificas"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si cambias el modelo juez? Las puntuaciones historicas dejan de ser comparables.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "llm-as-judge",
+        "evals"
+      ]
+    },
+    {
+      "id": "ai-eval-ssr-029",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "LLM Evaluation",
+        "CI/CD"
+      ],
+      "category": "Evaluation",
+      "difficulty": "medium",
+      "question": "Como detectas regresiones al cambiar un prompt o reemplazar el modelo?",
+      "expected_answer": "Versiono prompts, modelo y parametros, y corro evals en CI contra un baseline. Empiezo con pruebas rapidas y agrego evaluaciones completas antes de publicar. Comparo resultados por segmento y reviso diferencias. Despues uso shadow o canary, monitoreando calidad, costo y latencia, con rollback disponible.",
+      "key_points": [
+        "Versionar prompt y modelo",
+        "Evals en CI",
+        "Comparar por segmentos",
+        "Shadow o canary"
+      ],
+      "interviewer_notes": "Red flag si los prompts se cambian directo en produccion sin versionado.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "regression",
+        "ci-cd",
+        "evals"
+      ]
+    },
+    {
+      "id": "ai-agents-ssr-030",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "Agents"
+      ],
+      "category": "Agents",
+      "difficulty": "medium",
+      "question": "Cuando usarias un agente en lugar de un workflow determinista?",
+      "expected_answer": "Uso un workflow cuando los pasos se conocen de antemano, porque es mas predecible, barato y facil de probar. Un agente tiene sentido si el camino depende de lo que se descubre y las herramientas son seguras con limites claros. Suele funcionar bien un workflow con pasos puntuales de LLM antes de dar mas autonomia.",
+      "key_points": [
+        "Pasos conocidos: workflow",
+        "Camino incierto: agente",
+        "Autonomia agrega costo y riesgo",
+        "Empezar simple"
+      ],
+      "interviewer_notes": "Red flag si usa agentes por defecto. Follow-up: que condicion de parada pondrias?",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "agents",
+        "workflow"
+      ]
+    },
+    {
+      "id": "ai-agents-ssr-031",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "Agents"
+      ],
+      "category": "Agents",
+      "difficulty": "medium",
+      "question": "Como harias confiable el tool calling frente a formatos invalidos, errores y loops infinitos?",
+      "expected_answer": "Validaria argumentos contra un schema y devolveria errores claros al modelo. Separaria errores reintentables de permanentes, usaria timeouts e idempotencia en acciones con efectos. Para evitar loops pondria limites de pasos, tiempo y costo, y detectaria llamadas repetidas. Cada paso quedaria trazado.",
+      "key_points": [
+        "Validar con schema",
+        "Errores accionables",
+        "Idempotencia",
+        "Limites de pasos y costo"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si un agente reintenta un pago? Sin idempotencia, se cobra dos veces.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "tool-calling",
+        "reliability",
+        "agents"
+      ]
+    },
+    {
+      "id": "ai-agents-ssr-032",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "Agents",
+        "LLM"
+      ],
+      "category": "Agents",
+      "difficulty": "medium",
+      "question": "Un chatbot pierde contexto despues de varios turnos. Como manejarias la memoria de conversacion?",
+      "expected_answer": "Mantengo instrucciones fijas y los ultimos turnos, y resumo o elimino lo anterior cuando se acerca el limite. Extraigo hechos importantes a memoria estructurada, con recuperacion cuando sea relevante. Para memoria entre sesiones defino que se guarda, consentimiento, expiracion y borrado.",
+      "key_points": [
+        "Ventana reciente",
+        "Resumenes",
+        "Memoria estructurada",
+        "Privacidad y expiracion"
+      ],
+      "interviewer_notes": "Follow-up: que riesgo tiene recordar datos dichos por el usuario? Memoria incorrecta, envenenada o sensible.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "memory",
+        "conversation"
+      ]
+    },
+    {
+      "id": "ai-production-ssr-033",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "LLM APIs"
+      ],
+      "category": "LLM in Production",
+      "difficulty": "medium",
+      "question": "Como integrarias un LLM detras de un contrato confiable para el resto de la aplicacion?",
+      "expected_answer": "Lo pondria detras de un servicio con entradas y salidas tipadas, sin exponer detalles del proveedor. Validaria la salida y definiria comportamiento ante errores, con timeouts, reintentos, limites de costo y fallback. Cada respuesta llevaria version de prompt y modelo para trazabilidad.",
+      "key_points": [
+        "Interfaz tipada",
+        "Validar salida",
+        "Timeouts y fallback",
+        "Versionado y trazabilidad"
+      ],
+      "interviewer_notes": "La salida de un LLM es una entrada no confiable. Red flag si la pasa directo a SQL o a la UI.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "api-design",
+        "contracts"
+      ]
+    },
+    {
+      "id": "ai-production-ssr-034",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "LLM APIs"
+      ],
+      "category": "LLM in Production",
+      "difficulty": "medium",
+      "question": "La calidad mejoro, pero el costo y la latencia se volvieron inaceptables. Que harias?",
+      "expected_answer": "Mediria donde se van tokens y tiempo por etapa. Reduciria contexto y salida, usaria prompt caching y haria streaming. Enrutaria tareas simples a un modelo mas chico y escalaria casos dificiles. Pasaria trabajo no interactivo a batch. Cada optimizacion se valida con evals contra un presupuesto definido.",
+      "key_points": [
+        "Medir por etapa",
+        "Reducir contexto",
+        "Ruteo de modelos",
+        "Validar calidad tras optimizar"
+      ],
+      "interviewer_notes": "Red flag si optimiza sin medir o baja de modelo sin evals.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "cost",
+        "latency",
+        "optimization"
+      ]
+    },
+    {
+      "id": "ai-production-ssr-035",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "LLM APIs",
+        "Caching"
+      ],
+      "category": "LLM in Production",
+      "difficulty": "medium",
+      "question": "Compara prompt caching con semantic caching. Que riesgos tiene cada uno?",
+      "expected_answer": "Prompt caching reutiliza el procesamiento de un prefijo identico, por lo que el modelo sigue generando la respuesta; conviene poner el contenido estable al inicio. Semantic caching devuelve una respuesta previa a una consulta parecida, ahorrando mas, pero puede dar respuestas incorrectas, desactualizadas o filtrar datos entre usuarios.",
+      "key_points": [
+        "Prompt caching: prefijo identico",
+        "Semantic: consulta parecida",
+        "Semantic puede fallar con falsos positivos",
+        "Separar cache por permisos"
+      ],
+      "interviewer_notes": "Follow-up: que umbral usarias? Debe evaluarlo con falsos positivos y considerar el tenant.",
+      "source": "Original",
+      "tags": [
+        "prompt-caching",
+        "semantic-cache"
+      ]
+    },
+    {
+      "id": "ai-production-ssr-036",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "Observability"
+      ],
+      "category": "LLM in Production",
+      "difficulty": "medium",
+      "question": "Que registrarias para observar una aplicacion LLM en produccion?",
+      "expected_answer": "Trazaria cada paso con entradas, contexto recuperado, llamadas a herramientas, salida, modelo, version de prompt, tokens, costo, latencia y errores. Sumaria señales como feedback o escalamiento. Definiria retencion y redaccion de datos sensibles, y muestrearia trazas para evaluarlas.",
+      "key_points": [
+        "Traza por paso",
+        "Tokens, costo y latencia",
+        "Versiones",
+        "Redaccion de datos sensibles"
+      ],
+      "interviewer_notes": "Bonus si conecta trazas con evals. Red flag si registra prompts completos sin considerar privacidad.",
+      "source": "Original",
+      "tags": [
+        "observability",
+        "tracing"
+      ]
+    },
+    {
+      "id": "ai-security-ssr-037",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "LLM Security",
+        "RAG"
+      ],
+      "category": "AI Security",
+      "difficulty": "medium",
+      "question": "Como asegurarias un RAG o un agente con herramientas? Incluye el caso de un system prompt que se filtra.",
+      "expected_answer": "Trataria documentos y salidas del modelo como no confiables. Daria permisos minimos, heredados del usuario, y validaria cada accion. Las acciones riesgosas requeririan confirmacion. Sanitizaria la salida para evitar exfiltracion, por ejemplo con imagenes o links. Si el system prompt se filtra, asumo que puede pasar: no debe contener secretos y la autorizacion debe estar fuera del modelo.",
+      "key_points": [
+        "Minimo privilegio",
+        "Contenido no confiable",
+        "Confirmacion humana",
+        "Sin secretos en el prompt"
+      ],
+      "interviewer_notes": "Red flag si la unica defensa es decir al modelo que no revele sus instrucciones.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "security",
+        "agents",
+        "rag"
+      ]
+    },
+    {
+      "id": "ai-security-ssr-038",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "LLM Security",
+        "Privacy"
+      ],
+      "category": "AI Security",
+      "difficulty": "medium",
+      "question": "Como manejarias datos personales en una aplicacion con LLM?",
+      "expected_answer": "Minimizaria lo que se envia y detectaria o enmascararia PII cuando la tarea lo permita. Revisaria contrato, retencion y region de procesamiento del proveedor. Controlaria acceso y redaccion en logs y datasets de evaluacion, con procesos de borrado que incluyan indices vectoriales y caches.",
+      "key_points": [
+        "Minimizacion",
+        "Enmascarar PII",
+        "Retencion y region",
+        "Borrado en indices y logs"
+      ],
+      "interviewer_notes": "Follow-up: que ocurre con un pedido de borrado si el dato esta embebido en un indice?",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "pii",
+        "privacy",
+        "compliance"
+      ]
+    },
+    {
+      "id": "ai-prompts-ssr-039",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "Prompt Engineering",
+        "RAG"
+      ],
+      "category": "Prompt Engineering",
+      "difficulty": "medium",
+      "question": "Tu sistema siempre responde aunque la respuesta no este en el contexto. Como lo corregis?",
+      "expected_answer": "Le daria una salida explicita para responder que no hay informacion y agregaria ejemplos. Exigiria citas y validaria que existan en el contexto. Tambien abstendria la respuesta si el retrieval tiene baja confianza. Evaluaria con preguntas sin respuesta, midiendo tanto respuestas inventadas como rechazos indebidos.",
+      "key_points": [
+        "Permitir no responder",
+        "Citas verificables",
+        "Umbral de retrieval",
+        "Evaluar preguntas sin respuesta"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si se abstiene demasiado? Debe medir el balance.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "abstention",
+        "grounding"
+      ]
+    },
+    {
+      "id": "ai-python-ssr-040",
+      "profile": "ai-engineer",
+      "level": "ssr",
+      "technology": [
+        "Python"
+      ],
+      "category": "AI Coding",
+      "difficulty": "hard",
+      "question": "Implementa un key-value store en memoria con set, get, begin, commit y abort, incluyendo transacciones anidadas.",
+      "expected_answer": "Mantendria un diccionario base y una pila de transacciones. Cada transaccion guarda sus cambios en su capa, con un marcador para borrados. Get busca desde la capa superior hacia abajo. Commit fusiona la capa en la anterior o en la base, y abort la descarta. Asi las escrituras son O(1) y las lecturas O(profundidad).",
+      "key_points": [
+        "Pila de capas",
+        "Lectura desde la capa superior",
+        "Marcador de borrado",
+        "Commit fusiona, abort descarta"
+      ],
+      "interviewer_notes": "Ejercicio de coding. Follow-up: como lo harias thread-safe?",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "coding",
+        "transactions"
+      ]
+    },
+    {
+      "id": "ai-serving-sr-041",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM Serving",
+        "GPU"
+      ],
+      "category": "LLM Serving",
+      "difficulty": "hard",
+      "question": "Disena un sistema de batching de inferencia para una GPU con hasta 100 entradas por batch mientras los usuarios esperan de forma sincronica.",
+      "expected_answer": "Pondria una cola y un worker que forma lotes hasta llegar a 100 elementos o a un tiempo maximo de espera, equilibrando throughput y latencia. Agruparia por longitud para reducir padding y aplicaria backpressure cuando la cola se llena. Cada pedido tiene plazo y cancelacion. Para LLMs, continuous batching permite sumar pedidos mientras otros generan. Mediria espera, tamano de lote, utilizacion y latencia p99.",
+      "key_points": [
+        "Limite por tamano y tiempo",
+        "Backpressure",
+        "Plazos y cancelacion",
+        "Continuous batching",
+        "Metricas p99"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si el OOM aparece por una entrada larga? Limites por tokens, no solo por cantidad.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "batching",
+        "gpu",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ai-serving-sr-042",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM Serving"
+      ],
+      "category": "LLM Serving",
+      "difficulty": "hard",
+      "question": "Disena una API para muestrear modelos grandes con buen batching y orquestacion de pedidos.",
+      "expected_answer": "Un gateway autentica y aplica limites por tokens. Un router envia a colas por modelo y prioridad, considerando capacidad de GPU y afinidad de cache. Los servidores usan continuous batching y devuelven tokens por streaming. Registraria uso por token, propagaria cancelaciones y haria balanceo por carga real y no solo por conexiones.",
+      "key_points": [
+        "Rate limit por tokens",
+        "Colas y prioridad",
+        "Continuous batching",
+        "Streaming y cancelacion",
+        "Metering"
+      ],
+      "interviewer_notes": "Follow-up: como evitas que un cliente grande perjudique a otros? Fair scheduling y cuotas.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "api-design",
+        "serving",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ai-serving-sr-043",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM Serving",
+        "GPU"
+      ],
+      "category": "LLM Serving",
+      "difficulty": "hard",
+      "question": "Como limita el KV cache el batch size y la longitud de contexto? Como reducirias su consumo de memoria?",
+      "expected_answer": "Cada token en cada pedido guarda claves y valores por capa, asi que la memoria crece con capas, tokens y batch. Esto suele limitar la concurrencia antes que el computo. Lo reduciria acotando tokens, usando cuantizacion, compartiendo prefijos, atencion con menos cabezas de clave y valor, o paginacion dinamica como en vLLM. Hay que prever preempcion cuando se llena.",
+      "key_points": [
+        "Memoria proporcional a tokens, capas y batch",
+        "Compartir prefijos",
+        "Paginacion dinamica",
+        "Preempcion"
+      ],
+      "interviewer_notes": "Bonus si estima numeros. Red flag si solo considera los pesos del modelo.",
+      "source": "Adaptada de amitshekhariitbhu/ai-engineering-interview-questions",
+      "tags": [
+        "kv-cache",
+        "memory",
+        "gpu"
+      ]
+    },
+    {
+      "id": "ai-serving-sr-044",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM Serving",
+        "LLM APIs"
+      ],
+      "category": "LLM Serving",
+      "difficulty": "hard",
+      "question": "Cuando autoalojarias un modelo en lugar de usar una API? Como harias la cuenta?",
+      "expected_answer": "Compararia costo por millon de tokens de la API contra GPU, ingenieria, redundancia y baja utilizacion. Autoalojar tiene sentido con volumen alto y estable, restricciones de datos o latencia, o modelos personalizados. Con trafico variable, la GPU ociosa encarece cada token. Tambien cuentan actualizaciones, seguridad y calidad frente a modelos de frontera.",
+      "key_points": [
+        "Costo total de propiedad",
+        "Utilizacion de GPU",
+        "Restricciones de datos",
+        "Calidad y operacion"
+      ],
+      "interviewer_notes": "Pedir un calculo de break-even en vivo. Red flag si solo compara precio de GPU contra precio de tokens.",
+      "source": "Original",
+      "tags": [
+        "build-vs-buy",
+        "tco"
+      ]
+    },
+    {
+      "id": "ai-rag-sr-045",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "RAG",
+        "Multi-tenant"
+      ],
+      "category": "RAG System Design",
+      "difficulty": "hard",
+      "question": "Disena un asistente RAG empresarial multi-tenant con busqueda hibrida, reranking y permisos.",
+      "expected_answer": "Separaria conectores, ingesta, indice y consulta. Elegiria aislamiento por tenant segun riesgo: indices separados o filtros obligatorios. La consulta pasa por identidad, reescritura, busqueda hibrida con permisos, reranking y generacion con citas. Sincronizaria permisos y borrados, y mediria retrieval, fidelidad, aislamiento, frescura, costo y latencia por tenant.",
+      "key_points": [
+        "Aislamiento por tenant",
+        "ACL en retrieval",
+        "Hibrido y reranking",
+        "Citas",
+        "Frescura y borrados"
+      ],
+      "interviewer_notes": "Follow-up: como probarias que nunca hay fuga entre tenants? Pruebas automaticas adversariales.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "multi-tenant",
+        "acl",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ai-rag-sr-046",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "RAG",
+        "Data Pipelines"
+      ],
+      "category": "RAG System Design",
+      "difficulty": "hard",
+      "question": "Disena un pipeline que procese grandes volumenes de documentos heterogeneos para uso con LLMs.",
+      "expected_answer": "Usaria ingesta orientada a eventos, con almacenamiento del original y un parser por tipo: PDF, HTML, tablas, imagenes con OCR. Normalizaria a una representacion con estructura y metadata, luego chunking, embeddings e indexacion. Seria idempotente con hash de contenido, con cola de errores, reproceso y versionado. Mediria calidad de parseo y frescura.",
+      "key_points": [
+        "Parsers por tipo",
+        "Idempotencia por hash",
+        "Dead-letter y reproceso",
+        "Versionado",
+        "Calidad de parseo"
+      ],
+      "interviewer_notes": "Conecta con data engineering. Follow-up: como reprocesas 100 millones de documentos al cambiar el chunking?",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "ingestion",
+        "pipelines",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ai-agents-sr-047",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "Agents",
+        "RAG"
+      ],
+      "category": "Agent System Design",
+      "difficulty": "hard",
+      "question": "Disena un agente que procese reclamos de seguros y proponga una aprobacion usando RAG, controlando el costo de tokens.",
+      "expected_answer": "No dejaria la decision completa a un loop libre. Usaria un workflow: extraer datos a un schema, validar con reglas, buscar poliza y casos con RAG, y producir una recomendacion con evidencia. Los casos ambiguos o de alto monto van a una persona. El costo se controla usando modelos chicos para extraccion, contexto acotado y presupuesto por reclamo. Todo queda auditado.",
+      "key_points": [
+        "Workflow antes que autonomia",
+        "Reglas deterministas",
+        "Humano en casos de riesgo",
+        "Evidencia y auditoria",
+        "Presupuesto de tokens"
+      ],
+      "interviewer_notes": "Clave: una decision regulada exige trazabilidad. Red flag si el modelo aprueba pagos sin control.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "insurance",
+        "human-in-the-loop",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ai-agents-sr-048",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "Agents"
+      ],
+      "category": "Agent System Design",
+      "difficulty": "hard",
+      "question": "Disena un agente de soporte al cliente para un servicio con millones de usuarios.",
+      "expected_answer": "Clasificaria la intencion, usaria RAG para politicas y herramientas para acciones como reembolsos, con permisos del usuario autenticado. Las acciones riesgosas llevan confirmacion y el escalamiento a humano incluye resumen del caso. Mediria resolucion real, reapertura, satisfaccion, costo por conversacion y fallas por intencion, con lanzamiento gradual.",
+      "key_points": [
+        "Permisos del usuario",
+        "RAG y herramientas",
+        "Escalamiento humano",
+        "Metricas de resolucion",
+        "Despliegue gradual"
+      ],
+      "interviewer_notes": "Red flag si mide deflection sin validar que el problema se resolvio.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "customer-support",
+        "agents",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ai-agents-sr-049",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "Agents"
+      ],
+      "category": "Agent System Design",
+      "difficulty": "hard",
+      "question": "Cuando justificarias una arquitectura multi-agente frente a un solo agente?",
+      "expected_answer": "Empezaria con un solo agente, porque multi-agente agrega costo, latencia y fallas de coordinacion. Se justifica para trabajo paralelizable, aislamiento de contexto o permisos separados entre dominios. Mantendria un orquestador claro, contratos estructurados entre agentes, limites de presupuesto y trazas por agente.",
+      "key_points": [
+        "Empezar simple",
+        "Paralelismo o aislamiento",
+        "Contratos entre agentes",
+        "Costo y trazabilidad"
+      ],
+      "interviewer_notes": "Follow-up: como evaluas un sistema multi-agente? Por componente y de punta a punta.",
+      "source": "Original",
+      "tags": [
+        "multi-agent",
+        "architecture"
+      ]
+    },
+    {
+      "id": "ai-agents-sr-050",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "Agents",
+        "MCP"
+      ],
+      "category": "Agent System Design",
+      "difficulty": "hard",
+      "question": "Disena un sistema de IA que se integre con datos y workflows de un tercero. Que rol podria tener MCP?",
+      "expected_answer": "Definiria una capa de integracion por cliente con autenticacion delegada, normalmente OAuth, y herramientas de alcance acotado. MCP estandariza como exponer herramientas y datos a clientes de IA, pero no resuelve la autorizacion por si solo. Manejaria limites de API, errores y sincronizacion, y trataria respuestas externas como no confiables. Auditaria cada accion.",
+      "key_points": [
+        "Autorizacion delegada",
+        "Herramientas acotadas",
+        "MCP como protocolo",
+        "Datos externos no confiables",
+        "Auditoria"
+      ],
+      "interviewer_notes": "Follow-up: que riesgo trae instalar un servidor MCP de terceros? Descripciones maliciosas y permisos amplios.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "mcp",
+        "integrations",
+        "oauth"
+      ]
+    },
+    {
+      "id": "ai-eval-sr-051",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM Evaluation",
+        "Agents"
+      ],
+      "category": "Evaluation",
+      "difficulty": "hard",
+      "question": "Disena una plataforma de evaluacion para agentes que soporte cambios de prompt y modelo.",
+      "expected_answer": "Versionaria datasets, prompts, modelos y herramientas. Ejecutaria escenarios en sandbox con herramientas simuladas o grabadas, y calificaria la trayectoria y el resultado final con reglas, jueces calibrados y humanos. Compararia corridas contra baseline con repeticiones, porque hay variabilidad, y bloquearia releases con umbrales. Las trazas de produccion alimentan nuevos casos.",
+      "key_points": [
+        "Versionado completo",
+        "Sandbox de herramientas",
+        "Trayectoria y resultado",
+        "Repeticiones por variabilidad",
+        "Release gates"
+      ],
+      "interviewer_notes": "Follow-up: como evitas que la evaluacion toque sistemas reales? Dobles de prueba con estado.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "eval-platform",
+        "agents",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ai-eval-sr-052",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM Evaluation",
+        "AI Safety"
+      ],
+      "category": "Evaluation",
+      "difficulty": "hard",
+      "question": "Un modelo desplegado da respuestas seguras en tono pero falsas en un contexto de alto riesgo. Como investigas y mitigas?",
+      "expected_answer": "Primero contendria el daño limitando la feature o agregando revision humana. Con trazas identificaria frecuencia, segmentos y causa: contexto faltante, prompt, modelo o datos. Mitigaria con retrieval verificado, abstencion, citas, restricciones de alcance y escalamiento. Antes de reabrir, agregaria los casos a evals y definiria umbrales de seguridad con expertos.",
+      "key_points": [
+        "Contener primero",
+        "Cuantificar y segmentar",
+        "Abstencion y evidencia",
+        "Expertos y umbrales",
+        "Regresion"
+      ],
+      "interviewer_notes": "Evalua criterio bajo presion. Red flag si solo propone ajustar el prompt y sigue sirviendo trafico.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "safety",
+        "incident",
+        "high-risk"
+      ]
+    },
+    {
+      "id": "ai-security-sr-053",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM Security",
+        "Agents"
+      ],
+      "category": "AI Security",
+      "difficulty": "hard",
+      "question": "Un agente lee emails, accede a datos privados y puede enviar mensajes. Que riesgo ves y como redisenarias el sistema?",
+      "expected_answer": "Combina contenido no confiable, datos privados y un canal de salida, por lo que una inyeccion indirecta podria exfiltrar informacion. Romperia esa combinacion: separaria permisos, usaria un componente sin herramientas para leer contenido no confiable, restringiria destinos y exigiria confirmacion para envios. Agregaria tokens de corta duracion, auditoria y red teaming continuo.",
+      "key_points": [
+        "Inyeccion indirecta",
+        "Exfiltracion",
+        "Romper la combinacion de capacidades",
+        "Separar privilegios",
+        "Red teaming"
+      ],
+      "interviewer_notes": "Clave: asumir que la inyeccion puede funcionar y limitar el daño. Red flag si confia en detectar todo ataque.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "prompt-injection",
+        "exfiltration",
+        "threat-modeling"
+      ]
+    },
+    {
+      "id": "ai-production-sr-054",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM APIs",
+        "Incident Response"
+      ],
+      "category": "LLM in Production",
+      "difficulty": "hard",
+      "question": "Hay un incidente de produccion despues de un cambio de modelo o prompt. Como respondes?",
+      "expected_answer": "Evaluaria el impacto y haria rollback mediante flag al ultimo estado estable, verificando dependencias como schemas o indices. Reconstruiria con trazas que cambio y a quienes afecto, incluyendo acciones ya ejecutadas por herramientas. Comunicaria, corregiria datos y haria un postmortem. Agregaria el caso a evals y alertas especificas.",
+      "key_points": [
+        "Rollback rapido",
+        "Evaluar impacto",
+        "Revisar efectos ejecutados",
+        "Postmortem",
+        "Agregar a evals"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si el proveedor cambio el modelo sin aviso? Fijar versiones cuando se pueda.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "incident-response",
+        "rollback"
+      ]
+    },
+    {
+      "id": "ai-production-sr-055",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM APIs"
+      ],
+      "category": "LLM in Production",
+      "difficulty": "hard",
+      "question": "Tu proveedor retira el modelo que usas. Como planificas la migracion?",
+      "expected_answer": "Inventariaria usos, prompts y dependencias. Probaria candidatos con la suite de evals, ajustando prompts, porque un modelo puede responder distinto a las mismas instrucciones. Compararia calidad, costo, latencia y limites. Migraria con shadow y canary por caso de uso, con rollback mientras el modelo anterior exista. Mantendria una capa que evite acoplarse al proveedor.",
+      "key_points": [
+        "Inventario",
+        "Evals por caso de uso",
+        "Reajustar prompts",
+        "Canary y rollback",
+        "Abstraccion del proveedor"
+      ],
+      "interviewer_notes": "Red flag si cambia solo el nombre del modelo en una variable y publica.",
+      "source": "Original",
+      "tags": [
+        "migration",
+        "deprecation"
+      ]
+    },
+    {
+      "id": "ai-production-sr-056",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "LLM APIs",
+        "LLM Gateway"
+      ],
+      "category": "LLM in Production",
+      "difficulty": "hard",
+      "question": "Disena un LLM gateway para varios equipos con failover entre proveedores, control de costos y politicas.",
+      "expected_answer": "Centraliza autenticacion, cuotas, costo por equipo, logging y redaccion. Define rutas por caso de uso, con fallback ante errores o timeouts y circuit breakers. El failover debe validar calidad, porque modelos distintos pueden romper prompts, formatos o requisitos de residencia. Se despliega de forma redundante para no crear un punto unico de falla.",
+      "key_points": [
+        "Cuotas y atribucion de costos",
+        "Failover con circuit breaker",
+        "Equivalencia no garantizada",
+        "Politicas de datos",
+        "Alta disponibilidad"
+      ],
+      "interviewer_notes": "Follow-up: que no deberia hacer el gateway? Evitar poner logica de producto.",
+      "source": "Original",
+      "tags": [
+        "gateway",
+        "failover",
+        "platform"
+      ]
+    },
+    {
+      "id": "ai-strategy-sr-057",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "Fine-tuning"
+      ],
+      "category": "AI Strategy",
+      "difficulty": "hard",
+      "question": "Desarrolla una estrategia para decidir si conviene hacer fine-tuning en tu producto.",
+      "expected_answer": "Primero mediria el problema y agotaria prompting, RAG y seleccion de modelo. Haria fine-tuning si hay ejemplos de calidad y un objetivo claro, como formato consistente o bajar costo con un modelo mas chico. Separaria train, validacion y test, compararia contra baseline, e incluiria costo de reentrenar, mantener y actualizar con cada modelo base.",
+      "key_points": [
+        "Agotar opciones simples",
+        "Datos de calidad",
+        "Comparar contra baseline",
+        "Costo de mantenimiento"
+      ],
+      "interviewer_notes": "Bonus si considera derechos y privacidad de los datos de entrenamiento.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "fine-tuning",
+        "strategy"
+      ]
+    },
+    {
+      "id": "ai-strategy-sr-058",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "Product Metrics"
+      ],
+      "category": "AI Strategy",
+      "difficulty": "hard",
+      "question": "Como definirias metricas de exito para una feature de IA?",
+      "expected_answer": "Partiria del resultado de negocio y del usuario, como tareas completadas o tiempo ahorrado. Agregaria metricas de calidad, seguridad, costo por tarea y latencia como guardrails. Usaria experimentos con control cuando sea posible, porque la adopcion por si sola puede reflejar novedad. Definiria tambien que resultado haria detener el lanzamiento.",
+      "key_points": [
+        "Resultado de usuario",
+        "Calidad y seguridad",
+        "Costo por tarea",
+        "Experimentos",
+        "Criterios de detencion"
+      ],
+      "interviewer_notes": "Red flag si la metrica principal es cantidad de mensajes o uso sin valor.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "metrics",
+        "product"
+      ]
+    },
+    {
+      "id": "ai-behavioral-sr-059",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "Leadership"
+      ],
+      "category": "AI Strategy",
+      "difficulty": "medium",
+      "question": "Un stakeholder quiere publicar, pero tu evidencia es debil. Que le decis?",
+      "expected_answer": "Explicaria que sabemos, que no sabemos y que riesgo implica en terminos de negocio. No daria un no generico: propondria opciones, como lanzamiento limitado, revision humana, feature flag o una evaluacion puntual en pocos dias. Dejaria claro el criterio para avanzar y quien acepta el riesgo restante.",
+      "key_points": [
+        "Transparencia sobre la evidencia",
+        "Traducir a riesgo de negocio",
+        "Opciones de bajo riesgo",
+        "Criterios y responsable"
+      ],
+      "interviewer_notes": "Buscar un ejemplo real. Red flag si cede sin discutir o bloquea sin alternativas.",
+      "source": "Adaptada de PracHub: AI Engineer Interview Questions 2026",
+      "tags": [
+        "behavioral",
+        "stakeholders"
+      ]
+    },
+    {
+      "id": "ai-voice-sr-060",
+      "profile": "ai-engineer",
+      "level": "sr",
+      "technology": [
+        "Realtime AI",
+        "LLM Serving"
+      ],
+      "category": "LLM Serving",
+      "difficulty": "hard",
+      "question": "Disena una aplicacion de voz con IA en tiempo real. Donde se va la latencia?",
+      "expected_answer": "El flujo incluye audio del cliente, deteccion de voz, speech-to-text, LLM, text-to-speech y reproduccion, o bien un modelo de voz nativo. WebRTC reduce el impacto de la red. Procesaria cada etapa por streaming, empezando el audio con la primera frase. Debe soportar interrupciones, cancelando generacion y audio. Mediria latencia de extremo a extremo por percentiles.",
+      "key_points": [
+        "Presupuesto por etapa",
+        "Streaming en toda la cadena",
+        "WebRTC",
+        "Interrupciones",
+        "Percentiles"
+      ],
+      "interviewer_notes": "Follow-up: que haces mientras una herramienta tarda 5 segundos? Mensajes de progreso.",
+      "source": "Adaptada de Aced (ex Exponent): AI Engineer Interview Questions",
+      "tags": [
+        "voice",
+        "realtime",
+        "system-design"
+      ]
+    }
+  ]
+}

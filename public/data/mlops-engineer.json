@@ -1,0 +1,1503 @@
+{
+  "profile": "mlops-engineer",
+  "description": "Preguntas de entrevista para MLOps Engineer",
+  "last_updated": "2026-11-06",
+  "questions": [
+    {
+      "id": "ml-mlops-jr-001",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "MLOps"
+      ],
+      "category": "MLOps Fundamentals",
+      "difficulty": "easy",
+      "question": "Cual es la diferencia entre MLOps y DevOps?",
+      "expected_answer": "DevOps automatiza la entrega y operacion de software. MLOps aplica esas practicas a sistemas de ML, donde ademas de codigo cambian datos y modelos. Agrega seguimiento de experimentos, entrenamiento continuo, registro de modelos y monitoreo de calidad predictiva. Un modelo puede degradarse sin que cambie el codigo.",
+      "key_points": [
+        "Codigo, datos y modelo",
+        "Entrenamiento continuo",
+        "Monitoreo de calidad",
+        "Degradacion sin cambios de codigo"
+      ],
+      "interviewer_notes": "Red flag si dice que es solo DevOps con otro nombre.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "devops",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "ml-mlflow-jr-002",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "MLflow"
+      ],
+      "category": "MLOps Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es experiment tracking y que deberias registrar en cada corrida?",
+      "expected_answer": "Es el registro sistematico de experimentos para compararlos y reproducirlos. Por corrida se guarda version de codigo, datos, hiperparametros, metricas, entorno y artefactos. Herramientas como MLflow o Weights & Biases evitan depender de notas o nombres de archivo.",
+      "key_points": [
+        "Codigo y datos",
+        "Hiperparametros y metricas",
+        "Entorno y artefactos",
+        "Comparacion y reproducibilidad"
+      ],
+      "interviewer_notes": "Follow-up: si solo registras el nombre del dataset, que puede fallar? El contenido pudo cambiar.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "experiment-tracking",
+        "mlflow"
+      ]
+    },
+    {
+      "id": "ml-mlflow-jr-003",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "MLflow"
+      ],
+      "category": "MLOps Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es un model registry y que problema resuelve?",
+      "expected_answer": "Es un catalogo central de modelos versionados con metadata, linaje y estado de promocion. Permite saber que version esta en produccion, quien la aprobo y con que datos se entreno, y facilita rollback. Evita pasar modelos por rutas informales de S3 o por mensajes.",
+      "key_points": [
+        "Versiones centralizadas",
+        "Metadata y linaje",
+        "Promocion y aprobacion",
+        "Rollback"
+      ],
+      "interviewer_notes": "Follow-up: cual es la diferencia entre el tracking y el registry? Experimentos versus modelos candidatos.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "model-registry",
+        "mlflow"
+      ]
+    },
+    {
+      "id": "ml-featurestore-jr-004",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Feature Store"
+      ],
+      "category": "MLOps Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es un feature store y que problema resuelve?",
+      "expected_answer": "Es un sistema que centraliza definiciones de features y las sirve para entrenamiento y produccion. Suele tener un store offline para datos historicos y uno online de baja latencia. Permite reutilizar features, reduce training-serving skew y mejora la gobernanza.",
+      "key_points": [
+        "Definiciones compartidas",
+        "Offline y online",
+        "Reduce skew",
+        "Reutilizacion"
+      ],
+      "interviewer_notes": "Bonus si reconoce que un equipo chico puede no necesitarlo.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "feature-store",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "ml-mlops-jr-005",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "MLOps"
+      ],
+      "category": "MLOps Fundamentals",
+      "difficulty": "medium",
+      "question": "Que es training-serving skew? Da un ejemplo.",
+      "expected_answer": "Es una diferencia entre como se producen los datos o features al entrenar y al servir, que hace que el modelo se comporte peor en produccion. Por ejemplo, normalizar con una logica en Python durante el entrenamiento y otra distinta en el servicio online. Otras causas son datos faltantes distintos, valores stale o diferencias de ventana temporal.",
+      "key_points": [
+        "Diferencia entre entrenamiento y serving",
+        "Logica duplicada",
+        "Features desactualizadas",
+        "Comparar distribuciones"
+      ],
+      "interviewer_notes": "Pregunta central. Follow-up: como lo detectarias? Loguear features de serving y compararlas.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "training-serving-skew"
+      ]
+    },
+    {
+      "id": "ml-monitoring-jr-006",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Monitoring"
+      ],
+      "category": "Monitoring",
+      "difficulty": "easy",
+      "question": "Explica la diferencia entre data drift y concept drift.",
+      "expected_answer": "Data drift es un cambio en la distribucion de las entradas. Concept drift es un cambio en la relacion entre entradas y salidas, aunque las entradas parezcan iguales. Por ejemplo, nuevos patrones de fraude. Data drift se puede detectar sin etiquetas; concept drift suele requerir etiquetas o señales indirectas.",
+      "key_points": [
+        "Data drift: entradas",
+        "Concept drift: relacion",
+        "Etiquetas para concept drift",
+        "Drift no siempre afecta el rendimiento"
+      ],
+      "interviewer_notes": "Red flag si cree que todo drift obliga a reentrenar.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "data-drift",
+        "concept-drift"
+      ]
+    },
+    {
+      "id": "ml-serving-jr-007",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Model Serving"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "easy",
+      "question": "Cuando usarias batch scoring y cuando serving online?",
+      "expected_answer": "Batch genera predicciones periodicas en volumen y conviene si no hacen falta al instante, como un scoring diario. Online responde por API con baja latencia, por ejemplo en deteccion de fraude en una transaccion. Batch es mas simple y barato; online necesita features en tiempo real, escalado y alta disponibilidad.",
+      "key_points": [
+        "Batch: periodico",
+        "Online: baja latencia",
+        "Costo y complejidad",
+        "Requisitos de frescura"
+      ],
+      "interviewer_notes": "Bonus si pregunta primero el requisito de negocio.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "batch",
+        "online-serving"
+      ]
+    },
+    {
+      "id": "ml-packaging-jr-008",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Docker",
+        "ONNX"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "easy",
+      "question": "Cuales son las formas de empaquetar un modelo para desplegarlo?",
+      "expected_answer": "Se pueden serializar pesos con pickle, joblib o el formato del framework, exportar a ONNX para portabilidad, y empaquetar modelo, dependencias y codigo de inferencia en un contenedor. El contenedor mejora la reproducibilidad. Pickle no debe cargarse desde fuentes no confiables porque puede ejecutar codigo.",
+      "key_points": [
+        "Serializacion",
+        "ONNX",
+        "Contenedores",
+        "Riesgo de pickle"
+      ],
+      "interviewer_notes": "Bonus si menciona el riesgo de seguridad de pickle.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "packaging",
+        "onnx",
+        "docker"
+      ]
+    },
+    {
+      "id": "ml-deployment-jr-009",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Model Deployment"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "easy",
+      "question": "Cual es la diferencia entre canary y blue-green para modelos?",
+      "expected_answer": "Canary envia una parte chica del trafico al modelo nuevo y aumenta gradualmente mientras se monitorea. Blue-green mantiene dos entornos completos y cambia todo el trafico de una vez, con rollback rapido. Canary limita el impacto; blue-green simplifica el cambio pero duplica recursos.",
+      "key_points": [
+        "Canary: gradual",
+        "Blue-green: cambio completo",
+        "Rollback",
+        "Duplicacion de recursos"
+      ],
+      "interviewer_notes": "Follow-up: que metricas usarias para avanzar el canary?",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "canary",
+        "blue-green"
+      ]
+    },
+    {
+      "id": "ml-deployment-jr-010",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Model Deployment"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "easy",
+      "question": "Que es un shadow deployment?",
+      "expected_answer": "El modelo nuevo recibe una copia del trafico real, pero sus predicciones no se muestran ni afectan al usuario; solo se registran. Permite probar latencia, errores y distribuciones con datos reales sin riesgo directo. Consume recursos extra y no mide el efecto de la prediccion sobre el negocio.",
+      "key_points": [
+        "Copia del trafico",
+        "No afecta al usuario",
+        "Compara con produccion",
+        "No reemplaza un A/B test"
+      ],
+      "interviewer_notes": "Follow-up: que efecto secundario debes evitar? Que el shadow escriba en sistemas reales.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "shadow",
+        "deployment"
+      ]
+    },
+    {
+      "id": "ml-monitoring-jr-011",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Monitoring"
+      ],
+      "category": "Monitoring",
+      "difficulty": "easy",
+      "question": "Que deberias monitorear en un modelo en produccion?",
+      "expected_answer": "Salud del servicio: latencia, errores y uso de recursos. Datos: esquema, nulos y distribuciones. Predicciones: distribucion y confianza. Rendimiento y negocio: metricas del modelo cuando llegan etiquetas e impacto en conversion o perdidas. Las alertas deben ser accionables.",
+      "key_points": [
+        "Salud del servicio",
+        "Calidad de datos",
+        "Predicciones",
+        "Rendimiento y negocio"
+      ],
+      "interviewer_notes": "Red flag si solo menciona CPU y memoria.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "monitoring",
+        "metrics"
+      ]
+    },
+    {
+      "id": "ml-deployment-jr-012",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Model Deployment"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "easy",
+      "question": "Que es un rollback de modelo y que necesitas para que funcione?",
+      "expected_answer": "Es volver a una version anterior estable cuando la nueva falla. Requiere conservar artefacto, configuracion y dependencias de esa version, y que sea compatible con las features actuales. Debe poder ejecutarse rapido, idealmente con un cambio de alias o trafico.",
+      "key_points": [
+        "Version anterior disponible",
+        "Compatibilidad de features",
+        "Automatizado",
+        "Definir disparadores"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si el pipeline de features ya cambio? El modelo viejo podria no servir.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "rollback"
+      ]
+    },
+    {
+      "id": "ml-git-jr-013",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "DVC",
+        "Git"
+      ],
+      "category": "MLOps Fundamentals",
+      "difficulty": "easy",
+      "question": "Por que en ML no alcanza con versionar el codigo en Git?",
+      "expected_answer": "El resultado depende tambien de datos, parametros, entorno y artefactos. Git no maneja bien archivos grandes, por lo que se usan herramientas como DVC, lakeFS o snapshots con Iceberg o Delta. Lo importante es que cada modelo apunte a versiones exactas de codigo y datos.",
+      "key_points": [
+        "Codigo, datos y modelo",
+        "Git no es para datos grandes",
+        "DVC o snapshots",
+        "Reproducibilidad"
+      ],
+      "interviewer_notes": "Conecta con data lake: time travel como version de datos.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "versioning",
+        "dvc"
+      ]
+    },
+    {
+      "id": "ml-mlops-jr-014",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "MLOps"
+      ],
+      "category": "MLOps Fundamentals",
+      "difficulty": "medium",
+      "question": "Como garantizas la reproducibilidad de un experimento de ML?",
+      "expected_answer": "Fijo versiones de codigo, datos y dependencias, y registro hiperparametros y semillas. Uso contenedores y lockfiles para el entorno, y pipelines en lugar de pasos manuales. En GPU puede haber no determinismo, asi que hay que aceptar pequeñas diferencias o activar modos deterministas con costo de rendimiento.",
+      "key_points": [
+        "Versionar todo",
+        "Semillas",
+        "Entorno fijo",
+        "No determinismo en GPU"
+      ],
+      "interviewer_notes": "Bonus si distingue reproducir exacto de reproducir dentro de una tolerancia.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "reproducibility"
+      ]
+    },
+    {
+      "id": "ml-testing-jr-015",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Testing"
+      ],
+      "category": "Testing",
+      "difficulty": "medium",
+      "question": "Que pruebas harias antes de desplegar un modelo a produccion?",
+      "expected_answer": "Pruebas unitarias del codigo de features, validacion de esquema y datos, evaluacion en test por metricas y segmentos, comparacion con el modelo actual, y pruebas de integracion y carga del servicio. Tambien una prueba de humo con ejemplos conocidos y revision de sesgos cuando aplique.",
+      "key_points": [
+        "Tests de codigo y datos",
+        "Evaluacion por segmentos",
+        "Comparar con baseline",
+        "Integracion y carga"
+      ],
+      "interviewer_notes": "Red flag si solo considera accuracy en test.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "testing",
+        "validation"
+      ]
+    },
+    {
+      "id": "ml-docker-jr-016",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Docker",
+        "Python"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "medium",
+      "question": "Como armarias la imagen Docker de un servicio de inferencia?",
+      "expected_answer": "Usaria una imagen base slim con versiones fijadas y build multi-stage. Instalaria dependencias con lockfile y correria como usuario no root. Bajaria el modelo por version desde el registry al desplegar o lo incluiria en la imagen, segun tamano y velocidad de arranque. Agregaria health checks y no incluiria credenciales.",
+      "key_points": [
+        "Versiones fijas",
+        "Multi-stage",
+        "No root",
+        "Modelo: en imagen o descarga",
+        "Health checks"
+      ],
+      "interviewer_notes": "Follow-up: incluir un modelo de 10 GB en la imagen, ventajas y desventajas?",
+      "source": "Original",
+      "tags": [
+        "docker",
+        "serving"
+      ]
+    },
+    {
+      "id": "ml-data-jr-017",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "ML Fundamentals"
+      ],
+      "category": "Data for ML",
+      "difficulty": "medium",
+      "question": "Un modelo tiene metricas demasiado buenas durante el entrenamiento. Que revisarias?",
+      "expected_answer": "Sospecho data leakage: una feature contiene informacion del futuro o del objetivo. Revisaria la separacion temporal, duplicados entre train y test, y la importancia de features. Tambien sobreajuste y una evaluacion con un split que imite produccion.",
+      "key_points": [
+        "Data leakage",
+        "Split temporal",
+        "Duplicados",
+        "Importancia de features"
+      ],
+      "interviewer_notes": "Red flag si celebra el resultado y lo despliega.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "data-leakage",
+        "validation"
+      ]
+    },
+    {
+      "id": "ml-retraining-jr-018",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Retraining"
+      ],
+      "category": "Retraining",
+      "difficulty": "easy",
+      "question": "Que puede disparar el reentrenamiento de un modelo?",
+      "expected_answer": "Una agenda periodica, caida del rendimiento, drift significativo, nuevos datos o cambios de esquema o negocio. La agenda es simple, pero puede reentrenar sin necesidad o tarde. El reentrenamiento debe pasar por validacion antes de llegar a produccion.",
+      "key_points": [
+        "Agenda",
+        "Rendimiento o drift",
+        "Nuevos datos",
+        "Validar antes de promover"
+      ],
+      "interviewer_notes": "Follow-up: siempre conviene reentrenar ante drift? No, primero investigar causa e impacto.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "retraining",
+        "triggers"
+      ]
+    },
+    {
+      "id": "ml-mlops-jr-019",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "MLOps"
+      ],
+      "category": "MLOps Fundamentals",
+      "difficulty": "easy",
+      "question": "Que riesgos tiene desplegar un modelo directamente desde un notebook?",
+      "expected_answer": "El orden de ejecucion puede ser irreproducible, el estado queda oculto y las dependencias no estan fijadas. Faltan tests, revision y trazabilidad. Lo correcto es mover la logica a codigo versionado, con pipeline y registry.",
+      "key_points": [
+        "Estado oculto",
+        "Sin tests ni revision",
+        "Dependencias no fijadas",
+        "Sin trazabilidad"
+      ],
+      "interviewer_notes": "Un notebook sirve para explorar. Red flag si lo usa como mecanismo de produccion.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "notebooks",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "ml-governance-jr-020",
+      "profile": "mlops-engineer",
+      "level": "jr",
+      "technology": [
+        "Governance"
+      ],
+      "category": "Governance",
+      "difficulty": "easy",
+      "question": "Que es el linaje de un modelo y que deberia incluir un model card?",
+      "expected_answer": "El linaje conecta un modelo con datos, codigo, parametros y corrida que lo produjeron. Un model card documenta proposito, usuarios previstos, datos, metricas, limitaciones, riesgos y responsables. Ambos ayudan en auditoria, depuracion y decisiones de uso.",
+      "key_points": [
+        "Datos, codigo y parametros",
+        "Uso previsto",
+        "Metricas y limitaciones",
+        "Responsables"
+      ],
+      "interviewer_notes": "Follow-up: si nadie sabe que datos entrenaron el modelo, que falta? Linaje automatico.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "lineage",
+        "model-card"
+      ]
+    },
+    {
+      "id": "ml-pipelines-ssr-021",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Kubeflow",
+        "Airflow"
+      ],
+      "category": "Pipelines",
+      "difficulty": "medium",
+      "question": "Disena un pipeline de entrenamiento de produccion.",
+      "expected_answer": "Extraccion de un snapshot versionado, validacion, features, entrenamiento, evaluacion contra el modelo actual y registro si supera umbrales. Cada paso es idempotente, con artefactos en storage y metadatos trazados. Reutiliza resultados en cache, escala en computo adecuado y notifica fallas. La promocion queda separada del entrenamiento.",
+      "key_points": [
+        "Snapshot de datos",
+        "Validacion",
+        "Evaluacion contra baseline",
+        "Registro y promocion",
+        "Idempotencia"
+      ],
+      "interviewer_notes": "Red flag si entrena y despliega sin una etapa de validacion.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "pipeline",
+        "training"
+      ]
+    },
+    {
+      "id": "ml-cicd-ssr-022",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "CI/CD",
+        "GitHub Actions"
+      ],
+      "category": "CI/CD for ML",
+      "difficulty": "medium",
+      "question": "Como implementarias CI/CD para modelos de ML?",
+      "expected_answer": "CI ejecuta linters, unit tests, validacion de datos y un entrenamiento corto de prueba. Otro flujo entrena con datos completos, evalua y registra el candidato. CD construye el servicio, despliega en staging, corre pruebas y promueve con canary y rollback. Las aprobaciones se aplican segun el riesgo.",
+      "key_points": [
+        "CI: codigo y datos",
+        "Entrenamiento de humo",
+        "Registro de candidato",
+        "Canary y rollback"
+      ],
+      "interviewer_notes": "Follow-up: por que no correr el entrenamiento completo en cada PR? Costo y tiempo.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "ci-cd",
+        "automation"
+      ]
+    },
+    {
+      "id": "ml-cicd-ssr-023",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "MLflow",
+        "CI/CD"
+      ],
+      "category": "CI/CD for ML",
+      "difficulty": "medium",
+      "question": "En que se diferencia CD para ML y como deberia avanzar un modelo por el registry?",
+      "expected_answer": "En ML no se libera solo codigo: hay tambien un artefacto cuya calidad depende de datos, y puede haber reentrenamiento sin cambios de codigo. El modelo pasa de candidato a staging y produccion mediante evaluacion, pruebas y aprobacion, y queda archivado para rollback. La promocion debe ser auditable; usar aliases evita cambiar codigo.",
+      "key_points": [
+        "Artefacto dependiente de datos",
+        "Promocion con evidencia",
+        "Aliases",
+        "Auditoria"
+      ],
+      "interviewer_notes": "Bonus si sabe que MLflow reemplazo stages por aliases y tags.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "model-registry",
+        "promotion"
+      ]
+    },
+    {
+      "id": "ml-monitoring-ssr-024",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Monitoring",
+        "Evidently"
+      ],
+      "category": "Monitoring",
+      "difficulty": "medium",
+      "question": "Como monitoreas drift en la practica? Explica PSI y el test KS.",
+      "expected_answer": "Comparo una ventana de produccion contra una referencia, por feature y prediccion. PSI compara proporciones por bins; como regla comun, sobre 0.2 indica un cambio importante. KS compara distribuciones numericas, pero con mucho volumen marca diferencias minimas como significativas. Priorizo por importancia de la feature y calibro las alertas.",
+      "key_points": [
+        "Referencia y ventana",
+        "PSI",
+        "KS sensible al volumen",
+        "Priorizar por importancia"
+      ],
+      "interviewer_notes": "Red flag si alerta por cada feature sin priorizar. Los umbrales de PSI son reglas practicas.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "psi",
+        "ks-test",
+        "drift"
+      ]
+    },
+    {
+      "id": "ml-monitoring-ssr-025",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Monitoring"
+      ],
+      "category": "Monitoring",
+      "difficulty": "medium",
+      "question": "Como monitoreas un modelo cuando las etiquetas llegan tarde?",
+      "expected_answer": "Uso señales proxy: drift de entradas y predicciones, confianza, calidad de datos y metricas de negocio tempranas. Guardo prediccion e ID para unir la etiqueta cuando llega, y calculo rendimiento por cohorte de fecha. Cuando sea razonable, una muestra etiquetada por personas adelanta el diagnostico.",
+      "key_points": [
+        "Señales proxy",
+        "Unir etiquetas despues",
+        "Cohortes",
+        "Muestreo humano"
+      ],
+      "interviewer_notes": "Ejemplo: fraude, donde el chargeback puede tardar semanas.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "delayed-labels",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "ml-featurestore-ssr-026",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Feature Store",
+        "Python"
+      ],
+      "category": "Feature Engineering",
+      "difficulty": "medium",
+      "question": "Como previenes training-serving skew?",
+      "expected_answer": "Uso una unica definicion de features para ambos caminos, con feature store o libreria compartida. Incluyo el preprocesamiento dentro del artefacto cuando se pueda, y registro features de serving para entrenar con lo que realmente se vio. Comparo distribuciones y agrego tests de consistencia entre offline y online.",
+      "key_points": [
+        "Una sola definicion",
+        "Preprocesamiento con el modelo",
+        "Loguear features de serving",
+        "Tests de consistencia"
+      ],
+      "interviewer_notes": "Red flag si mantiene logica duplicada en Spark y Java sin pruebas.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "skew",
+        "features"
+      ]
+    },
+    {
+      "id": "ml-serving-ssr-027",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Kubernetes",
+        "FastAPI"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "medium",
+      "question": "Como desplegarias un modelo online en Kubernetes?",
+      "expected_answer": "Empaqueto el servicio con el modelo en un contenedor con endpoints de salud y metricas. Lo despliego con requests y limits, readiness que confirma el modelo cargado y autoescalado por uso o latencia. Uso rollout gradual, poddisruptionbudget, tracing y logging de predicciones. Escalado por CPU no siempre refleja la carga en GPU.",
+      "key_points": [
+        "Readiness real",
+        "Requests y limits",
+        "Autoescalado por metrica adecuada",
+        "Rollout gradual"
+      ],
+      "interviewer_notes": "Conecta con Data Platform. Follow-up: como evitas trafico antes de cargar el modelo?",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "kubernetes",
+        "serving"
+      ]
+    },
+    {
+      "id": "ml-serving-ssr-028",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Model Serving"
+      ],
+      "category": "Model Serving",
+      "difficulty": "medium",
+      "question": "La latencia de prediccion sube de golpe. Que inspeccionas?",
+      "expected_answer": "Veo si coincidio con un deploy, y desgloso por etapa: red, cola, features, inferencia y postproceso. Reviso saturacion de CPU o GPU, GC, batch, cold starts y dependencias como el store online. Comparo por version, tamaño de entrada y nodo. Mitigo con rollback, escalado o limites mientras investigo.",
+      "key_points": [
+        "Correlacionar con cambios",
+        "Latencia por etapa",
+        "Saturacion",
+        "Features y dependencias",
+        "Mitigar primero"
+      ],
+      "interviewer_notes": "Buscar metodo. Red flag si agranda instancias sin diagnostico.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "latency",
+        "debugging"
+      ]
+    },
+    {
+      "id": "ml-featurestore-ssr-029",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Feature Store",
+        "Spark"
+      ],
+      "category": "Feature Engineering",
+      "difficulty": "hard",
+      "question": "Que es point-in-time correctness y por que importa al armar datasets?",
+      "expected_answer": "Cada ejemplo solo debe usar valores de features conocidos en el momento de ese evento. Si se usa el valor mas reciente, se filtra informacion del futuro y las metricas salen infladas. Se resuelve con joins as-of sobre features con timestamps, considerando tambien cuando estuvo disponible cada dato.",
+      "key_points": [
+        "Solo valores disponibles entonces",
+        "Evita leakage",
+        "As-of join",
+        "Tiempo de evento y disponibilidad"
+      ],
+      "interviewer_notes": "Se puede pedir escribir el join en SQL con ROW_NUMBER.",
+      "source": "Original",
+      "tags": [
+        "point-in-time",
+        "leakage",
+        "joins"
+      ]
+    },
+    {
+      "id": "ml-featurestore-ssr-030",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Feature Store",
+        "Redis"
+      ],
+      "category": "Feature Engineering",
+      "difficulty": "medium",
+      "question": "Las features online estan desactualizadas. Que se rompe y como lo manejas?",
+      "expected_answer": "El modelo recibe datos viejos y puede predecir mal sin errores visibles. Monitorearia la frescura por feature y definiria un SLA con TTL. Tendria valores por defecto seguros, alertas y un plan de degradacion, como un modelo sin esas features. Investigaria el job o stream que materializa los datos.",
+      "key_points": [
+        "Falla silenciosa",
+        "Monitorear frescura",
+        "TTL",
+        "Fallback"
+      ],
+      "interviewer_notes": "Follow-up: el modelo fue entrenado con esos defaults? Si no, generan skew.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "stale-features",
+        "freshness"
+      ]
+    },
+    {
+      "id": "ml-pipelines-ssr-031",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Airflow",
+        "Kubeflow"
+      ],
+      "category": "Pipelines",
+      "difficulty": "medium",
+      "question": "Cuando usarias Airflow, Kubeflow Pipelines u otro orquestador para ML?",
+      "expected_answer": "Airflow conviene si el equipo ya lo usa para datos y el flujo es programado. Kubeflow Pipelines es nativo de Kubernetes y maneja pasos en contenedores y artefactos de ML. Metaflow prioriza la experiencia de data scientists. Elijo por infraestructura existente, equipo y necesidades, no por moda.",
+      "key_points": [
+        "Airflow para datos y agenda",
+        "Kubeflow nativo de K8s",
+        "Metaflow para productividad",
+        "Costo operativo"
+      ],
+      "interviewer_notes": "Bonus si propone Airflow disparando trabajos en computo separado.",
+      "source": "Adaptada de techinterview.org: Machine Learning Platform and MLOps",
+      "tags": [
+        "orchestration",
+        "kubeflow",
+        "airflow"
+      ]
+    },
+    {
+      "id": "ml-serving-ssr-032",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "KServe",
+        "FastAPI"
+      ],
+      "category": "Model Serving",
+      "difficulty": "medium",
+      "question": "Cuando usarias FastAPI propio y cuando una plataforma como KServe?",
+      "expected_answer": "FastAPI da control y simplicidad para pocos modelos, pero el equipo resuelve despliegue, escalado y rollout. KServe estandariza serving sobre Kubernetes con autoescalado, canary y soporte multi-framework, y puede escalar a cero, a cambio de mas complejidad. La decision depende de cantidad de modelos y madurez del equipo.",
+      "key_points": [
+        "FastAPI: control",
+        "KServe: estandarizacion",
+        "Complejidad operativa",
+        "Cantidad de modelos"
+      ],
+      "interviewer_notes": "Red flag si impone Kubernetes para un modelo con poco trafico.",
+      "source": "Original",
+      "tags": [
+        "kserve",
+        "fastapi"
+      ]
+    },
+    {
+      "id": "ml-gpu-ssr-033",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Kubernetes",
+        "GPU",
+        "Karpenter"
+      ],
+      "category": "GPU Infrastructure",
+      "difficulty": "medium",
+      "question": "Como programas cargas de GPU en Kubernetes?",
+      "expected_answer": "Instalo el device plugin para exponer GPUs como recurso, y pido nvidia.com/gpu en limits. Uso taints y tolerations para reservar nodos, y node affinity por tipo de instancia. Karpenter puede crear nodos GPU segun demanda. Monitoreo con DCGM, porque la utilizacion de CPU no refleja la carga real.",
+      "key_points": [
+        "Device plugin",
+        "Taints y tolerations",
+        "Karpenter",
+        "DCGM"
+      ],
+      "interviewer_notes": "Follow-up: por que escalar a cero nodos GPU puede ser problema? El arranque y la descarga son lentos.",
+      "source": "Original",
+      "tags": [
+        "gpu",
+        "kubernetes",
+        "karpenter"
+      ]
+    },
+    {
+      "id": "ml-serverless-ssr-034",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "AWS Lambda",
+        "SageMaker"
+      ],
+      "category": "Cloud ML",
+      "difficulty": "medium",
+      "question": "Que ventajas y limites tiene usar serverless para servir modelos?",
+      "expected_answer": "Reduce operacion y costo con trafico intermitente, porque paga por uso y escala solo. Sus limites son cold starts, memoria y tamaño de paquete, poco soporte de GPU y timeouts. Funciona para modelos chicos y trafico irregular, no para modelos grandes con baja latencia constante.",
+      "key_points": [
+        "Pago por uso",
+        "Cold starts",
+        "Limites de recursos",
+        "Encaja con trafico irregular"
+      ],
+      "interviewer_notes": "Follow-up: como reducirias cold starts en Lambda? Concurrencia provisionada e imagen liviana.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "serverless",
+        "lambda"
+      ]
+    },
+    {
+      "id": "ml-retraining-ssr-035",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Retraining"
+      ],
+      "category": "Retraining",
+      "difficulty": "medium",
+      "question": "Como reentrenas un modelo de forma segura?",
+      "expected_answer": "Valido datos, entreno en un pipeline reproducible y comparo con el modelo actual en un periodo reciente y por segmentos. Si supera las barreras, lo registro y lo despliego con shadow o canary. Vigilo las metricas, con rollback listo. Considero bucles de retroalimentacion, donde el modelo influye en sus datos futuros.",
+      "key_points": [
+        "Validar datos",
+        "Comparar contra produccion",
+        "Despliegue gradual",
+        "Feedback loops"
+      ],
+      "interviewer_notes": "Red flag si promueve automaticamente el ultimo modelo entrenado.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "retraining",
+        "safe-release"
+      ]
+    },
+    {
+      "id": "ml-batch-ssr-036",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Spark",
+        "Airflow"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "medium",
+      "question": "Como operarias un job de prediccion batch?",
+      "expected_answer": "Lo orquestaria con idempotencia por fecha y version de modelo. Validaria entradas, particionaria para escalar y escribiria salidas con version y timestamp. Monitorearia duracion, volumen y distribucion de predicciones, y bloquearia la publicacion ante anomalias. Permitiria hacer backfill y publicar atomicamente.",
+      "key_points": [
+        "Idempotencia",
+        "Validacion",
+        "Version en salidas",
+        "Publicacion atomica",
+        "Backfill"
+      ],
+      "interviewer_notes": "Conecta con data engineering. Follow-up: que haces si el job falla al 80%?",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "batch",
+        "spark"
+      ]
+    },
+    {
+      "id": "ml-incident-ssr-037",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Monitoring"
+      ],
+      "category": "Incident Response",
+      "difficulty": "medium",
+      "question": "La accuracy de un modelo cae de 95% a 70%. Que haces?",
+      "expected_answer": "Primero confirmo que la metrica y las etiquetas son correctas. Luego reviso cambios en pipeline, esquema, features y version del modelo, y comparo distribuciones y segmentos. Separo data quality de drift real. Mitigo con rollback o fallback si el impacto es alto. Reentreno solo cuando entiendo la causa.",
+      "key_points": [
+        "Validar la metrica",
+        "Revisar pipeline y cambios",
+        "Segmentar",
+        "Mitigar",
+        "Reentrenar con causa clara"
+      ],
+      "interviewer_notes": "Red flag si la primera respuesta es reentrenar.",
+      "source": "Original",
+      "tags": [
+        "troubleshooting",
+        "accuracy-drop"
+      ]
+    },
+    {
+      "id": "ml-security-ssr-038",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "IAM",
+        "Security"
+      ],
+      "category": "Governance",
+      "difficulty": "medium",
+      "question": "Como controlas el acceso y protejes datos en una plataforma de ML en la nube?",
+      "expected_answer": "Aplico minimo privilegio con roles por pipeline y servicio, sin credenciales fijas. Cifro en reposo y transito, aislo redes y registro accesos. Separo ambientes y permisos de promover modelos. Trato a modelos y datos de entrenamiento como activos, y escaneo imagenes y dependencias.",
+      "key_points": [
+        "Minimo privilegio",
+        "Cifrado",
+        "Separacion de ambientes",
+        "Auditoria"
+      ],
+      "interviewer_notes": "Conecta con IAM y Data Platform. Bonus si menciona IRSA o Pod Identity en EKS.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "iam",
+        "security"
+      ]
+    },
+    {
+      "id": "ml-debugging-ssr-039",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "Kubernetes",
+        "Distributed Training"
+      ],
+      "category": "Pipelines",
+      "difficulty": "medium",
+      "question": "Un entrenamiento falla de forma aleatoria. Que inspeccionas?",
+      "expected_answer": "Busco patrones en logs y nodos: OOM, interrupciones de instancias spot, errores de GPU, red o almacenamiento. Reviso datos corruptos y lotes particulares. Comparo con semillas y versiones de drivers. Agrego checkpoints y reintentos, y mejoro metricas para diagnosticar.",
+      "key_points": [
+        "OOM",
+        "Spot e infraestructura",
+        "Datos",
+        "Checkpoints"
+      ],
+      "interviewer_notes": "Follow-up: como distinguis OOM de CPU y de GPU? Kernel OOMKilled versus error CUDA.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "debugging",
+        "training"
+      ]
+    },
+    {
+      "id": "ml-cost-ssr-040",
+      "profile": "mlops-engineer",
+      "level": "ssr",
+      "technology": [
+        "AWS",
+        "Spot"
+      ],
+      "category": "Cloud ML",
+      "difficulty": "medium",
+      "question": "Como reducirias el costo de entrenar y servir modelos en la nube?",
+      "expected_answer": "En entrenamiento uso spot con checkpoints, dimensionamiento correcto y apagado automatico. En serving, batching, cuantizacion, autoescalado y mover cargas a batch cuando se pueda. Mido costo por experimento y prediccion, con etiquetas por equipo. Aprovecho reservas para demanda estable.",
+      "key_points": [
+        "Spot y checkpoints",
+        "Batching y cuantizacion",
+        "Costo por unidad",
+        "Atribucion por equipo"
+      ],
+      "interviewer_notes": "Red flag si usa spot en entrenamientos largos sin checkpoints.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "cost",
+        "spot",
+        "finops"
+      ]
+    },
+    {
+      "id": "ml-platform-sr-041",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "MLOps",
+        "Platform Engineering"
+      ],
+      "category": "ML Platform Design",
+      "difficulty": "hard",
+      "question": "Disena una plataforma de ML para decenas de equipos.",
+      "expected_answer": "Ofreceria caminos estandar para datos, features, entrenamiento, registro, serving y monitoreo, con plantillas y autoservicio. Multi-tenancy por namespaces, cuotas y atribucion de costos. Separaria computo y almacenamiento, con gobernanza integrada. Mediria adopcion y tiempo a produccion, permitiendo salidas controladas para casos especiales.",
+      "key_points": [
+        "Autoservicio",
+        "Multi-tenancy y cuotas",
+        "Gobernanza integrada",
+        "Metricas de plataforma"
+      ],
+      "interviewer_notes": "Evalua vision de producto interno. Red flag si impone una herramienta a todos sin entender usuarios.",
+      "source": "Adaptada de techinterview.org: Machine Learning Platform and MLOps",
+      "tags": [
+        "platform",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ml-featurestore-sr-042",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Feature Store",
+        "Kafka",
+        "Redis"
+      ],
+      "category": "ML Platform Design",
+      "difficulty": "hard",
+      "question": "Disena un feature store para features batch y streaming con baja latencia.",
+      "expected_answer": "Las definiciones se registran con owner, versiones y schema. Batch se materializa desde el lake con Spark y streaming con Kafka y Flink. El offline guarda historial para joins point-in-time y el online usa Redis o DynamoDB. Monitoreo frescura y consistencia offline-online, y gestiono backfills, TTL y deprecacion.",
+      "key_points": [
+        "Offline y online",
+        "Materializacion",
+        "Point-in-time",
+        "Frescura",
+        "Backfills"
+      ],
+      "interviewer_notes": "Follow-up: como aseguras que una agregacion de ventana sea igual en batch y streaming?",
+      "source": "Adaptada de techinterview.org: Machine Learning Platform and MLOps",
+      "tags": [
+        "feature-store",
+        "streaming",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ml-gpu-sr-043",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "GPU",
+        "Kubernetes"
+      ],
+      "category": "GPU Infrastructure",
+      "difficulty": "hard",
+      "question": "Como manejarias autoescalado y cold starts en servicios con GPU?",
+      "expected_answer": "El cold start suma aprovisionar nodo, bajar imagen, descargar pesos y cargarlos en memoria. Mantengo capacidad caliente, precargo imagenes y uso cache local de modelos. Escalo por cola o concurrencia, no CPU. Readiness espera al modelo cargado. Equilibro costo y objetivos de latencia con minimos por horario.",
+      "key_points": [
+        "Desglose del cold start",
+        "Capacidad caliente",
+        "Escalar por cola",
+        "Readiness"
+      ],
+      "interviewer_notes": "Pedir que estime tiempos. Red flag si propone HPA por CPU.",
+      "source": "Adaptada de techinterview.org: Machine Learning Platform and MLOps",
+      "tags": [
+        "autoscaling",
+        "cold-start",
+        "gpu"
+      ]
+    },
+    {
+      "id": "ml-reliability-sr-044",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Kubernetes",
+        "AWS"
+      ],
+      "category": "ML Platform Design",
+      "difficulty": "hard",
+      "question": "Como garantizas alta disponibilidad y tolerancia a fallas para modelos en produccion?",
+      "expected_answer": "Definiria SLOs y usaria replicas en varias zonas, balanceo, health checks y rollouts graduales. Tendria fallback: modelo anterior, heuristica o respuesta segura. Replicaria artefactos y features si hay requisitos multi-region, y evitaria dependencias criticas sin timeout. Probaria con ejercicios de falla.",
+      "key_points": [
+        "SLOs",
+        "Multi-AZ",
+        "Fallback",
+        "Dependencias",
+        "Pruebas de falla"
+      ],
+      "interviewer_notes": "Follow-up: que degradacion aceptable existe si cae el feature store?",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "high-availability",
+        "resilience"
+      ]
+    },
+    {
+      "id": "ml-retraining-sr-045",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Retraining",
+        "Kubeflow"
+      ],
+      "category": "Retraining",
+      "difficulty": "hard",
+      "question": "Disena un sistema de reentrenamiento continuo con barreras de calidad.",
+      "expected_answer": "Disparadores por agenda, drift confirmado o rendimiento inician un pipeline versionado. Valida datos, entrena y compara contra produccion por segmentos, equidad y latencia. Solo promueve si pasa barreras, usando shadow y canary con rollback automatico. Limita frecuencia y conserva revision humana segun el riesgo.",
+      "key_points": [
+        "Disparadores",
+        "Barreras",
+        "Despliegue progresivo",
+        "Rollback automatico",
+        "Revision por riesgo"
+      ],
+      "interviewer_notes": "Follow-up: como evitas que un dato envenenado se propague automaticamente?",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "continuous-training",
+        "system-design"
+      ]
+    },
+    {
+      "id": "ml-training-sr-046",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "PyTorch",
+        "Distributed Training"
+      ],
+      "category": "GPU Infrastructure",
+      "difficulty": "hard",
+      "question": "Como operarias un entrenamiento distribuido grande?",
+      "expected_answer": "Usaria un operador como Kubeflow Training o Ray Train, con scheduling de todos los workers a la vez para evitar bloqueos. Colocaria nodos cerca para red de alto ancho de banda, haria checkpoints frecuentes a storage durable y reanudaria ante fallas. Monitorearia utilizacion por GPU y cuellos en carga de datos.",
+      "key_points": [
+        "Gang scheduling",
+        "Red y topologia",
+        "Checkpoints",
+        "Cuellos en datos"
+      ],
+      "interviewer_notes": "Red flag si no considera que un nodo caido puede detener todo el trabajo.",
+      "source": "Original",
+      "tags": [
+        "distributed-training",
+        "gang-scheduling"
+      ]
+    },
+    {
+      "id": "ml-deployment-sr-047",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Experimentation"
+      ],
+      "category": "Model Deployment",
+      "difficulty": "hard",
+      "question": "Un modelo en shadow tiene mejor accuracy pero peor latencia. Decides publicarlo?",
+      "expected_answer": "Depende del impacto en negocio. Cuantificaria si la mejora compensa la latencia, verificando p95 y p99 contra el SLO. Si es aceptable, haria un A/B test con guardrails. Si no, intentaria optimizar con cuantizacion, batching o hardware, o buscaria un modelo intermedio. La decision se basa en resultado neto.",
+      "key_points": [
+        "Traducir a impacto",
+        "p95 y p99",
+        "A/B con guardrails",
+        "Optimizar"
+      ],
+      "interviewer_notes": "Red flag si responde siempre si por tener mejor accuracy.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "ab-testing",
+        "tradeoffs"
+      ]
+    },
+    {
+      "id": "ml-incident-sr-048",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Incident Response"
+      ],
+      "category": "Incident Response",
+      "difficulty": "hard",
+      "question": "Como manejas un incidente causado por un modelo malo?",
+      "expected_answer": "Detecto y evaluo severidad, y contengo con rollback, reduccion de trafico o fallback. Coordino comunicacion y preservo datos del incidente. Estimo decisiones afectadas y remedio si corresponde. El postmortem sin culpas identifica por que las barreras no lo detectaron, y se traduce en pruebas, alertas y runbooks.",
+      "key_points": [
+        "Contener",
+        "Evaluar decisiones afectadas",
+        "Comunicar",
+        "Postmortem",
+        "Mejorar barreras"
+      ],
+      "interviewer_notes": "Pedir un incidente real. Es habitual en behavioral de MLOps.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "incident",
+        "postmortem"
+      ]
+    },
+    {
+      "id": "ml-governance-sr-049",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Governance",
+        "Explainability"
+      ],
+      "category": "Governance",
+      "difficulty": "hard",
+      "question": "Un auditor pregunta por que un modelo tomo una decision especifica. Que necesitas tener?",
+      "expected_answer": "Debo reconstruir la decision: entrada, features, version del modelo, codigo y salida, mas linaje a datos de entrenamiento, aprobaciones y documentacion. Registros inmutables y con retencion. Explicaciones como SHAP dan una aproximacion, pero no prueban causalidad. Para decisiones reguladas, tambien revision humana y politicas.",
+      "key_points": [
+        "Registro por decision",
+        "Linaje",
+        "Explicabilidad",
+        "Retencion",
+        "Aprobaciones"
+      ],
+      "interviewer_notes": "Follow-up: que implica si las features online se sobrescribieron? No podras reconstruir sin loguearlas.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "audit",
+        "shap",
+        "compliance"
+      ]
+    },
+    {
+      "id": "ml-featurestore-sr-050",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Feature Store"
+      ],
+      "category": "Feature Engineering",
+      "difficulty": "hard",
+      "question": "Cambia el codigo de una feature pero el modelo no. Que puede romperse y como lo evitas?",
+      "expected_answer": "El modelo espera la semantica con la que se entreno, asi que un cambio puede degradar predicciones sin error. Versionaria features de forma inmutable, y ligaria cada modelo a sus versiones. Una definicion nueva crea otra version y requiere reentrenar. CI detecta modelos afectados y compara distribuciones.",
+      "key_points": [
+        "Cambio semantico silencioso",
+        "Versiones inmutables",
+        "Modelo ligado a features",
+        "Analisis de impacto"
+      ],
+      "interviewer_notes": "Bonus si propone contratos con owners de features.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "feature-versioning",
+        "contracts"
+      ]
+    },
+    {
+      "id": "ml-llmops-sr-051",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "LLMOps",
+        "LLM"
+      ],
+      "category": "LLMOps",
+      "difficulty": "hard",
+      "question": "En que se diferencia LLMOps de MLOps clasico?",
+      "expected_answer": "Muchos equipos no entrenan: consumen un modelo y versionan prompts, contexto, herramientas y evaluaciones. La calidad es dificil de medir sin una respuesta unica, y cambia por modelo o prompt. Importan tokens, trazas por paso, seguridad ante prompt injection y GPUs especializadas si se autoaloja. Se mantienen principios de versionado, CI/CD y monitoreo.",
+      "key_points": [
+        "Prompts y contexto como artefactos",
+        "Evals",
+        "Tokens y costo",
+        "Nuevos riesgos",
+        "Principios compartidos"
+      ],
+      "interviewer_notes": "Bonus si conecta con drift del proveedor o cambios de modelo.",
+      "source": "Original",
+      "tags": [
+        "llmops",
+        "evals"
+      ]
+    },
+    {
+      "id": "ml-llmops-sr-052",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "vLLM",
+        "Kubernetes",
+        "GPU"
+      ],
+      "category": "LLMOps",
+      "difficulty": "hard",
+      "question": "Como servirias un LLM propio en Kubernetes con vLLM?",
+      "expected_answer": "Empaqueto vLLM con versiones fijas y cache de pesos en storage local o compartido. Lo despliego en nodos GPU con readiness tras la carga. Aprovecho continuous batching y escalo por cola o uso de KV cache en lugar de CPU. Mido TTFT, tokens por segundo y costo por millon de tokens, con rate limits por tokens.",
+      "key_points": [
+        "Carga de pesos",
+        "Continuous batching",
+        "Escalar por cola",
+        "TTFT y throughput"
+      ],
+      "interviewer_notes": "Follow-up: cuando conviene cuantizar? Cuando ahorro de memoria compensa perdida validada.",
+      "source": "Original",
+      "tags": [
+        "vllm",
+        "llm-serving",
+        "gpu"
+      ]
+    },
+    {
+      "id": "ml-retraining-sr-053",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Retraining"
+      ],
+      "category": "Retraining",
+      "difficulty": "hard",
+      "question": "Un modelo reentrenado rindio peor despues del release. Que proceso fallo?",
+      "expected_answer": "Probablemente la validacion no representaba produccion: split no temporal, datos con problemas, segmentos no evaluados o una metrica que no reflejaba negocio. Tambien puede haber skew o despliegue sin canary. Haria rollback y compararia offline y online. Corregiria las barreras y agregaria el caso a la suite.",
+      "key_points": [
+        "Validacion no representativa",
+        "Skew",
+        "Falta de canary",
+        "Corregir el proceso"
+      ],
+      "interviewer_notes": "Follow-up: que harias si offline mejora siempre y online no? Revisar correlacion entre ambas.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "retraining",
+        "postmortem"
+      ]
+    },
+    {
+      "id": "ml-governance-sr-054",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Governance"
+      ],
+      "category": "Governance",
+      "difficulty": "hard",
+      "question": "Un equipo reentrena a diario sin revision. Que riesgos ves y que cambiarias?",
+      "expected_answer": "Datos malos o envenenados pueden llegar directo a produccion, y los cambios graduales pasan desapercibidos. Es dificil saber que version tomo cada decision. No necesariamente hay que frenar: agregaria barreras automaticas, comparacion contra baseline, canary, auditoria y revision humana segun riesgo o cambios grandes.",
+      "key_points": [
+        "Propagacion de datos malos",
+        "Sin revision",
+        "Barreras automaticas",
+        "Aprobacion por riesgo"
+      ],
+      "interviewer_notes": "Buscar balance. Red flag si exige aprobacion manual para todo sin medir el riesgo.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "governance",
+        "automation"
+      ]
+    },
+    {
+      "id": "ml-monitoring-sr-055",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Monitoring"
+      ],
+      "category": "Monitoring",
+      "difficulty": "hard",
+      "question": "Todavia no hay etiquetas. Se puede monitorear un modelo? Como?",
+      "expected_answer": "Si, aunque de forma indirecta. Monitoreo salud del servicio, calidad de datos, drift, distribucion y confianza de predicciones, y metricas de negocio. Puedo estimar rendimiento con metodos como CBPE si el modelo esta calibrado, y usar muestras etiquetadas. Debo aclarar que son señales y no rendimiento medido.",
+      "key_points": [
+        "Señales indirectas",
+        "Estimacion de rendimiento",
+        "Muestreo",
+        "Limitaciones"
+      ],
+      "interviewer_notes": "Bonus si reconoce que drift sin etiquetas no prueba degradacion.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "monitoring",
+        "no-labels"
+      ]
+    },
+    {
+      "id": "ml-gpu-sr-056",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Kubernetes",
+        "GPU"
+      ],
+      "category": "GPU Infrastructure",
+      "difficulty": "hard",
+      "question": "Como compartirias un cluster de GPUs entre varios equipos?",
+      "expected_answer": "Definiria cuotas y prioridades, con colas como Kueue o Volcano. Serving tendria prioridad sobre experimentos, que pueden interrumpirse si tienen checkpoints. Particionaria con MIG o time-slicing segun el aislamiento requerido. Aplicaria showback por equipo y detectaria GPUs ociosas. Politicas claras evitan disputas.",
+      "key_points": [
+        "Cuotas y colas",
+        "Prioridad y preempcion",
+        "MIG o time-slicing",
+        "Showback"
+      ],
+      "interviewer_notes": "Follow-up: que diferencia hay entre MIG y time-slicing? Aislamiento de hardware versus compartir tiempo.",
+      "source": "Original",
+      "tags": [
+        "gpu-sharing",
+        "kueue",
+        "mig"
+      ]
+    },
+    {
+      "id": "ml-data-sr-057",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Data Contracts",
+        "dbt"
+      ],
+      "category": "Data for ML",
+      "difficulty": "hard",
+      "question": "Un equipo upstream cambia un campo y un modelo se degrada sin errores. Como previenes esto?",
+      "expected_answer": "Definiria contratos de datos con schema y semantica, propietarios y aviso de cambios. CI en productores detectaria cambios incompatibles, con linaje para identificar modelos afectados. Validaria distribuciones con tests en dbt o Great Expectations y publicaria versiones, con tiempo de migracion.",
+      "key_points": [
+        "Contratos",
+        "CI en productores",
+        "Linaje",
+        "Validacion semantica"
+      ],
+      "interviewer_notes": "Conecta con Data Engineering. Schema valido no implica semantica correcta.",
+      "source": "Original",
+      "tags": [
+        "data-contracts",
+        "lineage",
+        "dbt"
+      ]
+    },
+    {
+      "id": "ml-review-sr-058",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "MLOps"
+      ],
+      "category": "ML Platform Design",
+      "difficulty": "hard",
+      "question": "Que preguntas haces antes de aprobar un diseno de MLOps?",
+      "expected_answer": "Pregunto objetivo, SLOs y costo de equivocarse. Que datos hay, como se versionan y quien es responsable. Como se valida, despliega, monitorea y revierte, y que pasa cuando falla una dependencia. Que requisitos de seguridad, cumplimiento y explicabilidad hay, y si el equipo puede operar lo propuesto.",
+      "key_points": [
+        "Objetivo y SLOs",
+        "Datos y ownership",
+        "Rollout y rollback",
+        "Cumplimiento",
+        "Capacidad operativa"
+      ],
+      "interviewer_notes": "Bonus si pregunta si hace falta ML o si alcanza con una solucion simple.",
+      "source": "Adaptada de Hyring: MLOps Interview Questions (2026)",
+      "tags": [
+        "design-review"
+      ]
+    },
+    {
+      "id": "ml-edge-sr-059",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Edge ML",
+        "ONNX"
+      ],
+      "category": "Cloud ML",
+      "difficulty": "hard",
+      "question": "Que cambia entre desplegar en edge y en la nube?",
+      "expected_answer": "En edge la inferencia corre en el dispositivo: menor latencia, privacidad y operacion sin conexion, pero con recursos limitados y hardware diverso. Requiere optimizar con cuantizacion o pruning, y gestionar actualizaciones por lotes y rollback. El monitoreo es parcial, por conectividad y privacidad.",
+      "key_points": [
+        "Latencia y privacidad",
+        "Recursos limitados",
+        "Actualizaciones",
+        "Monitoreo limitado"
+      ],
+      "interviewer_notes": "Follow-up: como harias rollback en 1 millon de dispositivos?",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "edge",
+        "quantization"
+      ]
+    },
+    {
+      "id": "ml-behavioral-sr-060",
+      "profile": "mlops-engineer",
+      "level": "sr",
+      "technology": [
+        "Leadership"
+      ],
+      "category": "Behavioral",
+      "difficulty": "medium",
+      "question": "Como manejas expectativas cuando un modelo no alcanza lo prometido, y balanceas deuda tecnica con la fecha de entrega?",
+      "expected_answer": "Comunico temprano con evidencia, traduciendo metricas a impacto de negocio y proponiendo opciones: alcance acotado, mas datos o lanzamiento gradual. Si acepto deuda, la hago explicita, con su riesgo, responsable y fecha. Nunca recorto barreras que protegen usuarios o cumplimiento solo por una fecha.",
+      "key_points": [
+        "Comunicar pronto",
+        "Traducir a negocio",
+        "Opciones",
+        "Deuda explicita",
+        "Barreras no negociables"
+      ],
+      "interviewer_notes": "Buscar un ejemplo real con resultado medible.",
+      "source": "Adaptada de DataCamp: Top 30 MLOps Interview Questions",
+      "tags": [
+        "behavioral",
+        "stakeholders",
+        "tech-debt"
+      ]
+    }
+  ]
+}
