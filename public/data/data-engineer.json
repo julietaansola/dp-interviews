@@ -1,0 +1,1552 @@
+{
+  "profile": "data-engineer",
+  "description": "Preguntas de entrevista para Data Engineer / Software",
+  "last_updated": "2026-05-23",
+  "questions": [
+    {
+      "id": "de-sql-jr-001",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Fundamentals",
+      "difficulty": "easy",
+      "question": "Explica los tipos de JOINs en SQL. Cuando usarias cada uno?",
+      "expected_answer": "INNER JOIN: retorna filas que tienen match en ambas tablas. LEFT JOIN: retorna todas las filas de la tabla izquierda y los matches de la derecha (NULL si no hay match). RIGHT JOIN: inverso del LEFT. FULL OUTER JOIN: retorna todas las filas de ambas tablas con NULLs donde no hay match. CROSS JOIN: producto cartesiano, cada fila de A con cada fila de B. En la practica, INNER y LEFT JOIN cubren el 90% de los casos.",
+      "key_points": [
+        "INNER: solo matches",
+        "LEFT: todo de la izquierda + matches",
+        "FULL OUTER: todo de ambas",
+        "CROSS: producto cartesiano"
+      ],
+      "interviewer_notes": "Pregunta basica obligatoria. Follow-up: que pasa con un LEFT JOIN si hay multiples matches en la tabla derecha? (duplica filas de la izquierda). Red flag si no distingue INNER de LEFT.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "joins",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-sql-jr-002",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es GROUP BY y para que se usa? Que funciones de agregacion conoces?",
+      "expected_answer": "GROUP BY agrupa filas que tienen los mismos valores en columnas especificadas, permitiendo aplicar funciones de agregacion sobre cada grupo. Funciones comunes: COUNT (contar filas), SUM (sumar valores), AVG (promedio), MIN/MAX (minimo/maximo), COUNT(DISTINCT) (contar valores unicos). HAVING filtra grupos despues de la agregacion (a diferencia de WHERE que filtra filas antes). Ejemplo: SELECT category, COUNT(*) FROM products GROUP BY category HAVING COUNT(*) > 10.",
+      "key_points": [
+        "Agrupa filas con valores iguales",
+        "Funciones: COUNT, SUM, AVG, MIN, MAX",
+        "HAVING filtra grupos (post-agregacion)",
+        "WHERE filtra filas (pre-agregacion)"
+      ],
+      "interviewer_notes": "Follow-up: cual es la diferencia entre WHERE y HAVING? Pedir un ejemplo concreto. Red flag si no puede escribir un GROUP BY basico.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "aggregation",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-sql-jr-003",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Fundamentals",
+      "difficulty": "medium",
+      "question": "Que es un CTE (Common Table Expression) en SQL? Que ventaja tiene sobre una subquery?",
+      "expected_answer": "Un CTE es una consulta temporal nombrada que se define con la clausula WITH y se puede referenciar dentro de la query principal. Ventajas sobre subqueries: legibilidad (se lee de arriba a abajo, como pasos), reutilizacion (se puede referenciar multiples veces en la misma query), y mantenimiento (mas facil de modificar y debuggear). Los CTEs pueden ser recursivos para queries jerarquicas. Ejemplo: WITH ventas_mensuales AS (SELECT ...) SELECT * FROM ventas_mensuales WHERE total > 1000.",
+      "key_points": [
+        "Consulta temporal nombrada con WITH",
+        "Mas legible que subqueries anidadas",
+        "Reutilizable dentro de la misma query",
+        "Soporte para recursion"
+      ],
+      "interviewer_notes": "Follow-up: un CTE se materializa o se ejecuta inline? (depende del motor, la mayoria lo inlinea). Pedir que reescriba una subquery anidada como CTE.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "cte",
+        "readability"
+      ]
+    },
+    {
+      "id": "de-sql-jr-004",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Fundamentals",
+      "difficulty": "medium",
+      "question": "Que son las window functions en SQL? Explica ROW_NUMBER, RANK y DENSE_RANK con un ejemplo.",
+      "expected_answer": "Las window functions calculan un valor sobre un conjunto de filas relacionadas (ventana) sin colapsar los resultados como GROUP BY. Se usan con OVER(PARTITION BY ... ORDER BY ...). ROW_NUMBER: asigna un numero secuencial unico por particion (1,2,3,4). RANK: asigna ranking con gaps en empates (1,2,2,4). DENSE_RANK: asigna ranking sin gaps (1,2,2,3). Ejemplo comun: obtener el ultimo registro por grupo: SELECT * FROM (SELECT *, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY created_at DESC) as rn FROM events) WHERE rn = 1.",
+      "key_points": [
+        "Calculan sobre ventana sin colapsar filas",
+        "ROW_NUMBER: secuencial sin repetir",
+        "RANK: con gaps en empates",
+        "DENSE_RANK: sin gaps"
+      ],
+      "interviewer_notes": "Follow-up: como obtendrias el top 3 de ventas por categoria? (ROW_NUMBER + WHERE rn <= 3). Red flag si no puede explicar la diferencia entre window function y GROUP BY.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "window-functions",
+        "analytics"
+      ]
+    },
+    {
+      "id": "de-sql-jr-005",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Fundamentals",
+      "difficulty": "easy",
+      "question": "Cual es la diferencia entre DELETE, TRUNCATE y DROP en SQL?",
+      "expected_answer": "DELETE: elimina filas que cumplen una condicion (WHERE). Es DML, se puede hacer rollback, y dispara triggers. Es lento en tablas grandes. TRUNCATE: elimina TODAS las filas de una tabla de forma rapida. Es DDL, no se puede hacer rollback facilmente, y no dispara triggers. La estructura de la tabla se mantiene. DROP: elimina la tabla completa (estructura + datos). Es DDL, irreversible. Resumen: DELETE para filas especificas, TRUNCATE para vaciar tabla, DROP para eliminar tabla.",
+      "key_points": [
+        "DELETE: filas con condicion, reversible",
+        "TRUNCATE: todas las filas, rapido, DDL",
+        "DROP: elimina tabla completa",
+        "DELETE dispara triggers, TRUNCATE no"
+      ],
+      "interviewer_notes": "Follow-up: en un pipeline de datos, cuando usarias TRUNCATE + INSERT vs DELETE + INSERT? (TRUNCATE es mas rapido para recargas completas).",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "ddl",
+        "dml",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-python-jr-006",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Fundamentals",
+      "difficulty": "easy",
+      "question": "Explica las principales estructuras de datos en Python: list, tuple, dict, set. Cuando usarias cada una?",
+      "expected_answer": "List: coleccion ordenada y mutable. Para secuencias de elementos que pueden cambiar. Tuple: coleccion ordenada e inmutable. Para datos que no deben cambiar (coordenadas, keys compuestas). Dict: pares clave-valor, acceso O(1) por clave. Para mapeos, configuraciones, lookups rapidos. Set: coleccion no ordenada de elementos unicos. Para eliminar duplicados, operaciones de conjuntos (union, interseccion). Elegir segun: necesito orden? (list/tuple) Necesito mutabilidad? (list/dict) Necesito unicidad? (set) Necesito acceso por clave? (dict).",
+      "key_points": [
+        "List: ordenada, mutable",
+        "Tuple: ordenada, inmutable",
+        "Dict: clave-valor, acceso O(1)",
+        "Set: unicos, sin orden"
+      ],
+      "interviewer_notes": "Follow-up: que complejidad tiene buscar un elemento en una lista vs un set? (O(n) vs O(1)). Red flag si no sabe la diferencia entre mutable e inmutable.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "data-structures",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-python-jr-007",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es una list comprehension en Python? Da un ejemplo y explica cuando la usarias.",
+      "expected_answer": "Una list comprehension es una forma concisa de crear listas en una sola linea. Sintaxis: [expresion for item in iterable if condicion]. Ejemplo: cuadrados de numeros pares: [x**2 for x in range(10) if x % 2 == 0]. Es mas legible y rapida que un for loop equivalente. Se usa cuando la transformacion es simple. Para logica compleja, un for loop explicito es preferible. Tambien existen dict comprehensions ({k:v for ...}) y set comprehensions ({x for ...}).",
+      "key_points": [
+        "Sintaxis concisa para crear listas",
+        "Mas rapida que for loop equivalente",
+        "Usar para transformaciones simples",
+        "Dict y set comprehensions tambien existen"
+      ],
+      "interviewer_notes": "Follow-up: reescribi esta list comprehension como un for loop, y viceversa. Red flag si no puede escribir una list comprehension basica.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "comprehensions",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-python-jr-008",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Fundamentals",
+      "difficulty": "easy",
+      "question": "Como lerias y procesarias un archivo CSV en Python? Que opciones tenes?",
+      "expected_answer": "Opciones: 1) Modulo csv de la stdlib: csv.reader para leer, csv.DictReader para leer como diccionarios. Bajo nivel, funciona siempre. 2) pandas.read_csv(): la opcion mas comun para data engineering. Lee directamente a un DataFrame, maneja tipos, headers, separadores, encoding. 3) Para archivos muy grandes que no entran en memoria: leer por chunks con pandas (chunksize parameter) o procesarlo linea por linea con csv.reader. Consideraciones: encoding (UTF-8 por defecto, pero pueden ser Latin-1), separador (coma, tab, pipe), headers, quoting.",
+      "key_points": [
+        "csv module: bajo nivel, stdlib",
+        "pandas.read_csv: lo mas comun",
+        "Chunks para archivos grandes",
+        "Cuidar encoding y separador"
+      ],
+      "interviewer_notes": "Follow-up: si el archivo pesa 50GB, como lo procesarias? (chunks con pandas, Spark, o procesamiento linea por linea). Red flag si solo conoce pandas sin alternativas.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "csv",
+        "file-io",
+        "pandas"
+      ]
+    },
+    {
+      "id": "de-python-jr-009",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Fundamentals",
+      "difficulty": "medium",
+      "question": "Que es pandas y para que se usa? Que es un DataFrame?",
+      "expected_answer": "pandas es la libreria principal de Python para manipulacion y analisis de datos tabulares. Un DataFrame es una estructura 2D (filas y columnas) similar a una tabla de SQL o una planilla de Excel. Operaciones comunes: leer datos (read_csv, read_parquet), filtrar (df[df['col'] > 5]), agrupar (df.groupby('col').agg()), merge/join (pd.merge()), crear columnas (df['nueva'] = ...), y exportar (df.to_parquet()). Es ideal para datasets que caben en memoria. Para datasets mas grandes, se usa Spark.",
+      "key_points": [
+        "Libreria para datos tabulares",
+        "DataFrame: tabla 2D (filas y columnas)",
+        "Operaciones: filtrar, agrupar, merge, crear columnas",
+        "Limitado a datos que caben en memoria"
+      ],
+      "interviewer_notes": "Follow-up: que diferencia hay entre un DataFrame de pandas y uno de Spark? (pandas en memoria local, Spark distribuido). Red flag si no sabe que pandas no escala a datasets grandes.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "pandas",
+        "dataframe",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-python-jr-010",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Fundamentals",
+      "difficulty": "medium",
+      "question": "Que son los virtual environments en Python y por que son importantes?",
+      "expected_answer": "Un virtual environment es un entorno aislado de Python con sus propias dependencias (librerias y versiones). Es importante porque: evita conflictos entre proyectos que usan versiones diferentes de la misma libreria, permite tener requirements.txt reproducibles, y no contamina la instalacion global de Python. Herramientas: venv (built-in), virtualenv, conda, poetry. Flujo: crear env, activarlo, instalar dependencias, freezear requirements (pip freeze > requirements.txt).",
+      "key_points": [
+        "Entorno aislado con dependencias propias",
+        "Evita conflictos entre proyectos",
+        "requirements.txt para reproducibilidad",
+        "venv, virtualenv, conda, poetry"
+      ],
+      "interviewer_notes": "Follow-up: que es requirements.txt vs pyproject.toml? Como manejarias dependencias de un proyecto compartido?",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "virtualenv",
+        "dependencies"
+      ]
+    },
+    {
+      "id": "de-spark-jr-011",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es Apache Spark y para que se usa? Por que no alcanza con pandas?",
+      "expected_answer": "Spark es un motor de procesamiento de datos distribuido que permite procesar datasets que no caben en la memoria de una sola maquina. Distribuye el trabajo entre multiples nodos (workers). No alcanza con pandas cuando: el dataset excede la memoria disponible (>10-50GB tipicamente), se necesita procesamiento paralelo para reducir tiempos, o se integra con ecosistemas de big data (HDFS, S3, Hive). Spark soporta batch y streaming, SQL, ML, y grafos. Se puede usar desde Python (PySpark), Scala, Java, o R.",
+      "key_points": [
+        "Procesamiento distribuido en cluster",
+        "Para datos que no caben en memoria",
+        "Batch y streaming",
+        "PySpark: API de Python para Spark"
+      ],
+      "interviewer_notes": "Follow-up: si tengo un CSV de 5GB, uso pandas o Spark? (depende: si el equipo tiene Spark configurado y el procesamiento es complejo, Spark; si es simple y cabe en memoria, pandas). No hay respuesta unica.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "distributed",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-spark-jr-012",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Fundamentals",
+      "difficulty": "medium",
+      "question": "Que diferencia hay entre RDDs y DataFrames en Spark? Cual usarias?",
+      "expected_answer": "RDD (Resilient Distributed Dataset): la abstraccion de datos mas basica de Spark. Es una coleccion distribuida e inmutable de objetos. Ofrece control fino pero requiere mas codigo. No tiene optimizacion automatica. DataFrame: abstraccion de alto nivel con schema (columnas tipadas), similar a una tabla SQL. Tiene Catalyst optimizer que optimiza automaticamente las queries. Es significativamente mas rapido que RDDs para la mayoria de operaciones. Usar DataFrame siempre que sea posible. Solo usar RDDs cuando necesitas control de bajo nivel (ej: operaciones con tipos complejos que no mapean bien a columnas).",
+      "key_points": [
+        "RDD: bajo nivel, sin optimizacion automatica",
+        "DataFrame: alto nivel, con schema y Catalyst optimizer",
+        "DataFrame es mas rapido en la mayoria de casos",
+        "Usar DataFrame por defecto"
+      ],
+      "interviewer_notes": "Follow-up: que es el Catalyst optimizer? (genera plan de ejecucion optimizado). Red flag si prefiere RDDs sin justificacion.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "rdd",
+        "dataframe",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-spark-jr-013",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Fundamentals",
+      "difficulty": "medium",
+      "question": "Que diferencia hay entre transformations y actions en Spark? Da ejemplos de cada una.",
+      "expected_answer": "Transformations son operaciones lazy que definen un plan de ejecucion pero no lo ejecutan. Ejemplos: filter(), select(), groupBy(), join(), withColumn(). Actions disparan la ejecucion del plan y producen un resultado. Ejemplos: show(), count(), collect(), write(), first(). Spark es lazy: acumula transformations hasta que una action las ejecuta. Esto permite al optimizer combinar y optimizar multiples transformations antes de ejecutar. Consecuencia practica: un DataFrame 'no hace nada' hasta que llamas una action.",
+      "key_points": [
+        "Transformations: lazy, definen plan",
+        "Actions: disparan ejecucion",
+        "Lazy evaluation permite optimizacion",
+        "Ejemplos: filter/select (transform), count/show (action)"
+      ],
+      "interviewer_notes": "Follow-up: por que es mala idea llamar collect() sobre un dataset grande? (trae todo a la memoria del driver, OOM). Red flag si no entiende lazy evaluation.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "lazy-evaluation",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-spark-jr-014",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Fundamentals",
+      "difficulty": "medium",
+      "question": "Que es una SparkSession y como se crea? Que papel juega el Driver y los Executors?",
+      "expected_answer": "SparkSession es el punto de entrada a Spark desde Spark 2.0. Se crea con SparkSession.builder.appName('mi_app').getOrCreate(). Combina las APIs antiguas (SparkContext, SQLContext, HiveContext). El Driver es el proceso que coordina la ejecucion: crea el plan, distribuye tareas, y recolecta resultados. Los Executors son procesos en los nodos worker que ejecutan las tareas y almacenan datos en cache. Flujo: el Driver divide el trabajo en tasks, las envia a los Executors, que las procesan en paralelo y devuelven resultados al Driver.",
+      "key_points": [
+        "SparkSession: punto de entrada unico",
+        "Driver: coordina, planifica, recolecta",
+        "Executors: ejecutan tareas en paralelo",
+        "Driver + Executors = aplicacion Spark"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si el Driver se queda sin memoria? (OOM, la aplicacion muere). Que configuraciones ajustarias? (driver-memory). Red flag si no distingue Driver de Executor.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "architecture",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-dbt-jr-015",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es dbt y que problema resuelve? Como se diferencia de un script SQL plano?",
+      "expected_answer": "dbt (data build tool) es una herramienta de transformacion de datos que permite escribir modelos SQL modulares y versionados. Resuelve: organizar SQL en modulos reutilizables (cada archivo .sql es un modelo), gestionar dependencias entre modelos (ref()), testear datos automaticamente, documentar el data warehouse, y versionar transformaciones en git. A diferencia de scripts SQL planos: dbt maneja el orden de ejecucion basado en dependencias, genera DDL automaticamente (CREATE TABLE/VIEW), soporta materializations (view, table, incremental), y tiene testing integrado.",
+      "key_points": [
+        "Transformacion de datos con SQL modular",
+        "ref() para dependencias entre modelos",
+        "Testing y documentacion integrados",
+        "Versionado en git"
+      ],
+      "interviewer_notes": "Follow-up: que es un modelo en dbt? (un archivo .sql con SELECT que dbt materializa). Que hace ref()? (referencia a otro modelo, dbt resuelve el orden). Red flag si nunca uso dbt.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "dbt",
+        "sql",
+        "transformation",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-dbt-jr-016",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Fundamentals",
+      "difficulty": "easy",
+      "question": "Que materializations tiene dbt? Cuando usarias view vs table?",
+      "expected_answer": "Materializations en dbt: view (crea un VIEW SQL, no almacena datos), table (crea una TABLE completa en cada ejecucion), incremental (solo procesa datos nuevos, mas eficiente para tablas grandes), ephemeral (se inyecta como CTE en los modelos que lo referencian, no crea nada en el warehouse). View: cuando la transformacion es liviana y los datos fuente cambian seguido. Table: cuando la query es pesada y se consulta frecuentemente. Incremental: cuando la tabla crece continuamente y reprocesar todo es costoso.",
+      "key_points": [
+        "view: no almacena, recalcula cada vez",
+        "table: almacena, recrea completa",
+        "incremental: solo datos nuevos",
+        "ephemeral: CTE inline, no materializa"
+      ],
+      "interviewer_notes": "Follow-up: como funciona un modelo incremental internamente? (is_incremental() + merge/insert). Red flag si no diferencia view de table.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "dbt",
+        "materialization",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-dbt-jr-017",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Fundamentals",
+      "difficulty": "medium",
+      "question": "Que son sources y ref en dbt? Por que son importantes?",
+      "expected_answer": "source() referencia tablas externas que dbt no gestiona (tablas raw cargadas por ETL externo). Se definen en archivos YAML y permiten: documentar de donde vienen los datos, verificar freshness (dbt source freshness), y rastrear lineage. ref() referencia otro modelo de dbt. Permite: que dbt calcule el orden de ejecucion (DAG), que los nombres de tablas se resuelvan automaticamente segun el ambiente (dev/prod), y que el lineage se visualice en dbt docs. Regla: nunca referenciar tablas por nombre directo, siempre usar source() o ref().",
+      "key_points": [
+        "source(): tablas externas no gestionadas por dbt",
+        "ref(): otros modelos de dbt",
+        "Ambos permiten lineage automatico",
+        "Nunca hardcodear nombres de tablas"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si hardcodeas un nombre de tabla en vez de usar ref()? (pierdes lineage, el modelo no se ejecuta en el orden correcto, no funciona entre ambientes). Red flag si hardcodea tablas.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "dbt",
+        "sources",
+        "ref",
+        "lineage"
+      ]
+    },
+    {
+      "id": "de-airflow-jr-018",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Airflow"
+      ],
+      "category": "Airflow Fundamentals",
+      "difficulty": "easy",
+      "question": "Que es Apache Airflow y que problema resuelve? Que es un DAG?",
+      "expected_answer": "Airflow es una plataforma de orquestacion de workflows que permite programar, ejecutar y monitorear pipelines de datos. Resuelve: ejecutar tareas en un orden especifico con dependencias, reintentar tareas que fallan, programar ejecuciones periodicas (diarias, horarias), y monitorear el estado de los pipelines. Un DAG (Directed Acyclic Graph) es la definicion de un workflow: un grafo de tareas con dependencias, sin ciclos. Cada nodo es un Task (operacion a ejecutar) y las aristas definen el orden. Se define en Python.",
+      "key_points": [
+        "Orquestador de workflows/pipelines",
+        "DAG: grafo de tareas con dependencias",
+        "Scheduling, retries, monitoreo",
+        "Definido en Python"
+      ],
+      "interviewer_notes": "Follow-up: que tipos de operators conoces? (PythonOperator, BashOperator, S3Operator, SparkSubmitOperator). Red flag si no sabe que es un DAG.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "airflow",
+        "orchestration",
+        "dag",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "de-airflow-jr-019",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Airflow"
+      ],
+      "category": "Airflow Fundamentals",
+      "difficulty": "medium",
+      "question": "Que es un Operator en Airflow? Nombra al menos 3 tipos y cuando los usarias.",
+      "expected_answer": "Un Operator es una plantilla predefinida para una tarea en Airflow. Cada task en un DAG usa un operator. Tipos: PythonOperator: ejecuta una funcion Python (lo mas flexible). BashOperator: ejecuta un comando bash. S3ToS3Operator/S3FileTransformOperator: operaciones con S3. SparkSubmitOperator: envia jobs a un cluster Spark. EmailOperator: envia emails (para alertas). DummyOperator: placeholder, util para unir ramas del DAG. Sensors: esperan a que una condicion se cumpla (S3KeySensor espera a que un archivo exista en S3).",
+      "key_points": [
+        "Operator: plantilla para una tarea",
+        "PythonOperator para logica custom",
+        "Sensors para esperar condiciones",
+        "Cada task usa un operator"
+      ],
+      "interviewer_notes": "Follow-up: que diferencia hay entre un Operator y un Sensor? (el sensor espera/polling, el operator ejecuta). Red flag si solo conoce BashOperator.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "airflow",
+        "operators",
+        "sensors"
+      ]
+    },
+    {
+      "id": "de-airflow-jr-020",
+      "profile": "data-engineer",
+      "level": "jr",
+      "technology": [
+        "Airflow"
+      ],
+      "category": "Airflow Fundamentals",
+      "difficulty": "medium",
+      "question": "Como defines dependencias entre tareas en Airflow? Que pasa si una tarea falla?",
+      "expected_answer": "Dependencias se definen con: operadores >> y << (task_a >> task_b significa B depende de A), o con set_upstream/set_downstream. Tambien se pueden definir listas: [task_a, task_b] >> task_c (C depende de A y B). Si una tarea falla: por defecto, las tareas downstream no se ejecutan (upstream_failed). La tarea fallida se puede reintentar automaticamente (retries parameter) con un delay entre intentos (retry_delay). Se pueden configurar callbacks: on_failure_callback para enviar alertas (Slack, email). El admin puede reiniciar tareas manualmente desde la UI.",
+      "key_points": [
+        ">> para definir orden (A >> B)",
+        "Tarea fallida bloquea downstream",
+        "retries + retry_delay para reintentos",
+        "on_failure_callback para alertas"
+      ],
+      "interviewer_notes": "Follow-up: como reiniciarias una tarea fallida y todas sus downstream? (Clear task en la UI con downstream=True). Red flag si no sabe definir dependencias.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "airflow",
+        "dependencies",
+        "error-handling"
+      ]
+    },
+    {
+      "id": "de-spark-ssr-001",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Intermediate",
+      "difficulty": "medium",
+      "question": "Que es el partitioning en Spark y por que es importante? Como elegis el numero de particiones?",
+      "expected_answer": "Partitioning es como Spark divide los datos en chunks que se procesan en paralelo por diferentes executors. Importa porque: demasiadas particiones = overhead de scheduling y small file problem; muy pocas = subutilizacion de recursos y posible OOM. Regla general: 2-4 particiones por core disponible. Se controla con: repartition(N) para redistribuir datos (shuffle completo), coalesce(N) para reducir particiones (sin shuffle, mas eficiente), y spark.sql.shuffle.partitions para shuffles automaticos (default 200, ajustar segun tamano de datos). Para datos en S3, el partitioning fisico por columna (year/month/day) permite leer solo las particiones necesarias (partition pruning).",
+      "key_points": [
+        "Datos divididos en chunks para procesamiento paralelo",
+        "2-4 particiones por core como regla",
+        "repartition (con shuffle) vs coalesce (sin shuffle)",
+        "Partition pruning para leer solo lo necesario"
+      ],
+      "interviewer_notes": "Follow-up: si tu job tiene 200 particiones de shuffle pero solo 8 executors con 2 cores cada uno, que harias? (reducir spark.sql.shuffle.partitions). Red flag si no entiende el concepto de particion.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "partitioning",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-spark-ssr-002",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Intermediate",
+      "difficulty": "medium",
+      "question": "Que es un shuffle en Spark y por que es costoso? Que operaciones lo causan?",
+      "expected_answer": "Un shuffle es la redistribucion de datos entre particiones a traves de la red. Es costoso porque: requiere serializacion/deserializacion de datos, transferencia por red entre nodos, escritura a disco intermedio, y puede causar memory pressure. Operaciones que causan shuffle: groupByKey, reduceByKey, join (cuando las tablas no estan co-particionadas), repartition, distinct, orderBy/sort. El shuffle se puede ver en el Spark UI como un 'exchange'. Para minimizar shuffles: usar broadcast join para tablas chicas, pre-particionar datos por la clave de join, usar reduceByKey en vez de groupByKey (reduce datos antes del shuffle).",
+      "key_points": [
+        "Redistribucion de datos por red entre nodos",
+        "Costoso: red + disco + serializacion",
+        "groupBy, join, repartition, sort causan shuffle",
+        "Broadcast join para evitar shuffle de tablas chicas"
+      ],
+      "interviewer_notes": "Follow-up: como detectarias un shuffle excesivo en el Spark UI? (mirar shuffle read/write en stages). Si un join entre dos tablas grandes es lento por shuffle, que opciones tenes? (co-partitioning, bucketing).",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "shuffle",
+        "performance",
+        "optimization"
+      ]
+    },
+    {
+      "id": "de-spark-ssr-003",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Intermediate",
+      "difficulty": "medium",
+      "question": "Que es un broadcast join en Spark? Cuando lo usarias y cuando no?",
+      "expected_answer": "Un broadcast join envia una tabla completa a todos los executors (la 'broadcastea'), evitando el shuffle de la tabla grande. Es extremadamente eficiente cuando una tabla es chica (cabe en memoria del executor). Spark lo hace automaticamente cuando una tabla es menor a spark.sql.autoBroadcastJoinThreshold (default 10MB). Se puede forzar con broadcast(df). Cuando NO usarlo: si la tabla 'chica' es demasiado grande para la memoria del executor (OOM), si ambas tablas son grandes (se necesita sort-merge join), o si la tabla cambia frecuentemente y el broadcast agrega overhead de red.",
+      "key_points": [
+        "Envia tabla chica a todos los executors",
+        "Evita shuffle de la tabla grande",
+        "Automatico si < 10MB (configurable)",
+        "No usar si la tabla 'chica' no cabe en memoria"
+      ],
+      "interviewer_notes": "Follow-up: si el autoBroadcastJoinThreshold es 10MB pero tu tabla tiene 50MB y aun asi queres broadcast, que haces? (aumentar el threshold o forzar con broadcast()). Que riesgos tiene? (OOM).",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "broadcast-join",
+        "optimization"
+      ]
+    },
+    {
+      "id": "de-spark-ssr-004",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Intermediate",
+      "difficulty": "hard",
+      "question": "Como leerias e interpretarias el Spark UI para diagnosticar un job lento?",
+      "expected_answer": "El Spark UI muestra: 1) Jobs tab: lista de jobs, cada action crea un job. Ver duracion y si fallo. 2) Stages tab: cada job se divide en stages (separados por shuffles). Buscar stages con alto shuffle read/write o larga duracion. 3) Tasks tab dentro de un stage: ver distribucion de tiempos. Si una task tarda mucho mas que las demas, hay data skew. Ver GC time (si es alto, falta memoria). 4) SQL tab: plan de ejecucion visual, ver si hay shuffles inesperados. 5) Storage tab: RDDs/DataFrames cacheados. 6) Executors tab: uso de CPU, memoria, disk. Diagnostico comun: stage lento con una task mucho mas lenta = skew. Mucho GC time = falta memoria. Muchas stages = muchos shuffles.",
+      "key_points": [
+        "Jobs > Stages > Tasks para drill-down",
+        "Skew: una task mucho mas lenta que las demas",
+        "GC time alto = falta memoria",
+        "SQL tab para plan de ejecucion visual"
+      ],
+      "interviewer_notes": "Follow-up: mostrar un screenshot del Spark UI y pedir que identifique el problema. Red flag si nunca uso el Spark UI para debugging.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "spark-ui",
+        "debugging",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-spark-ssr-005",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Intermediate",
+      "difficulty": "medium",
+      "question": "Que es caching en Spark y cuando lo usarias? Que diferencia hay entre cache() y persist()?",
+      "expected_answer": "Caching almacena un DataFrame en memoria (y/o disco) para reutilizarlo sin recalcular. Usar cuando: el mismo DataFrame se usa multiples veces en el job (evita recomputar el lineage). cache() es equivalente a persist(StorageLevel.MEMORY_AND_DISK): almacena en memoria y spilla a disco si no cabe. persist() permite elegir el storage level: MEMORY_ONLY (mas rapido, falla si no cabe), MEMORY_AND_DISK (default de cache), DISK_ONLY, etc. Importante: unpersist() cuando ya no se necesita para liberar memoria. No cachear DataFrames que se usan una sola vez (desperdicio de memoria).",
+      "key_points": [
+        "Almacena DataFrame para reutilizacion",
+        "cache() = persist(MEMORY_AND_DISK)",
+        "Usar cuando un DF se usa multiples veces",
+        "unpersist() para liberar memoria"
+      ],
+      "interviewer_notes": "Follow-up: si cacheas un DataFrame de 20GB pero tu executor solo tiene 5GB de memoria, que pasa? (spilla a disco, degradacion de performance). Red flag si cachea todo indiscriminadamente.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "caching",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-sql-ssr-006",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Intermediate",
+      "difficulty": "medium",
+      "question": "Que es un EXPLAIN plan en SQL y como lo usas para optimizar queries?",
+      "expected_answer": "EXPLAIN muestra el plan de ejecucion que el motor de base de datos usara para ejecutar una query. Muestra: tipo de scan (sequential scan vs index scan), joins usados (nested loop, hash join, merge join), estimacion de filas, y costo. Para optimizar: 1) Buscar sequential scans en tablas grandes (indica falta de indice). 2) Verificar que los indices se usan (a veces el optimizer decide no usarlos). 3) Identificar joins ineficientes (nested loop en tablas grandes). 4) Comparar rows estimated vs actual con EXPLAIN ANALYZE. En PostgreSQL: EXPLAIN ANALYZE ejecuta la query y muestra tiempos reales.",
+      "key_points": [
+        "Muestra plan de ejecucion de la query",
+        "Sequential scan en tabla grande = falta indice",
+        "EXPLAIN ANALYZE: tiempos reales",
+        "Comparar estimated vs actual rows"
+      ],
+      "interviewer_notes": "Follow-up: dar una query lenta y pedir que la optimice usando EXPLAIN. Red flag si nunca uso EXPLAIN.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "explain",
+        "optimization",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-sql-ssr-007",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Intermediate",
+      "difficulty": "medium",
+      "question": "Que son los indices en una base de datos y cuando los crearias? Que trade-offs tienen?",
+      "expected_answer": "Un indice es una estructura de datos (tipicamente B-tree) que acelera las busquedas en una tabla. Crear indices cuando: una columna se usa frecuentemente en WHERE, JOIN, o ORDER BY, y la tabla es grande. Trade-offs: los indices aceleran lecturas pero ralentizan escrituras (INSERT, UPDATE, DELETE deben actualizar el indice), usan espacio en disco, y demasiados indices degradan el rendimiento de escritura. Tipos: B-tree (default, para =, <, >, BETWEEN), Hash (solo para =), GIN (para full-text search, arrays, JSONB), BRIN (para datos ordenados fisicamente). No indexar: columnas con baja cardinalidad, tablas chicas, columnas que rara vez se filtran.",
+      "key_points": [
+        "Acelera lecturas, ralentiza escrituras",
+        "B-tree para comparaciones, GIN para texto/JSON",
+        "Trade-off: espacio + escritura mas lenta",
+        "No indexar columnas de baja cardinalidad"
+      ],
+      "interviewer_notes": "Follow-up: si una query filtra por columna A y columna B, que tipo de indice usarias? (indice compuesto (A, B)). El orden importa? (si, el indice se usa de izquierda a derecha).",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "indexes",
+        "optimization",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-sql-ssr-008",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Intermediate",
+      "difficulty": "medium",
+      "question": "Cual es la diferencia entre un CTE y una subquery en terminos de performance? Y entre un CTE y una tabla temporal?",
+      "expected_answer": "CTE vs Subquery: en la mayoria de motores SQL, el CTE se inlinea (se ejecuta como subquery), asi que la performance es identica. La ventaja del CTE es legibilidad y reutilizacion dentro de la query. En PostgreSQL, CTEs solian ser optimization barriers (se materializaban siempre), pero desde PG12+ se comportan como inline por defecto. CTE vs Tabla temporal: una tabla temporal se materializa fisicamente y persiste durante la sesion. Es mas eficiente cuando: la query se reutiliza multiples veces en la sesion, el CTE se referencia muchas veces (evita recalcular), o necesitas indices sobre los resultados intermedios. El CTE es preferible para uso unico dentro de una query.",
+      "key_points": [
+        "CTE generalmente se inlinea, performance similar a subquery",
+        "Tabla temporal se materializa y persiste en sesion",
+        "Tabla temporal: mejor si se reutiliza o necesita indices",
+        "CTE: mejor para legibilidad en queries unicas"
+      ],
+      "interviewer_notes": "Follow-up: en que caso un CTE podria ser mas lento? (si se referencia multiples veces y el motor no lo materializa, se recalcula cada vez).",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "cte",
+        "temp-tables",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-sql-ssr-009",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "SQL Intermediate",
+      "difficulty": "hard",
+      "question": "Explica las window functions LAG, LEAD, y SUM() OVER(). Da un caso de uso real para cada una.",
+      "expected_answer": "LAG(col, N): accede al valor N filas atras en la ventana. Caso: calcular variacion diaria de ventas (ventas_hoy - LAG(ventas, 1) OVER(ORDER BY fecha)). LEAD(col, N): accede al valor N filas adelante. Caso: calcular tiempo entre eventos consecutivos (LEAD(timestamp, 1) OVER(PARTITION BY user ORDER BY timestamp) - timestamp). SUM() OVER(): suma acumulativa o por ventana. Caso: running total de ingresos (SUM(ingreso) OVER(ORDER BY fecha ROWS UNBOUNDED PRECEDING)), o suma por categoria sin colapsar filas (SUM(ventas) OVER(PARTITION BY categoria)). La clausula ROWS/RANGE define el frame de la ventana.",
+      "key_points": [
+        "LAG: valor anterior (variaciones, deltas)",
+        "LEAD: valor siguiente (tiempo entre eventos)",
+        "SUM OVER: running totals y sumas por grupo",
+        "ROWS/RANGE definen el frame de la ventana"
+      ],
+      "interviewer_notes": "Follow-up: escribir una query que calcule el porcentaje de cada fila sobre el total del grupo (valor / SUM(valor) OVER(PARTITION BY grupo)). Red flag si confunde window functions con GROUP BY.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "sql",
+        "window-functions",
+        "analytics",
+        "advanced"
+      ]
+    },
+    {
+      "id": "de-dbt-ssr-010",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Intermediate",
+      "difficulty": "medium",
+      "question": "Como funciona un modelo incremental en dbt? Que es is_incremental() y unique_key?",
+      "expected_answer": "Un modelo incremental solo procesa datos nuevos en cada ejecucion, en vez de reconstruir toda la tabla. En la primera ejecucion, crea la tabla completa. En ejecuciones posteriores, solo inserta/actualiza filas nuevas. is_incremental() es una macro Jinja que retorna True cuando el modelo ya existe y no es --full-refresh. Se usa en un bloque {% if is_incremental() %} para agregar un filtro WHERE que limite a datos nuevos (ej: WHERE created_at > (SELECT MAX(created_at) FROM {{ this }})). unique_key define la columna de deduplicacion: si un registro con el mismo unique_key ya existe, se actualiza (merge/upsert) en vez de duplicar.",
+      "key_points": [
+        "Solo procesa datos nuevos",
+        "is_incremental() para filtrar en ejecuciones posteriores",
+        "unique_key para upsert/deduplicacion",
+        "--full-refresh para reconstruir completa"
+      ],
+      "interviewer_notes": "Follow-up: que pasa con late-arriving data (datos que llegan con fecha vieja)? (el filtro por MAX no los captura). Como lo resolverias? (lookback window: WHERE created_at > MAX - 3 days). Red flag si no entiende el concepto de incrementalidad.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "dbt",
+        "incremental",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-dbt-ssr-011",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Intermediate",
+      "difficulty": "medium",
+      "question": "Que tipos de tests tiene dbt? Como escribirias un test custom?",
+      "expected_answer": "Tests built-in: unique (no duplicados), not_null (sin nulos), accepted_values (valores permitidos), relationships (FK existe en otra tabla). Se definen en schema.yml. Tests custom: 1) Singular tests: archivo .sql en tests/ que retorna filas que fallan el test (si retorna filas, el test falla). 2) Generic tests: macros reutilizables en macros/ que se aplican a cualquier columna via schema.yml. Ejemplo de singular test: SELECT * FROM {{ ref('orders') }} WHERE amount < 0 (no deberia haber montos negativos). Paquete dbt_expectations agrega tests avanzados (distribucion, regex, rangos).",
+      "key_points": [
+        "Built-in: unique, not_null, accepted_values, relationships",
+        "Singular: SQL en tests/ que retorna filas fallidas",
+        "Generic: macros reutilizables en schema.yml",
+        "dbt_expectations para tests avanzados"
+      ],
+      "interviewer_notes": "Follow-up: como priorizas tests? Cuales son blocking (error) vs warning? (severity config en schema.yml). Red flag si no testea modelos de dbt.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "dbt",
+        "testing",
+        "data-quality"
+      ]
+    },
+    {
+      "id": "de-dbt-ssr-012",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Intermediate",
+      "difficulty": "medium",
+      "question": "Que son los snapshots en dbt? Para que se usan y como funcionan?",
+      "expected_answer": "Los snapshots en dbt capturan el estado de una tabla source en un momento dado, implementando Slowly Changing Dimensions (SCD Type 2). Se usan cuando necesitas rastrear cambios historicos en datos que mutan (ej: precio de un producto, estado de un cliente). dbt compara el estado actual con el snapshot anterior y: marca registros que cambiaron con dbt_valid_to (fecha de fin de vigencia), inserta los nuevos valores con dbt_valid_from (fecha de inicio). Estrategias: timestamp (compara por updated_at) y check (compara por valores de columnas). Se almacenan en una tabla dedicada con columnas de auditoria.",
+      "key_points": [
+        "Capturan cambios historicos (SCD Type 2)",
+        "dbt_valid_from / dbt_valid_to para vigencia",
+        "Estrategia timestamp vs check",
+        "Para datos que mutan y necesitas historial"
+      ],
+      "interviewer_notes": "Follow-up: que diferencia hay entre un snapshot y un modelo incremental? (snapshot trackea historial de cambios, incremental solo agrega nuevos registros). Red flag si no sabe que es SCD.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "dbt",
+        "snapshots",
+        "scd",
+        "history"
+      ]
+    },
+    {
+      "id": "de-dbt-ssr-013",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Intermediate",
+      "difficulty": "medium",
+      "question": "Que son las macros en dbt? Da un ejemplo de cuando crearias una macro custom.",
+      "expected_answer": "Las macros en dbt son funciones Jinja reutilizables que generan SQL. Se definen en archivos .sql dentro de macros/. dbt viene con macros built-in y paquetes como dbt_utils agregan mas. Ejemplo de macro custom: generar un filtro de particion estandarizado para todos los modelos incrementales: {% macro partition_filter(column, lookback_days=3) %} WHERE {{ column }} >= DATEADD(day, -{{ lookback_days }}, CURRENT_DATE) {% endmacro %}. Otros usos: generar SQL repetitivo (pivot tables, union de multiples sources), customizar materializations, crear tests genericos, generar grants de permisos post-run.",
+      "key_points": [
+        "Funciones Jinja que generan SQL",
+        "Se definen en macros/",
+        "dbt_utils como paquete de macros utiles",
+        "Usar para SQL repetitivo o logica estandarizada"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si una macro se vuelve muy compleja? (probablemente deberia ser un modelo o un script Python, no una macro). Red flag si no sabe que es Jinja.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "dbt",
+        "macros",
+        "jinja",
+        "reusability"
+      ]
+    },
+    {
+      "id": "de-python-ssr-014",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Intermediate",
+      "difficulty": "medium",
+      "question": "Que son los decoradores en Python? Da un ejemplo practico en data engineering.",
+      "expected_answer": "Un decorador es una funcion que envuelve otra funcion, agregando comportamiento antes o despues de su ejecucion. Sintaxis: @mi_decorador. Internamente, un decorador recibe una funcion como argumento y retorna una nueva funcion. Ejemplo practico en DE: un decorador de retry para funciones que llaman APIs externas: @retry(max_attempts=3, delay=5) def fetch_data_from_api(). Otro ejemplo: un decorador de logging que registra inicio/fin/duracion de cada paso del pipeline: @log_execution def transform_data(df). Otro: @timeit para medir duracion de funciones costosas.",
+      "key_points": [
+        "Funcion que envuelve otra funcion",
+        "Agrega comportamiento sin modificar la funcion original",
+        "@retry para reintentos automaticos",
+        "@log_execution para tracking de pipeline"
+      ],
+      "interviewer_notes": "Follow-up: pedir que escriba un decorador simple de timing. Red flag si no puede explicar como funciona internamente (funcion que recibe funcion).",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "decorators",
+        "patterns"
+      ]
+    },
+    {
+      "id": "de-python-ssr-015",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Intermediate",
+      "difficulty": "medium",
+      "question": "Que son los generators en Python? Cuando los usarias en data engineering?",
+      "expected_answer": "Un generator es una funcion que usa yield en vez de return. No calcula todos los valores de una vez; los produce uno a uno bajo demanda (lazy evaluation). Consume mucho menos memoria que una lista porque solo mantiene un valor en memoria a la vez. En DE: procesar archivos grandes linea por linea sin cargar todo en memoria: def read_large_file(path): for line in open(path): yield line.strip(). Procesar resultados de una query de base de datos por chunks: yield from cursor.fetchmany(1000). ETL pipeline donde cada step procesa un registro a la vez sin bufferear todo.",
+      "key_points": [
+        "yield produce valores bajo demanda",
+        "Lazy evaluation: un valor a la vez",
+        "Mucho menos memoria que listas",
+        "Ideal para archivos grandes y streams"
+      ],
+      "interviewer_notes": "Follow-up: cual es la diferencia entre un generator y un iterador? (todo generator es un iterador, no todo iterador es un generator). Red flag si no entiende lazy evaluation.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "generators",
+        "memory",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-python-ssr-016",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Intermediate",
+      "difficulty": "medium",
+      "question": "Como manejas errores en Python? Que es try/except y cuando usarias raise?",
+      "expected_answer": "try/except captura excepciones para manejar errores gracefully. Best practices: capturar excepciones especificas (except ValueError), no except generico (oculta bugs). Usar finally para cleanup (cerrar conexiones, archivos). raise lanza una excepcion explicitamente, util para: validar inputs (if not data: raise ValueError('Empty data')), re-lanzar con contexto (except Exception as e: raise RuntimeError('Pipeline failed') from e), y crear excepciones custom (class DataQualityError(Exception)). En pipelines de datos: capturar errores de red/API con retry, validar datos antes de procesar, y fallar rapido con mensajes claros.",
+      "key_points": [
+        "Capturar excepciones especificas, no genericas",
+        "finally para cleanup",
+        "raise para validacion y contexto",
+        "Custom exceptions para errores de dominio"
+      ],
+      "interviewer_notes": "Follow-up: por que es malo hacer except Exception: pass? (oculta todos los errores, incluyendo bugs). Red flag si usa except generico sin re-raise.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "error-handling",
+        "best-practices"
+      ]
+    },
+    {
+      "id": "de-python-ssr-017",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Python"
+      ],
+      "category": "Python Intermediate",
+      "difficulty": "medium",
+      "question": "Que es pytest y como escribirias tests para un pipeline de datos en Python?",
+      "expected_answer": "pytest es el framework de testing mas popular de Python. Permite escribir tests como funciones simples con assert. Para pipelines de datos: 1) Unit tests: testear funciones de transformacion con datos de ejemplo pequenos (fixtures). 2) Fixtures: usar @pytest.fixture para crear datos de test reutilizables. 3) Parametrize: usar @pytest.mark.parametrize para testear multiples inputs. 4) Mocking: usar unittest.mock para simular llamadas a APIs, bases de datos, o S3. Ejemplo: def test_clean_nulls(): df = pd.DataFrame({'a': [1, None, 3]}); result = clean_nulls(df); assert result['a'].isna().sum() == 0. Los tests viven en tests/ y se ejecutan con pytest.",
+      "key_points": [
+        "Funciones simples con assert",
+        "Fixtures para datos de test reutilizables",
+        "Parametrize para multiples inputs",
+        "Mocking para dependencias externas"
+      ],
+      "interviewer_notes": "Follow-up: como testeas una funcion que lee de S3? (mock de boto3 con moto o unittest.mock). Red flag si no escribe tests.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "python",
+        "testing",
+        "pytest",
+        "quality"
+      ]
+    },
+    {
+      "id": "de-airflow-ssr-018",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Airflow"
+      ],
+      "category": "Airflow Intermediate",
+      "difficulty": "medium",
+      "question": "Que son los XComs en Airflow? Cuando los usarias y que limitaciones tienen?",
+      "expected_answer": "XComs (Cross-Communication) permiten que tasks dentro de un DAG compartan datos. Un task puede pushear un valor con xcom_push() y otro puede leerlo con xcom_pull(). Se almacenan en la base de datos de Airflow. Usar para: pasar metadata entre tasks (numero de registros procesados, nombre de archivo generado, status de validacion). Limitaciones: no estan diseñados para datos grandes (se almacenan en la DB de Airflow, que tiene limites de tamano), no son eficientes para DataFrames o datasets. Para datos grandes: pasar una referencia (path de S3) via XCom, no los datos en si.",
+      "key_points": [
+        "Compartir datos entre tasks",
+        "Almacenados en la DB de Airflow",
+        "Solo para metadata, no datos grandes",
+        "Pasar paths/referencias, no datos"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si un XCom tiene 100MB? (puede saturar la DB de Airflow). Como pasarias un DataFrame grande entre tasks? (escribir a S3, pasar el path via XCom). Red flag si usa XCom para datos grandes.",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "airflow",
+        "xcoms",
+        "communication"
+      ]
+    },
+    {
+      "id": "de-airflow-ssr-019",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Airflow"
+      ],
+      "category": "Airflow Intermediate",
+      "difficulty": "medium",
+      "question": "Que es backfilling en Airflow? Como lo ejecutarias y que precauciones tomarias?",
+      "expected_answer": "Backfilling es ejecutar un DAG para fechas pasadas que no se procesaron o que necesitan reprocesamiento. Se puede hacer via CLI: airflow dags backfill -s 2024-01-01 -e 2024-01-31 mi_dag, o desde la UI limpiando los DAG runs pasados. Precauciones: 1) Asegurar que el pipeline es idempotente (no duplica datos al re-ejecutar). 2) Usar execution_date para filtrar datos, no datetime.now(). 3) Controlar la concurrencia (max_active_runs) para no sobrecargar los sistemas downstream. 4) Verificar que los datos source estan disponibles para las fechas a backfillear. 5) Comunicar a stakeholders que habra reprocesamiento.",
+      "key_points": [
+        "Re-ejecutar DAG para fechas pasadas",
+        "Pipeline debe ser idempotente",
+        "Usar execution_date, no datetime.now()",
+        "Controlar concurrencia con max_active_runs"
+      ],
+      "interviewer_notes": "Follow-up: si un pipeline no es idempotente, que pasa al backfillear? (datos duplicados). Como lo arreglarias? (agregar TRUNCATE antes del INSERT, o usar UPSERT).",
+      "source": "Adaptada de OBenner/data-engineering-interview-questions",
+      "tags": [
+        "airflow",
+        "backfill",
+        "idempotency"
+      ]
+    },
+    {
+      "id": "de-airflow-ssr-020",
+      "profile": "data-engineer",
+      "level": "ssr",
+      "technology": [
+        "Airflow"
+      ],
+      "category": "Airflow Intermediate",
+      "difficulty": "hard",
+      "question": "Como crearias DAGs dinamicos en Airflow? Cuando tiene sentido y cuando no?",
+      "expected_answer": "DAGs dinamicos se crean generando DAGs programaticamente en vez de definirlos manualmente. Metodos: 1) Loop en el DAG file: iterar sobre una lista/config y crear un DAG por elemento. 2) Configuracion externa: leer un YAML/JSON con la definicion de DAGs y generarlos. 3) DAG Factory: usar un patron factory que recibe parametros y retorna un DAG configurado. Tiene sentido cuando: muchos DAGs siguen el mismo patron (un DAG por tabla, por fuente, por cliente). No tiene sentido cuando: cada DAG tiene logica muy diferente (la abstraccion agrega complejidad sin beneficio), o cuando dificulta el debugging (no sabes que DAG file genero que DAG).",
+      "key_points": [
+        "Generar DAGs programaticamente",
+        "Loop sobre config para crear multiples DAGs",
+        "Util para patrones repetidos",
+        "No abusar: dificulta debugging"
+      ],
+      "interviewer_notes": "Follow-up: si tenemos 50 tablas que se procesan igual (extract de Postgres, transform, load a S3), como lo resolvias? (un archivo de config con las tablas, un DAG factory que genere un DAG por tabla). Red flag si crea 50 archivos de DAG manuales.",
+      "source": "Original",
+      "tags": [
+        "airflow",
+        "dynamic-dags",
+        "patterns",
+        "automation"
+      ]
+    },
+    {
+      "id": "de-spark-sr-001",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Advanced",
+      "difficulty": "hard",
+      "question": "Como diagnosticarias y resolverias data skew en un job de Spark? Que tecnicas de mitigacion conoces?",
+      "expected_answer": "Data skew ocurre cuando una particion tiene significativamente mas datos que las demas, causando que una task tarde mucho mas. Diagnostico: en el Spark UI, un stage con la mayoria de tasks rapidas y una/pocas muy lentas. Mitigacion: 1) Salting: agregar un prefijo random a la key del join/groupBy para distribuir la particion grande en sub-particiones. 2) AQE (Adaptive Query Execution) con spark.sql.adaptive.skewJoin.enabled=true: Spark detecta y maneja skew automaticamente desde Spark 3.0+. 3) Broadcast join: si una tabla es chica, broadcastearla evita el problema. 4) Two-phase aggregation: primer groupBy con key + salt, luego groupBy sin salt. 5) Repartition previa filtrando valores problematicos.",
+      "key_points": [
+        "Skew: una particion mucho mas grande que las demas",
+        "AQE skewJoin desde Spark 3.0+",
+        "Salting como tecnica manual",
+        "Broadcast join para evitar skew en joins"
+      ],
+      "interviewer_notes": "Follow-up: dame un ejemplo real de skew (join donde el 90% de registros tiene la misma key, ej: user_id = null). Como lo resolverias? Red flag si no conoce el concepto de skew.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "skew",
+        "performance",
+        "optimization"
+      ]
+    },
+    {
+      "id": "de-spark-sr-002",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Advanced",
+      "difficulty": "hard",
+      "question": "Que es AQE (Adaptive Query Execution) en Spark? Que problemas resuelve y como se configura?",
+      "expected_answer": "AQE es una optimizacion de Spark 3.0+ que ajusta el plan de ejecucion en runtime basandose en estadisticas reales de los datos. Resuelve: 1) Coalescing shuffle partitions: reduce el numero de particiones de shuffle cuando son demasiadas y estan vacias/chicas (evita small files problem). 2) Converting sort-merge join a broadcast join: si despues de un stage descubre que una tabla es chica, la broadcastea. 3) Optimizing skew joins: detecta particiones skewed y las split automaticamente. Configuracion: spark.sql.adaptive.enabled=true (default desde Spark 3.2), spark.sql.adaptive.coalescePartitions.enabled=true, spark.sql.adaptive.skewJoin.enabled=true. AQE no reemplaza la optimizacion manual pero resuelve muchos problemas automaticamente.",
+      "key_points": [
+        "Ajusta plan de ejecucion en runtime",
+        "Coalesce particiones vacias",
+        "Convierte sort-merge a broadcast automaticamente",
+        "Maneja skew joins"
+      ],
+      "interviewer_notes": "Follow-up: si AQE esta habilitado, aun necesitas configurar spark.sql.shuffle.partitions? (si, AQE lo ajusta hacia abajo pero no hacia arriba). Red flag si no conoce AQE en Spark 3.x.",
+      "source": "Adaptada de Devinterview-io/apache-spark-interview-questions",
+      "tags": [
+        "spark",
+        "aqe",
+        "optimization",
+        "spark3"
+      ]
+    },
+    {
+      "id": "de-spark-sr-003",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Spark",
+        "EMR"
+      ],
+      "category": "Spark Advanced",
+      "difficulty": "hard",
+      "question": "Como tunearias un job de Spark en EMR on EKS para maximizar performance? Que parametros ajustarias?",
+      "expected_answer": "Tuning para EMR on EKS: 1) Memory: spark.executor.memory (tipicamente 70-80% de la memoria del container), spark.executor.memoryOverhead (para off-heap, 10-20%), spark.driver.memory (mas conservador, el driver no procesa datos). 2) Cores: spark.executor.cores (3-5 cores por executor suele ser optimo, mas causa contention), spark.driver.cores (2-4). 3) Numero de executors: spark.dynamicAllocation.enabled=true para que escale automaticamente, spark.dynamicAllocation.maxExecutors para limitar costos. 4) Shuffle: spark.sql.shuffle.partitions ajustar al tamano de datos (no el default 200), spark.sql.adaptive.enabled=true. 5) Serialization: spark.serializer=org.apache.spark.serializer.KryoSerializer. 6) S3: usar spark.hadoop.fs.s3a.committer.name=magic para atomic writes, spark.sql.parquet.output.committer.class para Parquet optimizado.",
+      "key_points": [
+        "Memory: 70-80% para executor, 10-20% overhead",
+        "Cores: 3-5 por executor",
+        "Dynamic allocation para escalar",
+        "AQE + shuffle partitions ajustados"
+      ],
+      "interviewer_notes": "Follow-up: si un job tiene OOM en un executor, que parametros revisas primero? (executor memory, memoryOverhead, y si hay skew/broadcast grande). Red flag si no ha tuneado Spark.",
+      "source": "Original — basada en experiencia real",
+      "tags": [
+        "spark",
+        "tuning",
+        "emr-on-eks",
+        "performance"
+      ]
+    },
+    {
+      "id": "de-spark-sr-004",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Spark"
+      ],
+      "category": "Spark Advanced",
+      "difficulty": "hard",
+      "question": "Que son los Spark committers y por que son importantes para escribir a S3? Que problema resuelve el EMRFS S3-optimized committer?",
+      "expected_answer": "Los committers controlan como Spark escribe datos al filesystem. El committer default (FileOutputCommitter v1) usa un directorio temporal y renaming, que en S3 es problematico: S3 no tiene rename atomico (es copy + delete), y las operaciones no son consistentes inmediatamente. Esto puede causar datos parciales, duplicados, o perdidas. El EMRFS S3-optimized committer y el Magic committer usan multipart upload directamente, evitando el rename. Beneficios: escrituras mas rapidas, atomicidad (commit or abort del multipart), y mejor consistencia. Configuracion: spark.sql.sources.commitProtocolClass y spark.hadoop.fs.s3a.committer. Esto es critico para produccion: sin el committer correcto, un job que falla puede dejar datos parciales en S3.",
+      "key_points": [
+        "Default committer usa rename, problematico en S3",
+        "S3 no tiene rename atomico",
+        "Magic/EMRFS committer usa multipart upload",
+        "Critico para evitar datos parciales"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si un job falla a mitad de la escritura con el committer default? (datos parciales en S3). Como limpiarias? (listar y borrar archivos parciales). Red flag si no sabe que S3 no tiene rename atomico.",
+      "source": "Original — basada en experiencia real",
+      "tags": [
+        "spark",
+        "s3",
+        "committer",
+        "reliability"
+      ]
+    },
+    {
+      "id": "de-modeling-sr-001",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "Data Modeling",
+      "difficulty": "hard",
+      "question": "Explica las diferencias entre Kimball (dimensional modeling) y Data Vault 2.0. Cuando usarias cada enfoque?",
+      "expected_answer": "Kimball: modela datos en facts (eventos medibles) y dimensions (contexto). Star schema: fact table central rodeada de dimension tables. Ventajas: facil de entender para analistas, queries performantes, bien soportado por herramientas de BI. Desventajas: requiere conocer el modelo de negocio upfront, cambios son costosos. Data Vault 2.0: modela datos en hubs (entidades de negocio), links (relaciones), y satellites (atributos con historial). Ventajas: altamente flexible, facilita cambios de negocio, auditable por diseño, facil de cargar en paralelo. Desventajas: mas complejo, requiere capa de presentacion encima para ser consumible. Cuando usar: Kimball para data warehouses de reporting estable. Data Vault para entornos con muchas fuentes que cambian frecuentemente y necesidad de auditoria. Kimball + dbt es una combinacion muy comun.",
+      "key_points": [
+        "Kimball: facts + dimensions, star schema, BI-friendly",
+        "Data Vault: hubs + links + satellites, flexible",
+        "Kimball para reporting estable",
+        "Data Vault para fuentes cambiantes y auditoria"
+      ],
+      "interviewer_notes": "Follow-up: que es una Slowly Changing Dimension (SCD)? Que tipos hay? (Type 1: overwrite, Type 2: historial con fechas, Type 3: columnas prev/current). Red flag si no conoce ningun enfoque de modelado.",
+      "source": "Adaptada de andkret/Cookbook",
+      "tags": [
+        "data-modeling",
+        "kimball",
+        "data-vault",
+        "architecture"
+      ]
+    },
+    {
+      "id": "de-modeling-sr-002",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "Data Modeling",
+      "difficulty": "hard",
+      "question": "Que son las Slowly Changing Dimensions (SCD)? Explica los tipos 1, 2 y 3 con ejemplos.",
+      "expected_answer": "Las SCD manejan como cambios en datos dimensionales se reflejan en el warehouse. Type 1: sobreescribe el valor anterior. No guarda historial. Ejemplo: corregir un typo en el nombre del cliente. Type 2: crea un nuevo registro con el valor nuevo y marca el anterior con fecha de fin. Guarda historial completo. Ejemplo: un cliente cambia de direccion; se inserta nueva fila con valid_from/valid_to. Es el tipo mas comun para auditoria. Type 3: agrega columnas para valor anterior y actual (previous_address, current_address). Guarda un nivel de historial. Raramente usado. En dbt, los snapshots implementan SCD Type 2 automaticamente con dbt_valid_from y dbt_valid_to.",
+      "key_points": [
+        "Type 1: overwrite, sin historial",
+        "Type 2: nuevo registro, historial completo",
+        "Type 3: columnas prev/current, un nivel",
+        "dbt snapshots implementan Type 2"
+      ],
+      "interviewer_notes": "Follow-up: como consultarias el valor vigente de una SCD Type 2? (WHERE dbt_valid_to IS NULL). Como obtendrias el valor en una fecha especifica? (WHERE fecha BETWEEN valid_from AND valid_to). Red flag si no conoce SCD.",
+      "source": "Adaptada de andkret/Cookbook",
+      "tags": [
+        "data-modeling",
+        "scd",
+        "dimensions",
+        "history"
+      ]
+    },
+    {
+      "id": "de-modeling-sr-003",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "SQL"
+      ],
+      "category": "Data Modeling",
+      "difficulty": "hard",
+      "question": "Que es Data Mesh y como se diferencia de una arquitectura centralizada de data warehouse?",
+      "expected_answer": "Data Mesh es un paradigma donde la propiedad de los datos se descentraliza a los dominios de negocio. Principios: 1) Dominio como dueño de datos: cada equipo es responsable de producir y mantener sus datos como producto. 2) Datos como producto: datasets con SLAs, documentacion, calidad, descubribilidad. 3) Plataforma self-service: infraestructura comun para publicar y consumir datos. 4) Gobernanza federada: estandares globales con autonomia local. Diferencia con warehouse centralizado: en el modelo centralizado, un equipo de data es bottleneck; en Data Mesh, cada dominio es autonomo pero interoperable. Desafios: requiere madurez organizacional, puede generar duplicacion, gobernanza federada es dificil.",
+      "key_points": [
+        "Descentraliza propiedad a dominios de negocio",
+        "Datos como producto con SLAs",
+        "Plataforma self-service como habilitador",
+        "Requiere madurez organizacional alta"
+      ],
+      "interviewer_notes": "Follow-up: como implementarian principios de Data Mesh sin adoptar el paradigma completo (data contracts, ownership). Tiene sentido para un equipo de datos mediano? Red flag si lo presenta como solucion universal sin mencionar desafios.",
+      "source": "Adaptada de andkret/Cookbook",
+      "tags": [
+        "data-mesh",
+        "architecture",
+        "organization"
+      ]
+    },
+    {
+      "id": "de-modeling-sr-004",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "SQL",
+        "dbt"
+      ],
+      "category": "Data Modeling",
+      "difficulty": "medium",
+      "question": "Como diseñarias las capas de un data lake usando dbt? Explica el patron bronze/silver/gold.",
+      "expected_answer": "Capas en dbt: 1) Staging (bronze/raw): modelos que leen de sources con {{ source() }}, limpieza minima (renombrar, castear, deduplicar), materializados como views. Un modelo por source table. Convencion: stg_{source}_{table}. 2) Intermediate (silver): logica de negocio, joins, filtros, enriquecimiento. Pueden ser efimeros o tablas. Convencion: int_{dominio}_{descripcion}. 3) Marts (gold): modelos finales para BI/analistas, organizados por dominio. Fact tables y dimensions en Kimball. Materializados como tablas o incremental. Convencion: fct_{evento}, dim_{entidad}. Ej. en S3: raw en un bucket inbound, staging/intermediate en un bucket de dbt, marts disponibles para consumo.",
+      "key_points": [
+        "Staging: limpieza minima, 1:1 con source",
+        "Intermediate: logica de negocio, joins",
+        "Marts: modelos finales, Kimball facts/dims",
+        "Cada capa agrega valor y reduce ruido"
+      ],
+      "interviewer_notes": "Follow-up: como organizarias los directorios de dbt para este patron. Red flag si no diferencia entre capas o pone logica de negocio en staging.",
+      "source": "Original",
+      "tags": [
+        "data-modeling",
+        "dbt",
+        "lakehouse",
+        "medallion"
+      ]
+    },
+    {
+      "id": "de-pipeline-sr-005",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Python",
+        "Airflow"
+      ],
+      "category": "Pipeline Architecture",
+      "difficulty": "hard",
+      "question": "Que significa que un pipeline sea idempotente y por que es critico? Como diseñarias un pipeline idempotente para datos diarios en S3?",
+      "expected_answer": "Un pipeline idempotente produce el mismo resultado sin importar cuantas veces se ejecute con los mismos inputs. Es critico porque los pipelines fallan y necesitan reintentarse, Airflow puede re-ejecutar tasks, y multiples ejecuciones no deben duplicar datos. Diseño: 1) Particion temporal: s3://data-lake/tabla/year=2024/month=01/day=15/. 2) Overwrite por particion: cada ejecucion sobreescribe la particion del dia. 3) Determinismo: output depende solo del input y la fecha. 4) Atomicidad: escribir a location temporal, luego mover. 5) Usar execution_date de Airflow, no datetime.now(). Antipatrones: append mode, autoincrement IDs, timestamps de ejecucion como filtro.",
+      "key_points": [
+        "Mismo resultado sin importar cuantas veces se ejecute",
+        "Overwrite por particion, no append",
+        "Usar execution_date, no datetime.now()",
+        "Escribir atomicamente"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si falla a mitad de escritura? (datos parciales en S3). Preguntar sobre staging directories. Red flag si usa append mode.",
+      "source": "Adaptada de andkret/Cookbook",
+      "tags": [
+        "idempotency",
+        "pipeline-design",
+        "reliability"
+      ]
+    },
+    {
+      "id": "de-pipeline-sr-006",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Python",
+        "Airflow",
+        "Spark"
+      ],
+      "category": "Pipeline Architecture",
+      "difficulty": "hard",
+      "question": "Como implementarias una estrategia de data quality en un pipeline de produccion?",
+      "expected_answer": "Estrategia completa: 1) Validacion en ingesta: verificar schema, tipos, completitud, freshness de sources. 2) Tests en transformacion (dbt tests): unique, not_null, accepted_values, relationships, y tests custom de negocio. 3) Anomaly detection: cambios drasticos en volumenes (row count +/-50% vs dia anterior), distribuciones, valores clave. 4) Data contracts: acuerdos formales con productores sobre schema, SLAs, semantica. 5) Monitoreo post-carga: dashboards de calidad. Herramientas: dbt tests, Great Expectations/Soda, Airflow para orquestrar alertas. Patron circuit-breaker: si la calidad cae debajo de un umbral, detener el pipeline antes de contaminar downstream.",
+      "key_points": [
+        "Validacion en cada capa",
+        "dbt tests + Great Expectations/Soda",
+        "Anomaly detection para cambios bruscos",
+        "Circuit-breaker para detener antes de contaminar"
+      ],
+      "interviewer_notes": "Follow-up: como priorizas checks blocking vs warning. Como comunicas problemas de calidad a stakeholders. Red flag si no tiene estrategia sistematica.",
+      "source": "Original",
+      "tags": [
+        "data-quality",
+        "testing",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "de-pipeline-sr-007",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Airflow",
+        "Spark"
+      ],
+      "category": "Pipeline Architecture",
+      "difficulty": "hard",
+      "question": "Que son los SLAs en pipelines de datos y como los definirias e implementarias?",
+      "expected_answer": "Un SLA de datos define compromisos medibles sobre disponibilidad y calidad. Dimensiones: 1) Freshness: datos disponibles antes de las 8am UTC. 2) Completitud: 99.5% de registros con campos criticos completos. 3) Correctitud: metricas de negocio en rangos esperados. 4) Disponibilidad: pipeline exitoso 99% de los dias. Implementacion: Airflow sla parameter para alertar si excede tiempo, on_sla_miss_callback para alertas, tasks de validacion de freshness/completitud, dashboards de SLA compliance. Cuando se rompe: alertar stakeholders, diagnosticar causa raiz, ejecutar runbook de mitigacion, post-mortem para prevencion.",
+      "key_points": [
+        "SLAs: freshness, completitud, correctitud, disponibilidad",
+        "Airflow sla parameter + callback",
+        "Alertas inmediatas ante breach",
+        "Post-mortem para prevencion"
+      ],
+      "interviewer_notes": "Follow-up: como negociarias SLAs con analytics. Que pasa cuando un upstream que no controlas se atrasa? Red flag si no tiene concepto de SLA para datos.",
+      "source": "Original",
+      "tags": [
+        "sla",
+        "monitoring",
+        "reliability"
+      ]
+    },
+    {
+      "id": "de-pipeline-sr-008",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Spark",
+        "Airflow"
+      ],
+      "category": "Pipeline Architecture",
+      "difficulty": "medium",
+      "question": "Que es backpressure en un pipeline de datos y como lo manejarias?",
+      "expected_answer": "Backpressure ocurre cuando un componente produce datos mas rapido de lo que el siguiente puede consumirlos. En batch: jobs que tardan cada vez mas porque el volumen crece. En streaming: lag creciente, acumulacion. Estrategias: 1) Buffers/colas (SQS, Kafka) entre stages. 2) Autoscaling de consumers. 3) Rate limiting (maxOffsetsPerTrigger en Spark Streaming). 4) Monitoreo de lag como alerta temprana. 5) Optimizar transformaciones. En batch, el backpressure se manifiesta como job duration trend creciente. Hay que monitorear y actuar proactivamente, no esperar a que falle.",
+      "key_points": [
+        "Productor mas rapido que consumidor",
+        "Batch: jobs mas lentos con volumenes crecientes",
+        "Streaming: lag creciente",
+        "Buffers y autoscaling para mitigar"
+      ],
+      "interviewer_notes": "Follow-up: como monitoreas si hay backpressure en un pipeline batch diario? (trend de job duration). Red flag si no considera crecimiento de datos.",
+      "source": "Adaptada de andkret/Cookbook",
+      "tags": [
+        "backpressure",
+        "streaming",
+        "batch",
+        "scalability"
+      ]
+    },
+    {
+      "id": "de-dbt-sr-009",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Advanced",
+      "difficulty": "hard",
+      "question": "Como estructurarias un proyecto dbt a gran escala con multiples dominios de negocio?",
+      "expected_answer": "Estructura: 1) Directorios por capa y dominio: models/staging/{source}/, models/intermediate/{domain}/, models/marts/{domain}/. 2) Naming conventions: stg_{source}__{entity}, int_{domain}__{description}, fct_{event}, dim_{entity}. 3) Un YAML por directorio con schema, tests, docs. 4) Tags y selectors para ejecutar subsets (dbt run --select tag:daily). 5) Exposure definitions para documentar consumidores. 6) CI/CD: slim CI con state:modified en PRs. 7) Materializations por capa: staging=view, intermediate=ephemeral/table, marts=table/incremental. 8) Pre/post hooks para grants.",
+      "key_points": [
+        "Directorios por capa y dominio",
+        "Naming conventions estrictas",
+        "Slim CI con state:modified",
+        "Exposures para documentar consumidores"
+      ],
+      "interviewer_notes": "Follow-up: como manejas dependencias entre dominios. Red flag si tiene todos los modelos en un directorio flat.",
+      "source": "Original",
+      "tags": [
+        "dbt",
+        "project-structure",
+        "conventions",
+        "large-scale"
+      ]
+    },
+    {
+      "id": "de-dbt-sr-010",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Advanced",
+      "difficulty": "hard",
+      "question": "Como implementarias CI/CD para un proyecto dbt? Que checks en PR y que en deploy?",
+      "expected_answer": "CI en PR: 1) dbt compile para errores de sintaxis. 2) Slim build: dbt run --select state:modified+ --defer --state prod-artifacts/ para solo modelos afectados. 3) dbt test --select state:modified+. 4) SQLFluff para linting SQL. 5) Verificar naming conventions. 6) dbt docs generate para documentacion. CD: 1) dbt run completo o selectivo. 2) dbt test completo post-deploy. 3) dbt source freshness. 4) Notificacion a stakeholders. Artifacts: guardar manifest.json de produccion para comparar en el proximo PR. Rollback: re-deploy version anterior del proyecto dbt.",
+      "key_points": [
+        "Slim CI con state:modified+ y --defer",
+        "Linting SQL con SQLFluff",
+        "Artifacts de produccion para comparacion",
+        "Tests completos post-deploy"
+      ],
+      "interviewer_notes": "Follow-up: como manejas rollback si un deploy rompe un dashboard. Red flag si deploya sin CI o sin tests.",
+      "source": "Original",
+      "tags": [
+        "dbt",
+        "ci-cd",
+        "deployment",
+        "slim-ci"
+      ]
+    },
+    {
+      "id": "de-dbt-sr-011",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Advanced",
+      "difficulty": "hard",
+      "question": "Como manejas paquetes en dbt y como crearias un paquete interno reutilizable?",
+      "expected_answer": "Paquetes se gestionan en packages.yml, se instalan con dbt deps. Fuentes: dbt Hub (publicos como dbt_utils), repos Git (privados), paquetes locales. Para paquete interno: 1) Repo Git con estructura dbt (dbt_project.yml, macros/, models/). 2) Macros reutilizables (tests genericos, helpers). 3) Documentacion y README. 4) Versionar con tags semanticos. 5) Consumir con packages: - git: 'url' revision: v1.0.0. Las macros del paquete se pueden overridear. Los modelos se referencian con {{ ref('package', 'model') }}. Breaking changes requieren major version bump.",
+      "key_points": [
+        "packages.yml + dbt deps",
+        "Repos Git privados para internos",
+        "Versionar con tags semanticos",
+        "Macros del paquete overrideables"
+      ],
+      "interviewer_notes": "Follow-up: que pondrias en un paquete interno vs en cada proyecto. Red flag si copia macros entre proyectos.",
+      "source": "Original",
+      "tags": [
+        "dbt",
+        "packages",
+        "reusability",
+        "versioning"
+      ]
+    },
+    {
+      "id": "de-dbt-sr-012",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "dbt"
+      ],
+      "category": "dbt Advanced",
+      "difficulty": "medium",
+      "question": "Como optimizarias el rendimiento de un proyecto dbt con cientos de modelos?",
+      "expected_answer": "Estrategias: 1) Materializacion correcta por capa: staging=view, intermediate=ephemeral cuando posible, marts=table/incremental. 2) Threads: aumentar --threads para paralelismo (8-16 segun warehouse). 3) Selectores: --select tag:daily o --select +model_name para solo lo necesario. 4) Query optimization: evitar SELECT *, WHERE temprano, materializar CTEs muy referenciados como modelos. 5) Clustering/sorting en modelos materializados. 6) Profiling: identificar modelos lentos del path critico del DAG. 7) dbt build vs dbt run + dbt test (build intercala tests en orden topologico).",
+      "key_points": [
+        "Materializacion correcta por capa",
+        "Incrementar threads para paralelismo",
+        "Selectores para ejecutar solo lo necesario",
+        "Optimizar bottlenecks del DAG critico"
+      ],
+      "interviewer_notes": "Follow-up: como identificas el path critico en un DAG de 200 modelos. Red flag si ejecuta dbt run sin selectores en desarrollo.",
+      "source": "Original",
+      "tags": [
+        "dbt",
+        "performance",
+        "optimization"
+      ]
+    },
+    {
+      "id": "de-design-sr-013",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Spark",
+        "SQL",
+        "AWS"
+      ],
+      "category": "System Design",
+      "difficulty": "hard",
+      "question": "Diseña una arquitectura de data lake/lakehouse sobre S3 para una empresa que procesa eventos de Snowplow, datos transaccionales de PostgreSQL, y archivos de terceros.",
+      "expected_answer": "Arquitectura: Ingesta: 1) Snowplow events via Kinesis/S3 loader a s3://data-lake/raw/snowplow/ particionados por fecha. 2) PostgreSQL via CDC (Debezium/DMS) o batch a s3://data-inbound/. 3) Terceros en s3://data-inbound/{vendor}/. Procesamiento: 1) Capa raw: datos tal cual, inmutables, particionados. 2) Capa staging: PySpark (EMR on EKS) para limpieza, dedup, conversion a Parquet. 3) Capa transformacion: dbt para modelado Kimball. Orquestacion: Airflow (MWAA). Catalogacion: Glue Data Catalog. Consumo: Athena para queries ad-hoc. Seguridad: SSE-KMS, IAM least privilege, bucket policies.",
+      "key_points": [
+        "Capas raw/staging/marts con responsabilidades claras",
+        "PySpark para heavy lifting, dbt para transformacion",
+        "Glue Catalog + Athena para discovery",
+        "Snowplow, PostgreSQL, terceros como sources"
+      ],
+      "interviewer_notes": "Pedir diagrama o detalle end-to-end de un evento Snowplow al dashboard. Follow-up: como manejas schema evolution. Red flag si no separa capas.",
+      "source": "Original",
+      "tags": [
+        "system-design",
+        "data-lake",
+        "lakehouse",
+        "architecture"
+      ]
+    },
+    {
+      "id": "de-design-sr-014",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "Spark",
+        "Kafka"
+      ],
+      "category": "System Design",
+      "difficulty": "hard",
+      "question": "Cuales son los trade-offs entre procesamiento batch y streaming? Cuando usarias cada uno?",
+      "expected_answer": "Batch: procesa en intervalos. Ventajas: simple, eficiente en costo, facil de hacer idempotente y reprocesar. Desventajas: alta latencia. Streaming: near-real-time. Ventajas: baja latencia. Desventajas: complejo (exactly-once, ordering, late data), costoso, harder to debug. Lambda: batch + speed, con serving layer. Problema: mantener misma logica en dos sistemas. Kappa: solo streaming, reproceso via replay. Criterio: si necesitan datos en <1 hora, streaming. Si minutos/horas son aceptables, batch. Hibrido: metricas operacionales en streaming, reportes en batch.",
+      "key_points": [
+        "Batch: simple, eficiente, alta latencia",
+        "Streaming: complejo, costoso, baja latencia",
+        "Lambda: dual path, consistency challenge",
+        "Kappa: solo streaming, reproceso via replay"
+      ],
+      "interviewer_notes": "Follow-up: con eventos de Snowplow, que procesarias en streaming vs batch. Costos de Kafka/Kinesis 24/7 vs batch diario. Red flag si elige streaming sin justificar.",
+      "source": "Adaptada de andkret/Cookbook",
+      "tags": [
+        "system-design",
+        "batch",
+        "streaming",
+        "architecture"
+      ]
+    },
+    {
+      "id": "de-design-sr-015",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "SQL",
+        "dbt",
+        "Spark"
+      ],
+      "category": "System Design",
+      "difficulty": "hard",
+      "question": "Como diseñarias un sistema de data lineage para tu data platform?",
+      "expected_answer": "Lineage rastrea origen, movimiento y transformacion de datos. Info a capturar: 1) Column-level lineage: que columnas source alimentan cada output. 2) Table-level: dependencias entre tablas/modelos. 3) Pipeline-level: que DAGs producen que datasets. 4) Metadata temporal: cuando, quien, que version. Implementacion: dbt provee lineage automatico via ref()/source(). Para cross-tool: OpenLineage (estandar abierto para Spark, Airflow, dbt), Marquez/DataHub como servidor. Usos: impact analysis (que se rompe si cambio columna), root cause analysis (de donde viene dato incorrecto), compliance (GDPR).",
+      "key_points": [
+        "Column-level y table-level lineage",
+        "dbt provee lineage automatico",
+        "OpenLineage como estandar cross-tool",
+        "Usos: impact analysis, root cause, compliance"
+      ],
+      "interviewer_notes": "Follow-up: como usarias lineage para evaluar impacto de cambiar una columna source. Red flag si no ve valor del lineage.",
+      "source": "Original",
+      "tags": [
+        "data-lineage",
+        "governance",
+        "openlineage"
+      ]
+    },
+    {
+      "id": "de-design-sr-016",
+      "profile": "data-engineer",
+      "level": "sr",
+      "technology": [
+        "AWS",
+        "Spark",
+        "Airflow"
+      ],
+      "category": "System Design",
+      "difficulty": "hard",
+      "question": "Como diseñarias un pipeline que necesita garantizar exactly-once processing?",
+      "expected_answer": "Exactly-once: cada record procesado exactamente una vez, sin duplicados ni perdidas. Es la semantica mas dificil. Patrones: 1) Idempotent writes: UPSERT con dedup key, overwrite por particion. Convierte at-least-once en effectively-once. 2) Transactional outbox: DB + mensajeria en misma transaccion. 3) Checkpointing: guardar offset procesado (Spark Structured Streaming usa checkpointing en S3). 4) Two-phase commit: costoso y fragil. Trade-offs: exactly-once verdadero requiere coordinacion entre source/proceso/sink, agrega latencia. En la practica: at-least-once + deduplicacion idempotente (effectively-once) es lo mas pragmatico. Ejemplo en un stack AWS: Spark checkpointing + escritura idempotente a S3 + Airflow idempotent tasks.",
+      "key_points": [
+        "Exactly-once verdadero es muy dificil",
+        "At-least-once + deduplicacion = effectively-once",
+        "Idempotent writes como patron pragmatico",
+        "Checkpointing en Spark Structured Streaming"
+      ],
+      "interviewer_notes": "Follow-up: como deduplicarias eventos Snowplow duplicados. Red flag si afirma que exactly-once es trivial.",
+      "source": "Adaptada de andkret/Cookbook",
+      "tags": [
+        "exactly-once",
+        "idempotency",
+        "reliability"
+      ]
+    }
+  ]
+}

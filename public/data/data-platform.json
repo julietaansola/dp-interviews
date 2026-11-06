@@ -1,0 +1,1554 @@
+{
+  "profile": "data-platform",
+  "description": "Preguntas de entrevista para Data Platform / Infrastructure",
+  "last_updated": "2026-05-23",
+  "questions": [
+    {
+      "id": "dp-aws-jr-001",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "AWS",
+        "S3"
+      ],
+      "category": "Storage",
+      "difficulty": "easy",
+      "question": "Que es Amazon S3 y para que se usa en una plataforma de datos?",
+      "expected_answer": "S3 es un servicio de almacenamiento de objetos de AWS, altamente durable (11 nueves de durabilidad). Se usa como data lake para almacenar datos crudos (raw), procesados (staging) y resultados de transformaciones (marts). Soporta versionado de objetos, lifecycle policies para mover datos a tiers mas baratos (Glacier), cifrado en reposo y en transito, y bucket policies para control de acceso granular.",
+      "key_points": [
+        "Almacenamiento de objetos",
+        "Data lake",
+        "Durabilidad 11 nueves",
+        "Lifecycle policies"
+      ],
+      "interviewer_notes": "Pregunta de entrada. Si no puede explicar S3 basicamente, el nivel no es Jr. Follow-up: que diferencia hay entre S3 Standard y S3 Glacier?",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "storage",
+        "fundamentals",
+        "s3"
+      ]
+    },
+    {
+      "id": "dp-aws-jr-002",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "AWS",
+        "EC2"
+      ],
+      "category": "Compute",
+      "difficulty": "easy",
+      "question": "Que es una instancia EC2? Que tipos de instancias conoces y cuando usarias cada familia?",
+      "expected_answer": "EC2 es el servicio de computo de AWS que provee servidores virtuales en la nube. Las familias principales son: General Purpose (t3, m5) para cargas balanceadas, Compute Optimized (c5, c6i) para procesamiento intensivo, Memory Optimized (r5, r6i) para bases de datos en memoria, y Storage Optimized (i3, d2) para alto throughput de disco. Se elige la familia segun el perfil del workload.",
+      "key_points": [
+        "Servidores virtuales en la nube",
+        "Familias: general, compute, memory, storage optimized",
+        "Elegir segun perfil del workload"
+      ],
+      "interviewer_notes": "Follow-up: que es una instancia Spot y cuando la usarias? Que pasa si AWS la reclama?",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "compute",
+        "fundamentals",
+        "ec2"
+      ]
+    },
+    {
+      "id": "dp-iam-jr-003",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "AWS",
+        "IAM"
+      ],
+      "category": "Security",
+      "difficulty": "easy",
+      "question": "Que es IAM en AWS? Explica la diferencia entre users, roles y policies.",
+      "expected_answer": "IAM (Identity and Access Management) es el servicio de AWS para gestionar acceso a recursos. Un User representa una persona o aplicacion con credenciales permanentes. Un Role es una identidad temporal que se asume (no tiene credenciales permanentes), ideal para servicios y cross-account access. Una Policy es un documento JSON que define permisos (Allow/Deny) sobre acciones y recursos especificos. Las policies se adjuntan a users, groups o roles.",
+      "key_points": [
+        "User: credenciales permanentes",
+        "Role: identidad temporal, sin credenciales fijas",
+        "Policy: documento JSON con permisos",
+        "Principio de least privilege"
+      ],
+      "interviewer_notes": "Follow-up: por que es mejor usar Roles que Users para aplicaciones? Red flag si no distingue entre user y role.",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "iam",
+        "security",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-vpc-jr-004",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "AWS",
+        "VPC"
+      ],
+      "category": "Networking",
+      "difficulty": "easy",
+      "question": "Que es una VPC en AWS? Para que sirven las subnets publicas y privadas?",
+      "expected_answer": "Una VPC (Virtual Private Cloud) es una red virtual aislada dentro de AWS donde se despliegan recursos. Las subnets publicas tienen una ruta a un Internet Gateway, permitiendo trafico desde/hacia internet (se usan para load balancers, bastion hosts). Las subnets privadas no tienen acceso directo a internet; los recursos internos (bases de datos, aplicaciones) van ahi por seguridad. Para que recursos en subnets privadas accedan a internet (ej: descargar paquetes), se usa un NAT Gateway.",
+      "key_points": [
+        "Red virtual aislada en AWS",
+        "Subnet publica: acceso a internet via IGW",
+        "Subnet privada: sin acceso directo, para recursos internos",
+        "NAT Gateway para salida a internet desde privadas"
+      ],
+      "interviewer_notes": "Follow-up: donde pondrias una base de datos RDS, en subnet publica o privada? Por que?",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "networking",
+        "vpc",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-aws-jr-005",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "AWS",
+        "Lambda"
+      ],
+      "category": "Compute",
+      "difficulty": "easy",
+      "question": "Que es AWS Lambda y en que se diferencia de EC2? Cuando elegirias Lambda sobre EC2?",
+      "expected_answer": "Lambda es un servicio serverless de AWS donde ejecutas funciones sin gestionar servidores. Se diferencia de EC2 en que: no pagas por tiempo idle (solo por ejecucion), escala automaticamente, tiene limites de tiempo (15 min max) y memoria (10 GB max). Se elige Lambda para funciones cortas y event-driven (procesar un archivo subido a S3, responder a un API request). EC2 es mejor para workloads de larga duracion o que necesitan control del SO.",
+      "key_points": [
+        "Serverless, sin gestionar servidores",
+        "Pago por ejecucion, no por idle",
+        "Limite 15 min por invocacion",
+        "Ideal para event-driven y funciones cortas"
+      ],
+      "interviewer_notes": "Follow-up: que triggers puede tener una Lambda? (S3 events, API Gateway, SQS, EventBridge). Red flag si no entiende el concepto de serverless.",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "lambda",
+        "serverless",
+        "compute"
+      ]
+    },
+    {
+      "id": "dp-terraform-jr-006",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "easy",
+      "question": "Que es Terraform y por que se usa Infrastructure as Code? Que problema resuelve vs crear recursos manualmente en la consola?",
+      "expected_answer": "Terraform es una herramienta de Infrastructure as Code (IaC) que permite definir infraestructura en archivos de configuracion declarativos (HCL). Ventajas sobre la consola: reproducibilidad (el mismo codigo crea el mismo entorno), versionado (se trackea en git, se puede hacer rollback), consistencia entre ambientes (dev/lab/prod), auditoria (quien cambio que y cuando via PRs), y automatizacion (CI/CD para deploys). Elimina errores humanos de configuracion manual.",
+      "key_points": [
+        "IaC: infraestructura definida en codigo",
+        "Reproducible y versionado en git",
+        "Consistencia entre ambientes",
+        "Auditoria via PRs y git history"
+      ],
+      "interviewer_notes": "Follow-up: que otros tools de IaC conoces? (CloudFormation, CDK, Pulumi). Red flag si nunca uso IaC.",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "iac",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-terraform-jr-007",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "easy",
+      "question": "Explica el flujo basico de Terraform: init, plan, apply. Que hace cada comando?",
+      "expected_answer": "terraform init: inicializa el directorio de trabajo, descarga providers (AWS, GCP) y modulos referenciados. Se ejecuta una vez al empezar o cuando cambian providers/modulos. terraform plan: compara el estado deseado (codigo) con el estado actual (state file) y muestra los cambios que se harian sin ejecutarlos. Es un dry-run. terraform apply: ejecuta los cambios mostrados en el plan, creando/modificando/eliminando recursos. Pide confirmacion antes de aplicar.",
+      "key_points": [
+        "init: descarga providers y modulos",
+        "plan: dry-run, muestra cambios sin ejecutar",
+        "apply: ejecuta los cambios",
+        "El state file trackea el estado real"
+      ],
+      "interviewer_notes": "Follow-up: que es el state file y por que es importante? Que pasa si lo perdes?",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "workflow",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-terraform-jr-008",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "medium",
+      "question": "Que es el state file de Terraform? Por que no deberia guardarse localmente en un equipo?",
+      "expected_answer": "El state file (terraform.tfstate) es un archivo JSON que mapea los recursos definidos en el codigo con los recursos reales en AWS. Terraform lo usa para saber que existe, que cambio y que debe crear/eliminar. No debe guardarse localmente porque: si trabajas en equipo, cada persona tendria un state diferente causando conflictos; si se pierde, Terraform no sabe que recursos existen y puede duplicarlos; y contiene informacion sensible. Se guarda en un backend remoto (S3 + DynamoDB para locking, o Terraform Cloud) para compartirlo entre el equipo y evitar modificaciones concurrentes.",
+      "key_points": [
+        "Mapea codigo a recursos reales",
+        "Backend remoto para equipos (S3 + DynamoDB)",
+        "Locking para evitar modificaciones concurrentes",
+        "Contiene informacion sensible"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si dos personas hacen apply al mismo tiempo sin locking? (corrupcion del state). Red flag si no sabe que existe el state.",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "state",
+        "backend"
+      ]
+    },
+    {
+      "id": "dp-terraform-jr-009",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "easy",
+      "question": "Que es un provider en Terraform? Y que es un resource?",
+      "expected_answer": "Un provider es un plugin que permite a Terraform interactuar con una plataforma o servicio especifico (AWS, GCP, Azure, GitHub). Cada provider expone resources y data sources. Un resource es un componente de infraestructura gestionado por Terraform (una instancia EC2, un bucket S3, un security group). Se define en codigo HCL con un tipo y un nombre, y Terraform se encarga de crearlo, modificarlo y eliminarlo.",
+      "key_points": [
+        "Provider: plugin para interactuar con un servicio (AWS, GCP)",
+        "Resource: componente de infraestructura gestionado",
+        "Se define declarativamente en HCL"
+      ],
+      "interviewer_notes": "Follow-up: que es un data source y en que se diferencia de un resource? (data source lee informacion existente, resource la gestiona).",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "providers",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-terraform-jr-010",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "medium",
+      "question": "Que son las variables y outputs en Terraform? Para que sirve cada uno?",
+      "expected_answer": "Las variables (variable blocks) permiten parametrizar la configuracion de Terraform. Se pueden definir con tipo, descripcion, valor por defecto, y validacion. Se pasan via CLI (-var), archivos .tfvars, o variables de entorno. Los outputs (output blocks) exponen valores despues del apply, como la IP de una instancia o el ARN de un recurso. Son utiles para: mostrar informacion al usuario, pasar valores entre modulos, e integrarse con scripts externos. Variables = inputs, Outputs = valores de salida.",
+      "key_points": [
+        "Variables: inputs parametrizables",
+        "Outputs: valores expuestos post-apply",
+        ".tfvars para valores por ambiente",
+        "Outputs conectan modulos entre si"
+      ],
+      "interviewer_notes": "Follow-up: como pasarias variables diferentes entre dev y prod? (.tfvars por ambiente).",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "variables",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-docker-jr-011",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Docker"
+      ],
+      "category": "Containers",
+      "difficulty": "easy",
+      "question": "Que es Docker y que diferencia hay entre un container y una maquina virtual?",
+      "expected_answer": "Docker es una plataforma para empaquetar y ejecutar aplicaciones en contenedores. Un contenedor es un proceso aislado que comparte el kernel del SO host, a diferencia de una VM que virtualiza hardware completo con su propio SO. Ventajas de contenedores: arrancan en segundos (VMs en minutos), usan menos recursos (comparten kernel), son mas portables (el mismo container corre en cualquier host con Docker). Una imagen Docker es un template inmutable; un container es una instancia corriendo de esa imagen.",
+      "key_points": [
+        "Container comparte kernel, VM virtualiza hardware",
+        "Mas liviano y rapido que VM",
+        "Imagen: template inmutable, Container: instancia en ejecucion"
+      ],
+      "interviewer_notes": "Follow-up: que es un Dockerfile y que instrucciones basicas tiene? (FROM, COPY, RUN, CMD).",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "docker",
+        "containers",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-k8s-jr-012",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Kubernetes"
+      ],
+      "category": "Containers",
+      "difficulty": "easy",
+      "question": "Que es Kubernetes y que problema resuelve? Que son los Pods?",
+      "expected_answer": "Kubernetes (K8s) es un orquestador de contenedores que automatiza el despliegue, escalado y gestion de aplicaciones containerizadas. Resuelve problemas de: ejecutar muchos contenedores en multiples servidores, escalar automaticamente segun demanda, reiniciar contenedores que fallan, distribuir trafico entre replicas. Un Pod es la unidad minima de K8s: uno o mas contenedores que comparten red y storage. Generalmente un pod = un contenedor de aplicacion.",
+      "key_points": [
+        "Orquestador de contenedores",
+        "Automatiza deploy, escalado, gestion",
+        "Pod: unidad minima, uno o mas contenedores",
+        "Reinicia contenedores que fallan"
+      ],
+      "interviewer_notes": "Follow-up: que es un Deployment y por que no desplegamos Pods directamente? (Deployment gestiona replicas y rolling updates).",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "kubernetes",
+        "containers",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-k8s-jr-013",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Kubernetes"
+      ],
+      "category": "Containers",
+      "difficulty": "medium",
+      "question": "Que es un Deployment en Kubernetes? Y un Service?",
+      "expected_answer": "Un Deployment es un recurso de K8s que gestiona un conjunto de Pods identicos (replicas). Define cuantas replicas correr, la imagen del contenedor, y como hacer updates (rolling update por defecto). Si un Pod muere, el Deployment lo recrea automaticamente. Un Service es un recurso que expone Pods como un endpoint de red estable. Los Pods son efimeros (su IP cambia), pero el Service provee una IP fija y DNS name. Tipos: ClusterIP (interno), NodePort (puerto en cada nodo), LoadBalancer (crea un LB externo).",
+      "key_points": [
+        "Deployment: gestiona replicas, rolling updates",
+        "Service: endpoint de red estable para pods",
+        "ClusterIP, NodePort, LoadBalancer"
+      ],
+      "interviewer_notes": "Follow-up: como elegis entre ClusterIP y LoadBalancer? (ClusterIP para trafico interno, LB para externo).",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "kubernetes",
+        "deployment",
+        "service"
+      ]
+    },
+    {
+      "id": "dp-k8s-jr-014",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Kubernetes"
+      ],
+      "category": "Containers",
+      "difficulty": "medium",
+      "question": "Que es un Namespace en Kubernetes y para que se usa?",
+      "expected_answer": "Un Namespace es una division logica dentro de un cluster de K8s que permite aislar recursos. Se usa para: separar ambientes (dev, staging, prod) dentro del mismo cluster, separar equipos o proyectos, aplicar quotas de recursos por namespace, y definir RBAC (permisos) por namespace. Los nombres de recursos deben ser unicos dentro de un namespace pero pueden repetirse entre namespaces. Namespaces default: default, kube-system (componentes de K8s), kube-public.",
+      "key_points": [
+        "Division logica dentro del cluster",
+        "Aislamiento por equipo/ambiente/proyecto",
+        "Resource quotas por namespace",
+        "RBAC por namespace"
+      ],
+      "interviewer_notes": "Follow-up: como accedes a un servicio en otro namespace? (nombre.namespace.svc.cluster.local).",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "kubernetes",
+        "namespaces",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-networking-jr-015",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Networking"
+      ],
+      "category": "Networking",
+      "difficulty": "easy",
+      "question": "Explica brevemente que es DNS, TCP y UDP. Cuando se usa cada protocolo de transporte?",
+      "expected_answer": "DNS (Domain Name System) traduce nombres de dominio (google.com) a direcciones IP (142.250.x.x). Es como la guia telefonica de internet. TCP (Transmission Control Protocol) es un protocolo de transporte confiable: garantiza que los paquetes lleguen en orden y sin perdida, con conexion establecida (handshake). Se usa para HTTP/HTTPS, SSH, bases de datos. UDP (User Datagram Protocol) es mas rapido pero no garantiza entrega ni orden. Se usa para DNS queries, streaming, gaming, donde la velocidad importa mas que la confiabilidad.",
+      "key_points": [
+        "DNS: traduce nombres a IPs",
+        "TCP: confiable, con conexion, para HTTP/SSH",
+        "UDP: rapido, sin garantia, para DNS/streaming"
+      ],
+      "interviewer_notes": "Follow-up: que pasa cuando escribis una URL en el navegador? (DNS lookup, TCP handshake, HTTP request).",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "networking",
+        "dns",
+        "tcp",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-networking-jr-016",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "AWS",
+        "VPC"
+      ],
+      "category": "Networking",
+      "difficulty": "medium",
+      "question": "Que es un Security Group en AWS? En que se diferencia de una NACL?",
+      "expected_answer": "Un Security Group (SG) es un firewall virtual a nivel de instancia/ENI que controla trafico entrante (ingress) y saliente (egress). Es stateful: si permitis una conexion de entrada, la respuesta de salida se permite automaticamente. Una NACL (Network ACL) es un firewall a nivel de subnet, stateless (debes configurar reglas de ida y vuelta), y se evalua por orden numerico de reglas. Diferencias clave: SG es stateful y se aplica a instancias; NACL es stateless y se aplica a subnets. En la practica, los SGs son el mecanismo principal; NACLs se usan como capa adicional de defensa.",
+      "key_points": [
+        "SG: stateful, a nivel de instancia",
+        "NACL: stateless, a nivel de subnet",
+        "SG se usa mas frecuentemente",
+        "NACL como capa adicional de defensa"
+      ],
+      "interviewer_notes": "Follow-up: si un SG permite ingress en puerto 443, necesitas configurar egress? (No, es stateful). Y en una NACL? (Si, es stateless).",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "networking",
+        "security-groups",
+        "nacl",
+        "firewall"
+      ]
+    },
+    {
+      "id": "dp-networking-jr-017",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Networking"
+      ],
+      "category": "Networking",
+      "difficulty": "medium",
+      "question": "Que es CIDR notation y como funciona? Que significa 10.0.0.0/16?",
+      "expected_answer": "CIDR (Classless Inter-Domain Routing) es una notacion para definir rangos de IPs. El numero despues de la barra indica cuantos bits del prefijo son fijos. 10.0.0.0/16 significa: los primeros 16 bits (10.0) son fijos, los ultimos 16 bits varian. Esto da 2^16 = 65,536 direcciones IP (10.0.0.0 a 10.0.255.255). Cuanto mayor el numero despues de /, mas chico el rango: /24 = 256 IPs, /28 = 16 IPs, /32 = 1 IP. Se usa en VPCs, subnets, y reglas de firewall para definir rangos de red.",
+      "key_points": [
+        "/16 = 65,536 IPs",
+        "/24 = 256 IPs",
+        "Mayor numero = rango mas chico",
+        "Se usa en VPC, subnets, SGs"
+      ],
+      "interviewer_notes": "Follow-up: si tu VPC es 10.0.0.0/16, como dividirias las subnets? Que CIDR usarias para cada una?",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "networking",
+        "cidr",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-cicd-jr-018",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "CI/CD",
+        "Git"
+      ],
+      "category": "CI/CD",
+      "difficulty": "easy",
+      "question": "Que es CI/CD? Explica la diferencia entre Continuous Integration y Continuous Deployment.",
+      "expected_answer": "CI (Continuous Integration) es la practica de integrar cambios de codigo frecuentemente a una rama principal, ejecutando builds y tests automaticos en cada integracion. El objetivo es detectar errores temprano. CD tiene dos significados: Continuous Delivery (el codigo esta siempre listo para deploy, pero el deploy a produccion es manual) y Continuous Deployment (cada cambio que pasa los tests se deploya automaticamente a produccion). Un pipeline tipico: push a rama -> build -> tests -> deploy a staging -> (aprobacion manual) -> deploy a prod.",
+      "key_points": [
+        "CI: integracion frecuente con tests automaticos",
+        "CD Delivery: listo para deploy, deploy manual",
+        "CD Deployment: deploy automatico a prod",
+        "Pipeline: build -> test -> deploy"
+      ],
+      "interviewer_notes": "Follow-up: que herramientas de CI/CD conoces? (GitHub Actions, Jenkins, GitLab CI). Que usarias para un proyecto de Terraform?",
+      "source": "Adaptada de NotHarshhaa/DevOps-Interview-Questions",
+      "tags": [
+        "cicd",
+        "devops",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-cicd-jr-019",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "Git"
+      ],
+      "category": "CI/CD",
+      "difficulty": "easy",
+      "question": "Explica el flujo de trabajo basico con Git: branch, commit, push, pull request, merge.",
+      "expected_answer": "Flujo basico: 1) Branch: crear una rama desde main para tu feature (git checkout -b feature/mi-cambio). 2) Commit: guardar cambios con un mensaje descriptivo (git commit -m 'mensaje'). 3) Push: subir la rama al repositorio remoto (git push origin feature/mi-cambio). 4) Pull Request: abrir un PR en GitHub para que el equipo revise los cambios. 5) Merge: una vez aprobado, combinar la rama con main. Esto garantiza que los cambios son revisados antes de llegar a la rama principal.",
+      "key_points": [
+        "Branch para cada feature",
+        "Commits con mensajes descriptivos",
+        "PR para code review",
+        "Merge a main despues de aprobacion"
+      ],
+      "interviewer_notes": "Follow-up: que haces si tu rama tiene conflictos con main? Como los resolves?",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "git",
+        "workflow",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "dp-cicd-jr-020",
+      "profile": "data-platform",
+      "level": "jr",
+      "technology": [
+        "CI/CD"
+      ],
+      "category": "CI/CD",
+      "difficulty": "medium",
+      "question": "Que es un pipeline de CI/CD? Describe los pasos tipicos de un pipeline para una aplicacion web.",
+      "expected_answer": "Un pipeline de CI/CD es una serie de pasos automatizados que llevan el codigo desde el commit hasta produccion. Pasos tipicos: 1) Trigger: se dispara con un push o PR. 2) Build: compilar el codigo o crear la imagen Docker. 3) Lint/Format: verificar estilo y formato del codigo. 4) Tests: ejecutar tests unitarios, de integracion, y de seguridad. 5) Deploy a staging: desplegar en un ambiente de pruebas. 6) Tests de aceptacion: verificar que todo funciona en staging. 7) Aprobacion manual: alguien aprueba el deploy a prod. 8) Deploy a produccion: desplegar la version validada.",
+      "key_points": [
+        "Automatizacion del flujo commit-to-prod",
+        "Build, test, deploy como stages",
+        "Staging antes de produccion",
+        "Gates de aprobacion para prod"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si un step falla? (el pipeline se detiene y notifica). Que harias ante un test que falla intermitentemente (flaky test)?",
+      "source": "Adaptada de NotHarshhaa/DevOps-Interview-Questions",
+      "tags": [
+        "cicd",
+        "pipeline",
+        "automation"
+      ]
+    },
+    {
+      "id": "dp-aws-ssr-001",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "AWS",
+        "EKS"
+      ],
+      "category": "Compute & Orchestration",
+      "difficulty": "medium",
+      "question": "Que es Amazon EKS? Como se estructura un cluster EKS en terminos de control plane y data plane?",
+      "expected_answer": "EKS (Elastic Kubernetes Service) es el servicio managed de Kubernetes de AWS. El control plane es gestionado por AWS: incluye el API server, etcd, scheduler y controller manager. AWS se encarga de su disponibilidad y upgrades. El data plane son los nodos (EC2 o Fargate) donde corren los Pods con las aplicaciones. Los nodos se registran con el control plane y ejecutan kubelet y kube-proxy. Se puede usar managed node groups (AWS gestiona los nodos), self-managed nodes, o Fargate (serverless, AWS gestiona todo). Para autoscaling de nodos se suele combinar con Karpenter o Cluster Autoscaler.",
+      "key_points": [
+        "Control plane: managed por AWS",
+        "Data plane: nodos donde corren Pods",
+        "Managed node groups vs Fargate vs self-managed",
+        "Autoscaling de nodos con Karpenter o Cluster Autoscaler"
+      ],
+      "interviewer_notes": "Follow-up: que ventaja tiene EKS sobre levantar K8s vos mismo? (managed control plane, integracion con AWS). Red flag si no distingue control plane de data plane.",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "eks",
+        "kubernetes",
+        "aws"
+      ]
+    },
+    {
+      "id": "dp-iam-ssr-002",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "AWS",
+        "IAM"
+      ],
+      "category": "Security",
+      "difficulty": "medium",
+      "question": "Explica la diferencia entre identity-based policies y resource-based policies en IAM. Da un ejemplo de cada una.",
+      "expected_answer": "Identity-based policies se adjuntan a un principal (user, group, role) y definen que puede hacer esa identidad. Ejemplo: una policy en un role que permite s3:GetObject en todos los buckets. Resource-based policies se adjuntan al recurso y definen quien puede acceder a el. Ejemplo: una bucket policy en S3 que permite al role X acceder al bucket. La diferencia clave es que resource-based policies pueden otorgar acceso cross-account sin necesidad de asumir un role. Cuando ambas existen, IAM evalua la union: si alguna permite y ninguna deniega explicitamente, el acceso se concede.",
+      "key_points": [
+        "Identity-based: adjuntas al principal",
+        "Resource-based: adjuntas al recurso",
+        "Cross-account posible con resource-based",
+        "Evaluacion: union de policies, deny explicito gana"
+      ],
+      "interviewer_notes": "Follow-up: si queres dar acceso a un bucket S3 desde otra cuenta AWS, como lo harias? (resource-based policy en el bucket + IAM role en la otra cuenta).",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "iam",
+        "policies",
+        "security"
+      ]
+    },
+    {
+      "id": "dp-iam-ssr-003",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "AWS",
+        "IAM"
+      ],
+      "category": "Security",
+      "difficulty": "medium",
+      "question": "Que es AssumeRole en AWS? Cuando y por que lo usarias?",
+      "expected_answer": "AssumeRole es una operacion de STS que permite obtener credenciales temporales de un IAM Role. Usas AssumeRole cuando: 1) Cross-account access: un servicio en la cuenta A necesita acceder a recursos en la cuenta B. 2) Elevacion temporal de privilegios: un usuario asume un role con mas permisos solo cuando lo necesita. 3) Servicios de AWS: EC2, Lambda, EKS pods asumen roles para acceder a otros servicios. El role tiene una trust policy que define quien puede asumirlo. Las credenciales temporales tienen un TTL configurable. Es mas seguro que access keys permanentes.",
+      "key_points": [
+        "Credenciales temporales via STS",
+        "Cross-account access",
+        "Trust policy define quien puede asumir",
+        "Mas seguro que access keys permanentes"
+      ],
+      "interviewer_notes": "Follow-up: que campos tiene una trust policy? (Principal, Action, Condition). Que pasa si la trust policy no permite al caller? (AccessDenied).",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "iam",
+        "sts",
+        "assume-role",
+        "security"
+      ]
+    },
+    {
+      "id": "dp-s3-ssr-004",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "AWS",
+        "S3"
+      ],
+      "category": "Storage",
+      "difficulty": "medium",
+      "question": "Explica las lifecycle policies de S3. Como las configurarias para optimizar costos en un data lake?",
+      "expected_answer": "Las lifecycle policies automatizan la transicion de objetos entre storage classes y su expiracion. Para un data lake: datos raw recientes (< 30 dias) en S3 Standard para acceso frecuente; datos de 30-90 dias a S3 Standard-IA (Infrequent Access, mas barato pero cobra por acceso); datos de 90-365 dias a S3 Glacier Instant Retrieval (muy barato, acceso en milisegundos); datos > 1 anio a S3 Glacier Deep Archive (mas barato, retrieval en horas). Tambien configurar delete de versiones anteriores y abort de multipart uploads incompletos. El ahorro puede ser 50-80% vs mantener todo en Standard.",
+      "key_points": [
+        "Transicion automatica entre tiers",
+        "Standard -> IA -> Glacier -> Deep Archive",
+        "Ahorro significativo en datos historicos",
+        "Configurar delete de versiones y multipart incompletos"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si necesitas acceder frecuentemente a datos que ya moviste a Glacier? (retrieval costs altos, mejor Glacier Instant Retrieval). Red flag si no conoce los tiers de S3.",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "s3",
+        "cost-optimization",
+        "lifecycle"
+      ]
+    },
+    {
+      "id": "dp-aws-ssr-005",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "AWS",
+        "Lambda"
+      ],
+      "category": "Compute",
+      "difficulty": "medium",
+      "question": "Que es un API Gateway en AWS? Como lo configurarias para exponer una API interna con Lambda como backend?",
+      "expected_answer": "API Gateway es un servicio managed para crear, publicar y gestionar APIs. Para una API interna: 1) Crear un REST API con endpoint type PRIVATE (solo accesible dentro de la VPC). 2) Configurar resources y methods (GET /companies, POST /requests). 3) Integrar cada method con una Lambda function (proxy integration es lo mas simple). 4) Autenticacion: API Keys para clients internos, o IAM authorization. 5) Deploy a un stage (prod). 6) VPC Endpoint para que los clientes internos accedan. Configurar throttling para proteger las Lambdas y logging a CloudWatch para debugging.",
+      "key_points": [
+        "Endpoint PRIVATE para APIs internas",
+        "Integracion con Lambda (proxy o custom)",
+        "API Keys o IAM auth",
+        "VPC Endpoint para acceso interno"
+      ],
+      "interviewer_notes": "Follow-up: que diferencia hay entre REST API y HTTP API de API Gateway? (HTTP API es mas barato y simple, REST API tiene mas features).",
+      "source": "Original — basada en experiencia real",
+      "tags": [
+        "api-gateway",
+        "lambda",
+        "serverless"
+      ]
+    },
+    {
+      "id": "dp-terraform-ssr-006",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "medium",
+      "question": "Que es un modulo en Terraform? Cuando crearias un modulo y como lo estructurarias?",
+      "expected_answer": "Un modulo en Terraform es un conjunto reutilizable de recursos que se empaquetan juntos. Todo directorio con archivos .tf es un modulo (el root module). Se crea un modulo cuando: un patron de recursos se repite entre proyectos (ej: VPC + subnets + NAT), se quiere encapsular complejidad, o se necesita estandarizar configuracion. Estructura: main.tf (recursos), variables.tf (inputs), outputs.tf (valores expuestos), README.md. Se consume con un bloque module que pasa variables. Los modulos compartidos se versionan y se referencia por tag o version. Un patron comun es tener modulos compartidos en un directorio shared/modules/ (ej: eks, karpenter, emr-on-eks).",
+      "key_points": [
+        "Conjunto reutilizable de recursos",
+        "Encapsula complejidad y estandariza",
+        "Estructura: main.tf, variables.tf, outputs.tf",
+        "Versionado con tags para consumo estable"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si cambias un modulo compartido que usan 5 proyectos? (versionado con tags permite upgrade controlado). Red flag si no entiende la composicion de modulos.",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "modules",
+        "reusability"
+      ]
+    },
+    {
+      "id": "dp-terraform-ssr-007",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "medium",
+      "question": "Que son los workspaces en Terraform? Y que alternativas hay para manejar multiples ambientes?",
+      "expected_answer": "Los workspaces de Terraform permiten tener multiples states dentro de la misma configuracion. Cada workspace tiene su propio state file. Se usan para separar ambientes (dev, staging, prod) con el mismo codigo. Alternativas: 1) Directorios separados por ambiente (dev/, lab/, prod/) con su propia configuracion y state. Ej: terraform/platform/lab/, terraform/platform/prod/. 2) Terraform Cloud workspaces (diferentes del CLI workspace). 3) Terragrunt con configuracion por ambiente. Los directorios separados son mas explicitos y evitan errores de workspace (aplicar en prod pensando que estas en dev).",
+      "key_points": [
+        "Workspace: multiples states, mismo codigo",
+        "Alternativa: directorios por ambiente (mas explicito)",
+        "Terraform Cloud workspaces como opcion",
+        "Directorios previenen errores de contexto"
+      ],
+      "interviewer_notes": "Follow-up: por que muchos equipos prefieren directorios separados sobre workspaces? (explicitez, cada ambiente puede tener config diferente). Red flag si usa workspaces en produccion sin entender los riesgos.",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "workspaces",
+        "environments"
+      ]
+    },
+    {
+      "id": "dp-terraform-ssr-008",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "hard",
+      "question": "Como importarias un recurso existente en AWS a Terraform? Describe el proceso paso a paso.",
+      "expected_answer": "Proceso de import: 1) Escribir el bloque resource en el codigo .tf con la configuracion del recurso existente. 2) Ejecutar terraform import aws_s3_bucket.mi_bucket mi-bucket-name para importar el recurso al state. 3) Ejecutar terraform plan para ver las diferencias entre el codigo y el estado real del recurso. 4) Ajustar el codigo HCL hasta que el plan muestre 'no changes'. Desde Terraform 1.5+, tambien existe el bloque import declarativo dentro del codigo, que es mas limpio y versionable. Precauciones: hacer backup del state antes, importar en un branch separado, y nunca importar sin tener el codigo HCL escrito primero.",
+      "key_points": [
+        "Escribir el resource block primero",
+        "terraform import para traer al state",
+        "Ajustar codigo hasta 'no changes'",
+        "Import block declarativo desde TF 1.5+"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si el recurso tiene configuraciones que no incluiste en el codigo? (plan mostrara cambios, hay que completar). Red flag si nunca importo un recurso.",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "import",
+        "migration"
+      ]
+    },
+    {
+      "id": "dp-terraform-ssr-009",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "medium",
+      "question": "Que es terraform state y como se resuelven conflictos de state en un equipo?",
+      "expected_answer": "El state es la base de datos de Terraform que mapea configuracion a recursos reales. En equipo, se usa un backend remoto (S3 + DynamoDB, o Terraform Cloud) con locking: cuando alguien ejecuta plan o apply, se adquiere un lock que previene que otros modifiquen el state simultaneamente. Si alguien tiene el lock y no lo libera (crash, ctrl+c), se puede forzar la liberacion con terraform force-unlock <LOCK_ID>. Para evitar conflictos: usar CI/CD para que solo el pipeline haga apply (no apply local), serializar applies en la misma cola, y dividir el state en stacks logicos para reducir la probabilidad de conflictos.",
+      "key_points": [
+        "Backend remoto con locking (DynamoDB)",
+        "Lock previene modificaciones concurrentes",
+        "force-unlock para locks huerfanos",
+        "CI/CD para evitar applies locales"
+      ],
+      "interviewer_notes": "Follow-up: que pasa si haces force-unlock mientras alguien esta haciendo apply? (posible corrupcion). Cuando es seguro usar force-unlock?",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "state",
+        "locking",
+        "teamwork"
+      ]
+    },
+    {
+      "id": "dp-terraform-ssr-010",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC",
+      "difficulty": "medium",
+      "question": "Que diferencia hay entre count y for_each en Terraform? Cuando usarias cada uno?",
+      "expected_answer": "count crea N copias identicas de un recurso, referenciables por indice (count.index). for_each crea copias basadas en un map o set, referenciables por clave. Diferencia clave: con count, si eliminas un elemento del medio, todos los indices posteriores se recorren y Terraform quiere destruir/recrear recursos. Con for_each, cada recurso esta identificado por clave, asi que agregar/eliminar uno no afecta los demas. Regla: usar count para copias identicas (3 replicas de lo mismo), usar for_each cuando cada instancia tiene identidad propia (un SG por servicio, un bucket por equipo).",
+      "key_points": [
+        "count: por indice, problemas al eliminar del medio",
+        "for_each: por clave, estable al agregar/eliminar",
+        "count para copias identicas",
+        "for_each cuando cada instancia tiene identidad"
+      ],
+      "interviewer_notes": "Follow-up: dame un ejemplo concreto donde count causaria problemas (lista de subnets, eliminas la segunda, las siguientes se destruyen/recrean).",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "hcl",
+        "patterns"
+      ]
+    },
+    {
+      "id": "dp-k8s-ssr-011",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Kubernetes"
+      ],
+      "category": "Containers",
+      "difficulty": "medium",
+      "question": "Que son ConfigMaps y Secrets en Kubernetes? Como inyectas configuracion en un Pod?",
+      "expected_answer": "ConfigMaps almacenan datos de configuracion no sensibles como pares clave-valor. Secrets almacenan datos sensibles (passwords, tokens) en base64 (no es cifrado, solo encoding). Formas de inyectar en un Pod: 1) Variables de entorno: envFrom o env con valueFrom referenciando el ConfigMap/Secret. 2) Volumenes: montar como archivos dentro del container (el pod ve archivos en un directorio). 3) Args del container: pasar como argumentos CLI. ConfigMaps se usan para config files, feature flags. Secrets para credenciales, certificados TLS. Los Secrets se pueden cifrar en reposo con KMS en EKS.",
+      "key_points": [
+        "ConfigMap: config no sensible",
+        "Secret: datos sensibles (base64, no cifrado)",
+        "Inyeccion via env vars o volumenes",
+        "Secrets cifrados en reposo con KMS en EKS"
+      ],
+      "interviewer_notes": "Follow-up: por que base64 no es cifrado? (cualquiera puede decodificarlo). Como asegurarias los secrets en un cluster real? (RBAC, encryption at rest, external secrets operator).",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "kubernetes",
+        "configmap",
+        "secrets",
+        "security"
+      ]
+    },
+    {
+      "id": "dp-k8s-ssr-012",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Kubernetes"
+      ],
+      "category": "Containers",
+      "difficulty": "medium",
+      "question": "Que es RBAC en Kubernetes? Como restringirias acceso para que un equipo solo pueda operar en su namespace?",
+      "expected_answer": "RBAC (Role-Based Access Control) controla quien puede hacer que en un cluster de K8s. Componentes: Role (permisos dentro de un namespace), ClusterRole (permisos a nivel cluster), RoleBinding (asigna un Role a un user/group/SA dentro de un namespace), ClusterRoleBinding (asigna a nivel cluster). Para restringir un equipo a su namespace: 1) Crear un Role en el namespace del equipo con permisos sobre pods, deployments, services, etc. 2) Crear un RoleBinding que asigne ese Role al grupo del equipo. 3) No darles ClusterRoleBinding. Asi solo pueden operar en su namespace.",
+      "key_points": [
+        "Role: permisos por namespace",
+        "ClusterRole: permisos globales",
+        "RoleBinding asigna Role a users/groups",
+        "Namespace aislamiento via RBAC"
+      ],
+      "interviewer_notes": "Follow-up: como se integra RBAC de K8s con IAM de AWS en EKS? (aws-auth configmap o EKS access entries mapean IAM roles a K8s groups).",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "kubernetes",
+        "rbac",
+        "security",
+        "access-control"
+      ]
+    },
+    {
+      "id": "dp-k8s-ssr-013",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Kubernetes"
+      ],
+      "category": "Containers",
+      "difficulty": "medium",
+      "question": "Como debuggearias un Pod que esta en estado CrashLoopBackOff?",
+      "expected_answer": "Proceso de debugging: 1) kubectl describe pod <name>: ver Events para entender por que falla (OOMKilled, failed liveness probe, image pull error). 2) kubectl logs <pod> --previous: ver logs del container que crasheo (--previous muestra el container anterior). 3) Si el container arranca y muere rapido: verificar CMD/ENTRYPOINT, permisos de archivos, variables de entorno faltantes. 4) Si es OOMKilled: el container usa mas memoria que su limit. Aumentar memory limit o optimizar la app. 5) Si es liveness probe failure: verificar que el health endpoint funciona, ajustar initialDelaySeconds. 6) kubectl exec para entrar al container y debuggear interactivamente (si dura lo suficiente).",
+      "key_points": [
+        "describe pod para ver Events",
+        "logs --previous para container crasheado",
+        "OOMKilled: memoria insuficiente",
+        "Liveness probe: verificar health endpoint y delay"
+      ],
+      "interviewer_notes": "Follow-up: que harias si el pod no tiene logs? (verificar que la app logea a stdout/stderr, no a un archivo). Red flag si no conoce kubectl describe.",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "kubernetes",
+        "debugging",
+        "troubleshooting"
+      ]
+    },
+    {
+      "id": "dp-k8s-ssr-014",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Kubernetes"
+      ],
+      "category": "Containers",
+      "difficulty": "hard",
+      "question": "Que son los resource requests y limits en Kubernetes? Que pasa si un Pod excede su memory limit?",
+      "expected_answer": "Requests es la cantidad minima de CPU/memoria que K8s garantiza al Pod. Se usa para scheduling: el scheduler solo pone el Pod en un nodo que tenga suficientes recursos disponibles. Limits es el maximo que el Pod puede usar. Si un Pod excede su memory limit, el OOM Killer de Linux lo mata (OOMKilled). Si excede el CPU limit, se throttlea (no se mata, se limita la CPU). Best practices: siempre definir requests (para scheduling correcto), usar limits de memoria (para evitar que un pod mate al nodo), ser conservador con CPU limits (throttling puede causar latencia inesperada). QoS classes: Guaranteed (requests = limits), Burstable (requests < limits), BestEffort (sin requests ni limits).",
+      "key_points": [
+        "Request: minimo garantizado, usado para scheduling",
+        "Limit: maximo permitido",
+        "Exceder memory limit = OOMKilled",
+        "Exceder CPU limit = throttling, no kill"
+      ],
+      "interviewer_notes": "Follow-up: que QoS class es mejor para workloads de produccion? (Guaranteed para criticos, Burstable para batch). Que pasa si no pones requests? (BestEffort, primer candidato a eviction).",
+      "source": "Adaptada de bregman-arie/devops-exercises",
+      "tags": [
+        "kubernetes",
+        "resources",
+        "scheduling"
+      ]
+    },
+    {
+      "id": "dp-networking-ssr-015",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "AWS",
+        "VPC"
+      ],
+      "category": "Networking",
+      "difficulty": "medium",
+      "question": "Que es VPC Peering y cuando lo usarias? Que alternativa existe para conectar multiples VPCs?",
+      "expected_answer": "VPC Peering es una conexion de red privada entre dos VPCs que permite que los recursos se comuniquen usando IPs privadas, como si estuvieran en la misma red. Se usa para: conectar VPCs de diferentes cuentas (equipo A con equipo B), conectar VPCs de diferentes regiones (inter-region peering), o separar ambientes manteniendo conectividad. Limitacion: peering no es transitivo (si A<->B y B<->C, A no puede hablar con C via B). Para multiples VPCs (>3), la alternativa es Transit Gateway: un hub central que conecta multiples VPCs, VPNs y Direct Connect. Simplifica la topologia de N*(N-1)/2 peerings a N conexiones al TGW.",
+      "key_points": [
+        "Conexion privada entre VPCs",
+        "No es transitivo",
+        "Transit Gateway para multiples VPCs (hub-and-spoke)",
+        "TGW simplifica topologia de red"
+      ],
+      "interviewer_notes": "Follow-up: en una arquitectura con muchas VPCs, por que Transit Gateway y no VPC Peering? (con multiples VPCs, peering no escala). Red flag si no sabe que peering no es transitivo.",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "networking",
+        "vpc-peering",
+        "transit-gateway"
+      ]
+    },
+    {
+      "id": "dp-networking-ssr-016",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "AWS",
+        "VPC"
+      ],
+      "category": "Networking",
+      "difficulty": "medium",
+      "question": "Que es un NAT Gateway y por que lo necesitas en una VPC? Que alternativas existen?",
+      "expected_answer": "Un NAT Gateway permite que instancias en subnets privadas accedan a internet (para descargar paquetes, llamar APIs externas) sin ser accesibles desde internet. El NAT traduce las IPs privadas a una IP publica (Elastic IP). Se despliega en una subnet publica y las rutas de las subnets privadas apuntan al NAT. Alternativas: NAT Instance (EC2 configurada como NAT, mas barata pero menos confiable), VPC Endpoints (acceso a servicios AWS sin internet, ej: S3 Gateway Endpoint elimina la necesidad de NAT para S3), y proxy servers.",
+      "key_points": [
+        "Permite acceso a internet desde subnets privadas",
+        "Se despliega en subnet publica",
+        "VPC Endpoints como alternativa para servicios AWS",
+        "NAT Gateway vs NAT Instance"
+      ],
+      "interviewer_notes": "Follow-up: un NAT Gateway tiene costo por hora y por GB procesado. Como optimizarias costos? (VPC Endpoints para S3/DynamoDB, un solo NAT en dev vs uno por AZ en prod).",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "networking",
+        "nat",
+        "vpc"
+      ]
+    },
+    {
+      "id": "dp-networking-ssr-017",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "AWS"
+      ],
+      "category": "Networking",
+      "difficulty": "medium",
+      "question": "Que diferencia hay entre un ALB y un NLB? Cuando usarias cada uno?",
+      "expected_answer": "ALB (Application Load Balancer) opera en capa 7 (HTTP/HTTPS). Soporta routing basado en path (/api -> servicio A, /web -> servicio B), host, headers, query strings. Ideal para microservicios y APIs web. NLB (Network Load Balancer) opera en capa 4 (TCP/UDP). Tiene latencia ultra-baja, soporta millones de requests por segundo, y preserva la IP del cliente. Ideal para protocolos no-HTTP (gRPC, MQTT), gaming, o cuando necesitas IP estatica. Patron comun: ALB internos para servicios web y NLB para APIs internas que necesitan IP fija.",
+      "key_points": [
+        "ALB: capa 7, HTTP/HTTPS, path-based routing",
+        "NLB: capa 4, TCP/UDP, ultra-baja latencia",
+        "ALB para microservicios web",
+        "NLB para protocolos no-HTTP o IP estatica"
+      ],
+      "interviewer_notes": "Follow-up: como expondrías un servicio de K8s via ALB en EKS? (AWS Load Balancer Controller + Ingress resource). Red flag si no distingue L4 de L7.",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "networking",
+        "load-balancer",
+        "alb",
+        "nlb"
+      ]
+    },
+    {
+      "id": "dp-iac-ssr-018",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC Patterns",
+      "difficulty": "medium",
+      "question": "Que es el principio DRY en IaC? Como lo aplicas en Terraform sin sobreingenieria?",
+      "expected_answer": "DRY (Don't Repeat Yourself) en IaC significa no duplicar configuracion. Se aplica con: modulos para patrones repetidos (VPC, EKS, S3 con politicas estandar), variables para parametrizar diferencias entre ambientes, locals para expresiones reutilizadas. Pero hay que balancear: un modulo demasiado generico es dificil de mantener y entender. Regla practica: si algo se repite 3+ veces, crear un modulo. Si se repite 2 veces, evaluar. Si es unico, dejarlo inline. No abstraer prematuramente. Los .tfvars por ambiente permiten reusar el mismo codigo con configuracion diferente.",
+      "key_points": [
+        "Modulos para patrones repetidos (3+ veces)",
+        "Variables y .tfvars para diferencias entre ambientes",
+        "No abstraer prematuramente",
+        "Modulo demasiado generico es antipatron"
+      ],
+      "interviewer_notes": "Follow-up: si los modulos compartidos viven en shared/modules/, como decides que va ahi y que queda local al proyecto?",
+      "source": "Original",
+      "tags": [
+        "iac",
+        "dry",
+        "patterns",
+        "terraform"
+      ]
+    },
+    {
+      "id": "dp-iac-ssr-019",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC Patterns",
+      "difficulty": "medium",
+      "question": "Como testeas codigo de Terraform antes de aplicarlo? Que herramientas y practicas usas?",
+      "expected_answer": "Niveles de testing: 1) terraform validate: verifica sintaxis y configuracion basica. 2) terraform plan: dry-run, muestra cambios sin aplicar. 3) tflint: linting de codigo Terraform, detecta errores de configuracion y best practices. 4) checkov/tfsec: analisis de seguridad estatico (detecta SGs con 0.0.0.0/0, buckets sin cifrado). 5) terraform test (TF 1.6+): tests nativos con assertions sobre plan output. 6) Terratest (Go): tests de integracion que crean infraestructura real, validan, y destruyen. En CI/CD: plan automatico en PRs, review del plan por un peer, y apply solo despues de aprobacion.",
+      "key_points": [
+        "validate + plan como baseline",
+        "tflint para linting",
+        "checkov/tfsec para seguridad",
+        "Terratest para integracion (crea infra real)"
+      ],
+      "interviewer_notes": "Follow-up: usas checkov o tfsec? Que reglas priorizarias? (S3 public access, SGs abiertos, encryption at rest).",
+      "source": "Original",
+      "tags": [
+        "terraform",
+        "testing",
+        "security",
+        "cicd"
+      ]
+    },
+    {
+      "id": "dp-iac-ssr-020",
+      "profile": "data-platform",
+      "level": "ssr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "IaC Patterns",
+      "difficulty": "hard",
+      "question": "Que son los lifecycle rules en Terraform? Cuando usarias prevent_destroy, ignore_changes, y create_before_destroy?",
+      "expected_answer": "Los lifecycle rules controlan como Terraform gestiona el ciclo de vida de los recursos. prevent_destroy: impide que Terraform destruya el recurso, incluso si el plan lo indica. Se usa para recursos criticos que no deben eliminarse accidentalmente (bases de datos, buckets con datos). ignore_changes: Terraform ignora cambios en ciertos atributos, util cuando otro proceso modifica el recurso (auto-scaling modifica tags, un script externo cambia config). create_before_destroy: crea el nuevo recurso antes de destruir el viejo, util para recursos donde no puede haber downtime (load balancers, DNS records). Cada uno resuelve un caso especifico de gestion de infraestructura.",
+      "key_points": [
+        "prevent_destroy: protege recursos criticos",
+        "ignore_changes: ignora cambios externos",
+        "create_before_destroy: zero-downtime replacement",
+        "Usar con criterio, no como default"
+      ],
+      "interviewer_notes": "Follow-up: si prevent_destroy esta activo y necesitas destruir el recurso (ej: migration), que haces? (quitar prevent_destroy, plan, apply). Red flag si pone ignore_changes en todo para 'evitar problemas'.",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "lifecycle",
+        "patterns"
+      ]
+    },
+    {
+      "id": "dp-aws-sr-001",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS"
+      ],
+      "category": "Architecture",
+      "difficulty": "hard",
+      "question": "Como diseñarias una estrategia multi-account en AWS para un equipo de datos? Que cuentas crearias y como las organizarias?",
+      "expected_answer": "Estrategia multi-account con AWS Organizations: 1) Management account: solo para Organizations, billing, y SCPs. No workloads. 2) Security account: CloudTrail centralizado, GuardDuty, Security Hub. 3) Log archive: logs de todas las cuentas. 4) Shared services: VPC compartida, DNS, herramientas comunes. 5) Cuentas por dominio: data-platform-dev, data-platform-lab, data-platform-prod. Cada una aislada con su VPC, roles, y recursos. 6) Sandbox: para experimentacion sin riesgo. OUs (Organizational Units): Security, Infrastructure, Workloads (con sub-OUs por ambiente), Sandbox. SCPs en cada OU para guardrails. Networking: Transit Gateway central, VPC peering para casos especificos. Beneficios: blast radius reducido, billing separado, IAM boundaries claros.",
+      "key_points": [
+        "Management account sin workloads",
+        "Cuentas por dominio y ambiente",
+        "SCPs por OU como guardrails",
+        "Transit Gateway para conectividad"
+      ],
+      "interviewer_notes": "Evalua vision de gobernanza a escala. Follow-up: como manejas IAM cross-account? (AssumeRole con trust policies). Red flag si pone todo en una sola cuenta.",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "aws",
+        "multi-account",
+        "organizations",
+        "architecture"
+      ]
+    },
+    {
+      "id": "dp-aws-sr-002",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS"
+      ],
+      "category": "Architecture",
+      "difficulty": "hard",
+      "question": "Explica los 6 pilares del AWS Well-Architected Framework. Como los aplicarias a una plataforma de datos?",
+      "expected_answer": "Los 6 pilares: 1) Operational Excellence: IaC (Terraform), CI/CD, runbooks, observabilidad con metricas/logs/traces, postmortems. 2) Security: IAM least privilege, IRSA para pods, KMS cifrado, SCPs, GuardDuty, VPC isolation. 3) Reliability: multi-AZ, autoscaling con Karpenter, error handling en pipelines, SLOs definidos. 4) Performance Efficiency: instancias right-sized, Spot para batch, caching, Spark tuning (AQE, broadcast joins). 5) Cost Optimization: Spot instances, S3 lifecycle, Reserved Instances para baseline, tagging para cost allocation, right-sizing con Compute Optimizer. 6) Sustainability: usar solo lo necesario, apagar recursos no productivos, Spot/Graviton para menor huella. Para una plataforma de datos, los pilares mas criticos suelen ser Security (datos sensibles), Reliability (SLAs de freshness), y Cost (computo de datos es caro).",
+      "key_points": [
+        "6 pilares: OpEx, Security, Reliability, Performance, Cost, Sustainability",
+        "IaC y CI/CD para Operational Excellence",
+        "IAM least privilege y IRSA para Security",
+        "Spot + lifecycle policies para Cost"
+      ],
+      "interviewer_notes": "Follow-up: si tuvieras que priorizar 2 pilares para una plataforma de datos, cuales elegirias y por que? Bonus si menciona Well-Architected Tool de AWS.",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "aws",
+        "well-architected",
+        "architecture"
+      ]
+    },
+    {
+      "id": "dp-aws-sr-003",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS"
+      ],
+      "category": "Architecture",
+      "difficulty": "hard",
+      "question": "Como harias un cost optimization review de una plataforma de datos en AWS? Que areas revisarias y que herramientas usarias?",
+      "expected_answer": "Areas a revisar: 1) Compute: right-sizing con Compute Optimizer (instancias sobredimensionadas), Spot para workloads tolerantes, Graviton para mejor price/performance, apagar dev/lab fuera de horario. 2) Storage: S3 lifecycle policies (Standard -> IA -> Glacier), eliminar snapshots viejos de EBS, delete de objetos expirados. 3) Data transfer: VPC Endpoints para evitar NAT costs, consolidar AZs cuando posible, PrivateLink vs internet. 4) Kubernetes: Karpenter consolidation para reducir nodos idle, pod right-sizing, namespace quotas. 5) Databases: Reserved Instances para RDS production, delete de instancias no usadas. Herramientas: Cost Explorer (analisis de tendencias), Trusted Advisor (recomendaciones), Budgets (alertas de gasto), Cost Anomaly Detection (alertas automaticas), tags de cost allocation (por equipo, proyecto, ambiente).",
+      "key_points": [
+        "Right-sizing con Compute Optimizer",
+        "Spot + Graviton para compute",
+        "S3 lifecycle para storage",
+        "VPC Endpoints para data transfer",
+        "Karpenter consolidation para K8s"
+      ],
+      "interviewer_notes": "Follow-up: en una plataforma de datos sobre EKS + S3, donde crees que estan los mayores costos? (probablemente EKS nodes, S3 storage, data transfer). Pedir que estime un saving con un cambio especifico.",
+      "source": "Original",
+      "tags": [
+        "cost-optimization",
+        "aws",
+        "finops"
+      ]
+    },
+    {
+      "id": "dp-aws-sr-004",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS"
+      ],
+      "category": "Architecture",
+      "difficulty": "medium",
+      "question": "Que son los VPC Endpoints y por que son importantes para seguridad y costos?",
+      "expected_answer": "Los VPC Endpoints permiten acceder a servicios de AWS (S3, DynamoDB, ECR, STS) desde una VPC sin pasar por internet. Hay dos tipos: Gateway Endpoints (S3 y DynamoDB, gratuitos, se agregan a la route table) e Interface Endpoints (la mayoria de servicios, crean un ENI en la VPC, tienen costo por hora y por GB). Beneficios de seguridad: el trafico nunca sale de la red de AWS, no expones datos a internet. Beneficios de costos: eliminas trafico por NAT Gateway (que cobra por GB procesado). Para una plataforma de datos que mueve TBs de S3, el Gateway Endpoint de S3 es fundamental. En EKS, los Interface Endpoints para ECR, STS, y logs evitan que los nodos necesiten NAT para funciones basicas.",
+      "key_points": [
+        "Acceso a AWS services sin internet",
+        "Gateway (S3/DynamoDB): gratis",
+        "Interface: costo por hora y GB",
+        "Ahorro significativo en NAT costs"
+      ],
+      "interviewer_notes": "Follow-up: que endpoints minimos necesita un cluster EKS para funcionar sin NAT? (STS, ECR, EC2, logs). Red flag si no conoce VPC Endpoints.",
+      "source": "Original — basada en experiencia real",
+      "tags": [
+        "vpc-endpoints",
+        "networking",
+        "cost-optimization",
+        "security"
+      ]
+    },
+    {
+      "id": "dp-eks-sr-005",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "EKS",
+        "Karpenter"
+      ],
+      "category": "EKS + Karpenter",
+      "difficulty": "hard",
+      "question": "Que es Karpenter y en que se diferencia de Cluster Autoscaler? Cuando lo elegirias?",
+      "expected_answer": "Karpenter es un autoscaler de nodos para Kubernetes que provisiona nodos directamente en respuesta a Pods pending (sin pasar por Auto Scaling Groups). Diferencias con Cluster Autoscaler (CA): 1) CA escala ASGs predefinidos, Karpenter elige el tipo de instancia optimo por Pod. 2) Karpenter consolida nodos subutilizados (elimina nodos con baja carga y reubica Pods). 3) Karpenter es mas rapido (segundos vs minutos de CA). 4) Soporta Spot, On-Demand, y diversificacion de instancias nativamente. Encaja bien cuando: los workloads de Spark (ej: EMR on EKS) tienen requerimientos de recursos variables, Karpenter optimiza costos eligiendo el instancia mas barata que cumple los requirements, y la consolidation reduce nodos idle significativamente.",
+      "key_points": [
+        "Karpenter provisiona nodos directamente, sin ASGs",
+        "Elige instancia optima por Pod",
+        "Consolidation elimina nodos subutilizados",
+        "Mas rapido que Cluster Autoscaler"
+      ],
+      "interviewer_notes": "Follow-up: como configurarias un NodePool de Karpenter para workloads de Spark? (instancias con alta memoria, Spot para executors, On-Demand para drivers). Red flag si no diferencia Karpenter de CA.",
+      "source": "Original — basada en experiencia real",
+      "tags": [
+        "karpenter",
+        "eks",
+        "autoscaling"
+      ]
+    },
+    {
+      "id": "dp-eks-sr-006",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "EKS",
+        "Karpenter"
+      ],
+      "category": "EKS + Karpenter",
+      "difficulty": "hard",
+      "question": "Como configurarias Karpenter para optimizar costos usando Spot instances en un cluster EKS que corre workloads de Spark via EMR on EKS?",
+      "expected_answer": "Configuracion: 1) NodePool separado para Spark: un NodePool con instancias Spot para executors (r5, r6i, m5, m6i - diversificar familias para disponibilidad Spot) y otro NodePool con On-Demand para drivers (el driver no puede ser interrumpido). 2) Disruption budgets: configurar budgets altos para executors durante la ejecucion de jobs (Spark puede recuperar executors perdidos con dynamic allocation, pero no es gratis). 3) Spot diversification: listar multiples familias y tamanos de instancias para maximizar disponibilidad Spot. 4) Consolidation: habilitar para reducir nodos idle entre jobs. 5) Configurar graceful decommission cuando un Spot se reclama, y tener un NodePool de fallback con instancias On-Demand para garantizar que siempre hay capacidad.",
+      "key_points": [
+        "Spot para executors, On-Demand para drivers",
+        "Diversificar familias de instancias",
+        "Spark dynamic allocation para tolerancia",
+        "Graceful decommission en interrupciones"
+      ],
+      "interviewer_notes": "Muy relevante en plataformas de Spark sobre Spot. Follow-up: que pasa si AWS reclama un Spot con un executor de Spark? Como se recupera el job?",
+      "source": "Original",
+      "tags": [
+        "karpenter",
+        "spot",
+        "emr-on-eks",
+        "spark"
+      ]
+    },
+    {
+      "id": "dp-eks-sr-007",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "EKS",
+        "Karpenter"
+      ],
+      "category": "EKS + Karpenter",
+      "difficulty": "hard",
+      "question": "Como diseñarias la estrategia de upgrades de EKS minimizando el impacto en workloads de produccion?",
+      "expected_answer": "Estrategia de upgrades: 1) Planificacion: revisar el changelog de la version, identificar breaking changes y deprecations de APIs, verificar compatibilidad de addons (CoreDNS, kube-proxy, vpc-cni, Karpenter). 2) Upgrade del control plane: AWS lo gestiona, es rolling y no deberia causar downtime. Hacer upgrade en lab primero, validar, luego prod. 3) Upgrade de nodos: con Karpenter, configurar drift detection para que detecte nodos con AMI vieja y los reemplace automaticamente. Configurar disruption budgets para controlar cuantos nodos se reemplazan simultaneamente. 4) Upgrade de addons: actualizar en orden correcto (vpc-cni antes que otros, CoreDNS, kube-proxy). 5) Validacion: correr suite de tests post-upgrade. 6) Rollback plan: control plane no se puede revertir, pero nodos si.",
+      "key_points": [
+        "Lab primero, prod despues",
+        "Karpenter drift detection para nodos",
+        "Disruption budgets para control",
+        "Upgrade addons en orden correcto"
+      ],
+      "interviewer_notes": "Evalua experiencia operativa real. Un Sr que nunca upgradeo un cluster no tiene la experiencia necesaria. Follow-up: que haces si un addon no es compatible con la nueva version de K8s?",
+      "source": "Original",
+      "tags": [
+        "eks",
+        "upgrades",
+        "operations",
+        "karpenter"
+      ]
+    },
+    {
+      "id": "dp-eks-sr-008",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "EKS",
+        "EMR"
+      ],
+      "category": "EKS + Karpenter",
+      "difficulty": "hard",
+      "question": "Que es EMR on EKS y que ventajas tiene sobre EMR standalone? Como lo configurarias?",
+      "expected_answer": "EMR on EKS permite ejecutar jobs de Apache Spark sobre un cluster EKS existente. Ventajas: reutiliza infraestructura de EKS (no crea clusters separados), comparte nodos con Karpenter para autoscaling, reduce costos operativos (un solo cluster que gestionar), y permite usar IRSA para permisos granulares. Configuracion: crear un virtual cluster de EMR que apunte a un namespace de EKS, configurar el execution role (IAM role con trust policy para EMR y IRSA), crear un job template con configuraciones de Spark, y configurar un NodePool de Karpenter optimizado para Spark. Los logs van a S3 y CloudWatch.",
+      "key_points": [
+        "Spark sobre EKS existente",
+        "Reutiliza infraestructura",
+        "IRSA para permisos de jobs",
+        "Karpenter para autoscaling de nodos Spark"
+      ],
+      "interviewer_notes": "Follow-up: como debuggeas un job de Spark que falla en EMR-on-EKS? Donde miras los logs?",
+      "source": "Original",
+      "tags": [
+        "emr-on-eks",
+        "spark",
+        "eks",
+        "data-processing"
+      ]
+    },
+    {
+      "id": "dp-terraform-sr-009",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "Terraform at Scale",
+      "difficulty": "hard",
+      "question": "Como gestionas Terraform a escala con multiples equipos, ambientes y cuentas AWS?",
+      "expected_answer": "Gestion a escala: 1) Organizacion de codigo: monorepo con directorios por dominio/ambiente modulos compartidos versionados con tags. 2) State management: un state por stack logico, backend remoto con locking. 3) CI/CD: Terraform Cloud / Atlantis / GitHub Actions, plan automatico en PRs, apply con aprobacion, speculative plans. 4) Gobernanza: Policy as Code con Sentinel, modulos aprobados, PR reviews obligatorios. 5) Drift: deteccion periodica, alertas, proceso de reconciliacion. 6) Documentacion: README por modulo, ADRs para decisiones. La clave es equilibrar autonomia de equipos con guardrails centralizados.",
+      "key_points": [
+        "State separado por stack logico",
+        "CI/CD con plan en PR, apply con aprobacion",
+        "Policy as Code para guardrails",
+        "Drift detection periodica"
+      ],
+      "interviewer_notes": "Pregunta de madurez. Un Sr debe tener opinion formada. Red flag si propone un solo state para todo o no menciona CI/CD. Follow-up: como manejas conflictos cuando dos equipos modifican el mismo modulo compartido?",
+      "source": "Original",
+      "tags": [
+        "terraform",
+        "scale",
+        "governance",
+        "cicd"
+      ]
+    },
+    {
+      "id": "dp-terraform-sr-010",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "Terraform at Scale",
+      "difficulty": "hard",
+      "question": "Que es drift en Terraform y como lo detectas y manejas?",
+      "expected_answer": "Drift es la divergencia entre el estado definido en codigo y el estado real de la infraestructura. Causas: cambios manuales en consola, cambios por otros procesos (auto-scaling modifica tags), actualizaciones de AWS, applies parciales. Deteccion: terraform plan periodico (si muestra cambios sin modificar codigo, hay drift), Terraform Cloud drift detection, driftctl. Manejo: si el drift es intencional, actualizar el codigo. Si es accidental, hacer apply para restaurar. Prevencion: restringir acceso a consola de produccion, SCPs que bloqueen acciones manuales, alertas automaticas, cultura de 'todo via Terraform'.",
+      "key_points": [
+        "Drift = codigo vs realidad",
+        "Plan periodico para detectar",
+        "Puede ser intencional o accidental",
+        "Prevenir con restriccion de acceso manual"
+      ],
+      "interviewer_notes": "Evalua experiencia real. Red flag si dice que nunca tuvo drift. Follow-up: contame una experiencia donde descubriste drift en produccion.",
+      "source": "Adaptada de rkm-ravi94/awesome-devops-interview",
+      "tags": [
+        "terraform",
+        "drift",
+        "operations",
+        "governance"
+      ]
+    },
+    {
+      "id": "dp-terraform-sr-011",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "Terraform at Scale",
+      "difficulty": "hard",
+      "question": "Como diseñarias el CI/CD pipeline para Terraform en un equipo de plataforma?",
+      "expected_answer": "Pipeline: 1) Pre-commit hooks: terraform fmt, validate, tflint, detect-secrets. 2) CI en PR: init + plan automatico, checkov/tfsec para seguridad, infracost para estimacion de costos, plan output como comentario, CODEOWNERS para review. 3) Gates antes de apply: aprobacion manual, validacion de no destroy de recursos criticos, verificacion de plan file guardado. 4) Apply: automatico en dev/lab, manual con aprobacion para prod, notificacion a Slack. 5) Post-apply: health checks, rollback si fallan. En Terraform Cloud, muchos pasos vienen built-in (plan en PR, Sentinel, apply con aprobacion).",
+      "key_points": [
+        "Pre-commit + CI + gates + post-apply",
+        "Security scanning automatico",
+        "Plan guardado entre aprobacion y apply",
+        "Apply automatico en dev/lab, manual en prod"
+      ],
+      "interviewer_notes": "Evalua diseno de pipeline maduro. Bonus si menciona Infracost o plan file saved. Follow-up: como manejas el caso donde el plan en CI es diferente al plan al momento del apply?",
+      "source": "Original",
+      "tags": [
+        "terraform",
+        "cicd",
+        "pipeline",
+        "automation"
+      ]
+    },
+    {
+      "id": "dp-terraform-sr-012",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "Terraform"
+      ],
+      "category": "Terraform at Scale",
+      "difficulty": "medium",
+      "question": "Que estrategias conoces para refactorizar Terraform sin destruir recursos existentes?",
+      "expected_answer": "Estrategias: 1) terraform state mv: mueve un recurso de una direccion a otra en el state sin destruirlo. Util cuando renombras o moves a un modulo. 2) moved blocks (TF 1.1+): declarativo, defines en codigo que un recurso se movio. Preferible a state mv. 3) import + remove: para mover entre states, remover del original e importar al nuevo. 4) lifecycle ignore_changes: temporalmente ignorar cambios durante refactorizacion. 5) Plan iterativo: pasos pequenos, verificar que no destruye nada. Regla de oro: si el plan muestra destroy + create de un recurso stateful (DB, bucket con datos), PARAR y buscar otra estrategia.",
+      "key_points": [
+        "terraform state mv para renombrar",
+        "moved blocks como opcion declarativa",
+        "Nunca destroy+create de recursos stateful",
+        "Plan iterativo y backup de state"
+      ],
+      "interviewer_notes": "Experiencia practica critica. Red flag si destruye y recrea sin importar. Follow-up: que pasa si haces state mv incorrecto? (restore del backup del state).",
+      "source": "Original",
+      "tags": [
+        "terraform",
+        "refactoring",
+        "state",
+        "operations"
+      ]
+    },
+    {
+      "id": "dp-iam-sr-013",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS",
+        "IAM"
+      ],
+      "category": "Security",
+      "difficulty": "hard",
+      "question": "Como implementarias una estrategia de IAM least privilege a escala?",
+      "expected_answer": "Estrategia: 1) Diseño: empezar con permisos minimos e ir agregando, nunca Action:* o Resource:*. Usar policy conditions (aws:SourceAccount, aws:PrincipalOrgID). 2) Analisis: IAM Access Analyzer para permisos no usados, CloudTrail + Athena para analizar uso real, policy-sentry para generar policies basadas en accesos reales. 3) Automatizacion: policies via Terraform, SCPs como guardrails, Permission Boundaries para delegar sin escalar. 4) Procesos: review trimestral de permisos, eliminacion de roles no usados, alertas con GuardDuty. 5) IRSA en EKS: cada workload con su propio role con permisos minimos.",
+      "key_points": [
+        "Empezar con minimo, no con maximo",
+        "IAM Access Analyzer para detectar excesos",
+        "SCPs como guardrails organizacionales",
+        "Review periodico de permisos"
+      ],
+      "interviewer_notes": "Seguridad critica para Sr de plataforma. Red flag si da permisos amplios 'para no complicarse'. Follow-up: como manejas dev donde los devs necesitan experimentar?",
+      "source": "Original",
+      "tags": [
+        "iam",
+        "security",
+        "least-privilege",
+        "governance"
+      ]
+    },
+    {
+      "id": "dp-iam-sr-014",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS",
+        "IAM",
+        "EKS"
+      ],
+      "category": "Security",
+      "difficulty": "hard",
+      "question": "Explicame como funciona IRSA internamente. Que componentes participan y como fluye la autenticacion?",
+      "expected_answer": "Flujo de IRSA: 1) El cluster EKS tiene un OIDC provider registrado en IAM. 2) Se crea un IAM Role con trust policy que confia en el OIDC provider para un Service Account especifico en un namespace especifico. 3) Se anota el K8s Service Account con el ARN del IAM Role. 4) Cuando un pod arranca, el webhook de EKS inyecta AWS_ROLE_ARN y AWS_WEB_IDENTITY_TOKEN_FILE. 5) El token es un JWT emitido por el OIDC provider. 6) El SDK usa STS AssumeRoleWithWebIdentity con el JWT. 7) STS valida con el OIDC provider, verifica SA y namespace, y emite credenciales temporales. Resultado: credenciales IAM temporales, automaticamente rotadas, con scope granular al SA.",
+      "key_points": [
+        "OIDC provider del cluster",
+        "Trust policy con condicion de SA y namespace",
+        "Webhook inyecta variables de entorno",
+        "STS AssumeRoleWithWebIdentity con JWT"
+      ],
+      "interviewer_notes": "Evalua comprension profunda. Bonus si puede escribir la trust policy de memoria. Follow-up: que pasa si crean un SA con el mismo nombre en otro namespace? (no funciona, trust policy valida ambos).",
+      "source": "Original",
+      "tags": [
+        "irsa",
+        "iam",
+        "eks",
+        "oidc",
+        "security"
+      ]
+    },
+    {
+      "id": "dp-kms-sr-015",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS",
+        "KMS"
+      ],
+      "category": "Security",
+      "difficulty": "hard",
+      "question": "Como diseñarias una estrategia de cifrado para una plataforma de datos? Que es envelope encryption?",
+      "expected_answer": "Estrategia de cifrado: En reposo: S3 con SSE-KMS (CMK para control de rotacion), EBS cifrado por defecto, RDS con cifrado, EKS secrets cifrados con KMS. En transito: TLS en todos los endpoints, VPC endpoints para trafico interno. Envelope encryption: en vez de cifrar datos directamente con la CMK (limitado a 4KB), se genera una data key (DEK) a partir de la CMK, se cifran los datos con la DEK, y se almacena la DEK cifrada junto a los datos. Para descifrar: se envia la DEK cifrada a KMS para obtener la DEK plaintext, y con ella se descifran los datos. Ventajas: menor latencia, mayor tamano de datos, la CMK nunca sale de KMS. Usar CMKs separadas por dominio de datos.",
+      "key_points": [
+        "Cifrado en reposo y en transito",
+        "Envelope encryption: CMK genera DEK",
+        "CMKs separadas por dominio",
+        "KMS key policy para control de acceso"
+      ],
+      "interviewer_notes": "Evalua comprension mas alla de 'activar el checkbox'. Follow-up: como manejas rotacion de claves KMS? (KMS mantiene versiones anteriores para descifrar datos viejos).",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "kms",
+        "encryption",
+        "security",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "dp-security-sr-016",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS",
+        "IAM"
+      ],
+      "category": "Security",
+      "difficulty": "medium",
+      "question": "Que son las SCPs (Service Control Policies) y como las usarias en una organizacion multi-account?",
+      "expected_answer": "Las SCPs son politicas de AWS Organizations que establecen el maximo de permisos posible para todas las cuentas de una OU. No otorgan permisos, solo limitan. Son guardrails organizacionales. Usos: bloquear regiones no autorizadas, prevenir deshabilitacion de CloudTrail/GuardDuty, bloquear servicios no aprobados, proteger roles criticos, forzar tags obligatorios. Implementacion: empezar permisivas, ir ajustando. La cuenta de management NO esta afectada por SCPs, por eso no se usa para workloads.",
+      "key_points": [
+        "Limitan permisos maximos, no otorgan",
+        "Guardrails organizacionales",
+        "Cuenta management no afectada",
+        "Bloquear regiones, servicios, acciones criticas"
+      ],
+      "interviewer_notes": "Evalua gobernanza organizacional. Red flag si confunde SCPs con IAM policies. Follow-up: como testeas una SCP antes de aplicarla? (OU de test).",
+      "source": "Adaptada de Devinterview-io/aws-interview-questions",
+      "tags": [
+        "scp",
+        "organizations",
+        "security",
+        "governance"
+      ]
+    },
+    {
+      "id": "dp-platform-sr-017",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "Platform Engineering"
+      ],
+      "category": "Platform Engineering",
+      "difficulty": "hard",
+      "question": "Que es un Internal Developer Platform (IDP) y como lo diseñarias para un equipo de datos?",
+      "expected_answer": "Un IDP es una capa de self-service que abstrae complejidad de infraestructura. Para datos: 1) Self-service de infra: templates de Terraform para que DEs creen buckets, roles, pipelines via PRs con guardrails automaticos. 2) Self-service de workloads: templates para jobs de Spark, DAGs de Airflow sin conocer EKS/Lambda. 3) Catalogo de servicios: documentacion de recursos disponibles y politicas. 4) Guardrails automaticos: Sentinel, validaciones de costos, limites por equipo. 5) Observabilidad integrada: dashboards por proyecto, alertas pre-configuradas. La clave es golden paths: caminos faciles y pre-aprobados para tareas comunes, sin bloquear salirse cuando sea necesario.",
+      "key_points": [
+        "Self-service con guardrails",
+        "Golden paths para tareas comunes",
+        "Templates y abstracciones",
+        "No bloquear sino guiar"
+      ],
+      "interviewer_notes": "Evalua vision de producto de plataforma. Red flag si concibe la plataforma solo como ticket-driven. Follow-up: como medis el exito de un IDP?",
+      "source": "Original",
+      "tags": [
+        "platform-engineering",
+        "idp",
+        "self-service"
+      ]
+    },
+    {
+      "id": "dp-observability-sr-018",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS",
+        "Kubernetes"
+      ],
+      "category": "Platform Engineering",
+      "difficulty": "hard",
+      "question": "Como diseñarias la estrategia de observabilidad para una plataforma de datos en EKS?",
+      "expected_answer": "Tres pilares: 1) Metricas: Prometheus para K8s y apps, Karpenter metrics para nodos, CloudWatch para AWS. Grafana para dashboards. Metricas clave: pod CPU/memory, nodo utilization, latencia APIs, job duration Spark. 2) Logs: FluentBit como DaemonSet, enviar a CloudWatch Logs o Loki. Logs estructurados en JSON. Retention policies por criticidad. 3) Traces: OpenTelemetry o X-Ray para tracing distribuido. 4) Alertas: basadas en SLOs, no thresholds arbitrarios. PagerDuty/Slack segun severidad. Evitar alert fatigue: cada alerta actionable. 5) Dashboards: por equipo/namespace, de costo, de SLOs.",
+      "key_points": [
+        "Tres pilares: metricas, logs, traces",
+        "Prometheus + Grafana para K8s",
+        "Alertas basadas en SLOs",
+        "Evitar alert fatigue"
+      ],
+      "interviewer_notes": "Evalua vision operativa completa. Red flag si solo menciona un pilar. Follow-up: como defines un SLO para un job de Spark que debe completar en menos de 2 horas?",
+      "source": "Original",
+      "tags": [
+        "observability",
+        "monitoring",
+        "prometheus",
+        "grafana"
+      ]
+    },
+    {
+      "id": "dp-reliability-sr-019",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "AWS",
+        "EKS"
+      ],
+      "category": "Platform Engineering",
+      "difficulty": "hard",
+      "question": "Como medirias y mejorarias la reliability de una plataforma de datos? Que SLOs definirias?",
+      "expected_answer": "SLOs para la plataforma: disponibilidad EKS (99.9%), latencia p99 APIs < 500ms, success rate jobs Spark > 99%, tiempo de provisionamiento nodos < 2 min. SLOs para el data lake: freshness (datos disponibles dentro de X horas), completitud (99.9% registros procesados), data quality checks > 99.5%. Mejora continua: postmortems blameless, error budgets (dentro del SLO se innova, fuera se prioriza reliability), chaos engineering (matar nodos, simular fallos AZ), game days trimestrales. La clave: SLOs son contrato con usuarios internos, con consecuencias claras si se rompen.",
+      "key_points": [
+        "SLIs alimentan SLOs",
+        "Error budgets para balancear innovacion y reliability",
+        "Postmortems blameless",
+        "Chaos engineering para validar resiliencia"
+      ],
+      "interviewer_notes": "Evalua mentalidad SRE. Red flag si dice '100% uptime' como objetivo. Follow-up: como convences al negocio de aceptar 99.9%?",
+      "source": "Original",
+      "tags": [
+        "reliability",
+        "slos",
+        "sre",
+        "platform-engineering"
+      ]
+    },
+    {
+      "id": "dp-platform-sr-020",
+      "profile": "data-platform",
+      "level": "sr",
+      "technology": [
+        "Platform Engineering"
+      ],
+      "category": "Platform Engineering",
+      "difficulty": "hard",
+      "question": "Como manejarias la migracion de un componente critico de infraestructura en produccion sin downtime?",
+      "expected_answer": "Ejemplo: migrar de Cluster Autoscaler a Karpenter. Estrategia: 1) Preparacion: documentar estado actual, crear Karpenter NodePools equivalentes, testear en lab. 2) Despliegue paralelo: instalar Karpenter junto a CA, ambos corriendo. 3) Migracion gradual: empezar con workloads no criticos, verificar que Karpenter funciona. 4) Cutover progresivo: mover mas workloads, monitorear metricas. 5) Cleanup: desinstalar CA, eliminar ASGs. 6) Documentacion: actualizar runbooks y dashboards. Principios: nunca big-bang, siempre incremental; rollback plan en cada paso; criterios de exito/fallo definidos antes; comunicar a stakeholders; ventana de bajo trafico para pasos riesgosos.",
+      "key_points": [
+        "Migracion incremental, nunca big-bang",
+        "Despliegue paralelo durante transicion",
+        "Rollback plan en cada paso",
+        "Testear en lab primero"
+      ],
+      "interviewer_notes": "Evalua experiencia real con migraciones. Red flag si propone cutover directo. Follow-up: que harias si a mitad de la migracion detectas un problema en prod?",
+      "source": "Original",
+      "tags": [
+        "migration",
+        "operations",
+        "platform-engineering",
+        "reliability"
+      ]
+    }
+  ]
+}

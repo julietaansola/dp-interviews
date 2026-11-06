@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DP Interviews Question Bank",
+  "description": "Schema for interview question files",
+  "type": "object",
+  "required": ["profile", "description", "last_updated", "questions"],
+  "properties": {
+    "profile": {
+      "type": "string",
+      "enum": ["data-platform", "data-engineer"]
+    },
+    "description": { "type": "string" },
+    "last_updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "questions": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/question" },
+      "minItems": 1
+    }
+  },
+  "definitions": {
+    "question": {
+      "type": "object",
+      "required": [
+        "id", "profile", "level", "technology", "category",
+        "difficulty", "question", "expected_answer", "key_points", "source"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(dp|de)-[a-z0-9]+-(?:jr|ssr|sr)-\\d{3}$"
+        },
+        "profile": {
+          "type": "string",
+          "enum": ["data-platform", "data-engineer"]
+        },
+        "level": {
+          "type": "string",
+          "enum": ["jr", "ssr", "sr"]
+        },
+        "technology": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "category": { "type": "string" },
+        "difficulty": {
+          "type": "string",
+          "enum": ["easy", "medium", "hard"]
+        },
+        "question": { "type": "string", "minLength": 10 },
+        "expected_answer": { "type": "string", "minLength": 20 },
+        "key_points": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "interviewer_notes": { "type": "string" },
+        "difficulty_justification": { "type": "string" },
+        "source": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
